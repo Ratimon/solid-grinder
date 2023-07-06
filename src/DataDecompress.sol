@@ -67,7 +67,6 @@ abstract contract DataDecompress {
 
         _newCursor = _cursor;
 
-
     }
 
 }
