@@ -22,7 +22,7 @@ interface IAddressTable {
     * @param addr address to check for presence in table
     * @return true if address is in table
     */
-    function addressExists(address addr) external view returns(bool);
+    function isAddressExisted(address addr) external view returns(bool);
 
     /**
     * @return size of address table (= first unused index)

@@ -40,7 +40,7 @@ contract AddressTable is IAddressTable {
      * @param addr address to check for presence in table
      * @return true if address is in table
      */
-    function addressExists(address addr) external view override returns (bool) {
+    function isAddressExisted(address addr) external view override returns (bool) {
         return accountIds[addr] != 0;
     }
 
