@@ -35,7 +35,7 @@ abstract contract DataDecompress {
     //     return abi.encodePacked(_data);
     // }
 
-    function _lookupAddress_functionName1_24bits(
+    function _lookupAddress_functionName1(
         bytes memory _data,
         uint256 _cursor
     )
@@ -105,6 +105,54 @@ abstract contract DataDecompress {
         } else {
             revert("DataDecompress: bad instruction");
         }
+
+        _newCursor = _cursor;
+    }
+
+    // function addLiquidity(
+    //     address tokenA,
+    //     address tokenB,
+    //     uint amountADesired,
+    //     uint amountBDesired,
+    //     uint amountAMin,
+    //     uint amountBMin,
+    //     address to,
+    //     uint deadline
+    // ) external virtual override ensure(deadline) returns (uint amountA, uint amountB, uint liquidity) {
+
+    struct AddLiquidityData {
+        address tokenA;
+        address tokenB;
+        
+        uint amountADesired;
+        uint amountBDesired;
+        uint amountAMin;
+        uint amountBMin;
+
+        address to;
+        uint deadline;
+    }
+
+    function decodeAddLiquidityData(
+        bytes memory _data,
+        uint256 _cursor
+    )
+        public
+        returns (
+            AddLiquidityData memory _addLiquidityData,
+            uint256 _newCursor
+        )
+    {
+        (_addLiquidityData.tokenA, _cursor) = _lookupAddress_functionName1(_data, _cursor);
+        (_addLiquidityData.tokenB, _cursor) = _lookupAddress_functionName1(_data, _cursor);
+
+        (_addLiquidityData.amountADesired, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
+        (_addLiquidityData.amountBDesired, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
+        (_addLiquidityData.amountAMin, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
+        (_addLiquidityData.amountBMin, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
+
+        (_addLiquidityData.to, _cursor) = _lookupAddress_functionName1(_data, _cursor);
+        (_addLiquidityData.deadline, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
 
         _newCursor = _cursor;
     }
