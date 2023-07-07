@@ -133,11 +133,11 @@ abstract contract DataDecoding {
         uint deadline;
     }
 
-    function decodeAddLiquidityData(
+    function _decodeAddLiquidityData(
         bytes memory _data,
         uint256 _cursor
     )
-        public
+        internal
         returns (
             AddLiquidityData memory _addLiquidityData,
             uint256 _newCursor

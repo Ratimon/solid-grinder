@@ -46,7 +46,7 @@ contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, DataDecoding
         (
             AddLiquidityData memory addLiquidityData,
             
-        ) = decodeAddLiquidityData(_payload, 0);
+        ) = _decodeAddLiquidityData(_payload, 0);
 
         return UniswapV2Router02.addLiquidity(
             addLiquidityData.tokenA,
