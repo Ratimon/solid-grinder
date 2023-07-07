@@ -5,7 +5,7 @@ import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
 import {BytesLib} from "@main/libraries/BytesLib.sol";
 
-abstract contract DataDecompress {
+abstract contract DataDecoding {
     using BytesLib for bytes;
 
     IAddressTable public immutable addressTable;
