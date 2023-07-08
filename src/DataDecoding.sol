@@ -69,6 +69,13 @@ abstract contract DataDecoding {
 
     }
 
+    // 24-bit, 16,777,216 possible
+    // 32-bit, 4,294,967,296  possible
+    // 40-bit, 1,099,511,627,776  => ~35k years
+    // 72-bit, 4,722 (18 decimals)
+    // 96-bit,  79b or 79,228,162,514 (18 decimals)
+    // 112-bit, 5,192mm (denominated in 1e18)
+
     function _deserializeAmount_functionName1(
         bytes memory _data,
         uint256 _cursor
@@ -83,23 +90,15 @@ abstract contract DataDecoding {
         uint8 instruction = _data.toUint8(_cursor);
         _cursor += 1;
 
-        if (instruction == 0) { // 64-bit, 18 (denominated in 1e18)
-            _amount = _data.toUint64(_cursor);
-            _cursor += 8;
-            
-        } else if (instruction == 1) { // 80-bit, 1.2m (denominated in 1e18)
-            _amount = _data.toUint80(_cursor);
-            _cursor += 10;
+        if (instruction == 0) { // 40-bit, 18 (denominated in 1e18)
+            _amount = _data.toUint40(_cursor);
+            _cursor += 5;
 
-        } else if (instruction == 2) { // 96-bit, 79.2b (denominated in 1e18)
+        } else if (instruction == 1) { // 96-bit, 79.2b (denominated in 1e18)
             _amount = _data.toUint96(_cursor);
             _cursor += 12;
-
-        } else if (instruction == 3) { // 112-bit, 5,192mm (denominated in 1e18)
-            _amount = _data.toUint112(_cursor);
-            _cursor += 14;
         
-        } else if (instruction == 4) { // zero
+        } else if (instruction == 2) { // zero
             _amount = 0;
 
         } else {
