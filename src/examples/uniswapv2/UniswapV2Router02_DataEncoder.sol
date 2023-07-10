@@ -55,7 +55,7 @@ contract UniswapV2Router02_DataEncoder {
     // [24, 24, 96 , 96 ] : 240 bits        => [ [24, 24, 96 , 96] ]
 
                                                   // 240(+16)           // 256  
-    // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 24], [14, 242] ]
+    // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 24], [14] ]
 
     // if all element accumulated sum <= 256 bits, just push to the current subarray
     // if all element accumulated sum >= 256 bits , skip the current subarr and psuh to next subarray / renew the sum tracker
