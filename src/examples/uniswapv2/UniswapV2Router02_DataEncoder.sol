@@ -10,12 +10,68 @@ contract UniswapV2Router02_DataEncoder {
 
     IAddressTable public immutable addressTable;
 
+    // struct AddLiquidityData_Size {
+    //     uint8 tokenA_Size;
+    //     uint8 tokenB_Size;
+        
+    //     uint8 amountADesired_Size;
+    //     uint8 amountBDesired_Size;
+    //     uint8 amountAMin_Size;
+    //     uint8 amountBMin_Size;
+
+    //     uint8 to_Size;
+    //     uint8 deadline_Size;
+    // }
+
+
+    // 3
+    uint8 constant private AddLiquidity_tokenA_BitSize = 24;
+    uint8 constant private AddLiquidity_tokenB_BitSize = 24;
+
+    uint8 constant private AddLiquidity_amountADesired_BitSize = 96;
+    uint8 constant private AddLiquidity_amountBDesired_BitSize = 96;
+    uint8 constant private AddLiquidity_amountAMin_BitSize = 96;
+    uint8 constant private AddLiquidity_amountBMin_BitSize = 96;
+
+    uint8 constant private AddLiquidity_to_BitSize = 24;
+    uint8 constant private AddLiquidity_deadline_BitSize = 40;
+
+
+
+
     constructor(
         IAddressTable _addressTable
     ) {
         addressTable = _addressTable;
     }
 
+    /**
+     * @notice init the array to store the byte chunks to be encode
+     * @dev 
+     *
+     */
+     function init() external  {
+                                                    // 240 bits
+    // [24, 24, 96 , 96 ] : 240 bits        => [ [24, 24, 96 , 96] ]
+
+                                                  // 240(+16)           // 256  
+    // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 24], [14, 242] ]
+
+    // if all element accumulated sum <= 256 bits, just push to the current subarray
+    // if all element accumulated sum >= 256 bits , skip the current subarr and psuh to next subarray / renew the sum tracker
+    }
+
+
+
+    function getCursors(uint8 _bitSize, uint8 _cursor ) private pure returns(uint8 cachedCursor,uint8 byteSize, uint8 newCursor){
+        cachedCursor = _cursor;
+        byteSize = _bitSize / 8;
+        newCursor = _cursor+ byteSize;
+    }
+
+    function getEncodedBytes(uint8 _bitSize ) private pure returns(uint8 byteSize){
+        byteSize = _bitSize / 8;
+    }
 
 
     // 24-bit, 16,777,216 possible
@@ -25,7 +81,7 @@ contract UniswapV2Router02_DataEncoder {
     // 88-bit, 309m (18 decimals)
     // 96-bit,  79b or 79,228,162,514 (18 decimals)
 
-    //****** first packed  256 bits (32 bytes) : 24+24+96+96 (+8+8 as instruction) = 156 + ( 2 instructions) of 256 (16 bytes left)
+    //****** first packed  256 bits (32 bytes) : 24+24+96+96 (+8+8 as instruction) = 240 + 16 of 256 (16 bits left)
 
     // uint256 tokenA , // 24-bit, 16,777,216 possible # of addresses
     // uint256 tokenB, //  24-bit, 16,777,216 possible # of addresses
@@ -40,7 +96,6 @@ contract UniswapV2Router02_DataEncoder {
 
     // uint256 to,      // 24-bit, 16,777,216 possible # of addresses
     // uint40 deadline, // 40-bit, 1,099,511,627,776 (18 decimals) => ~35k years
-
 
 
     // struct AddLiquidityData {
@@ -75,7 +130,6 @@ contract UniswapV2Router02_DataEncoder {
         bytes memory _compressedPayload // bytes32 _compressedPayload
     )
     {
-
         uint256 tokenAIndex = addressTable.lookup(tokenA);
         uint256 tokenBIndex = addressTable.lookup(tokenB);
 
@@ -100,6 +154,35 @@ contract UniswapV2Router02_DataEncoder {
         uint256 toIndex = addressTable.lookup(to);
 
         require(toIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData toIndex is too large, uint24 support only.");
+
+
+        // // increase cursor and check if it should be padded or not
+        // uint8 cursor;
+        // uint8 byteSize;
+        // uint8 newCursor;
+        // // tokenAIndex 
+        // ( cursor, byteSize, newCursor) = getCursors(AddLiquidity_tokenA_BitSize, cursor);
+        // if( cursor + byteSize < 32) {
+
+        // }
+
+        // // tokenBIndex
+        // cursor += getEncodedBytes(AddLiquidity_tokenB_BitSize, cursor);
+        // // amountADesired
+        // cursor += getEncodedBytes(AddLiquidity_amountADesired_BitSize, cursor);
+        // // amountBDesired
+        // cursor += getEncodedBytes(AddLiquidity_amountBDesired_BitSize, cursor);
+        // // amountAMin
+        // cursor += getEncodedBytes(AddLiquidity_amountAMin_BitSize, cursor);
+        // // amountBMin
+        // cursor += getEncodedBytes(AddLiquidity_amountBMin_BitSize, cursor);
+        // // to
+        // cursor += getEncodedBytes(AddLiquidity_to_BitSize, cursor);
+        // // deadline
+        // cursor += getEncodedBytes(AddLiquidity_deadline_BitSize, cursor);
+
+        // if (cursor + nextBytes )
+
 
         _compressedPayload = abi.encodePacked(
             uint24(tokenAIndex),
