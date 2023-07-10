@@ -1,6 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import {console2} from "@forge-std/console2.sol";
+
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
 import {BytesLib} from "@main/libraries/BytesLib.sol";
@@ -34,10 +36,10 @@ contract Mock_DataEncoder {
     uint8 constant private AddLiquidity_to_BitSize = 24;
     uint8 constant private AddLiquidity_deadline_BitSize = 40;
 
-    uint8[] unpackedBits;
+    uint8[] public unpackedBits;
 
-    uint8[] subBits;
-    uint8[][] packedBits;
+    uint8[] public subBits;
+    uint8[][] public packedBits;
 
 
     constructor(
@@ -52,16 +54,17 @@ contract Mock_DataEncoder {
      * @dev 
      *
      */
-     function initPackedBits() internal  {
+     function initPackedBits() private  {
                                                         // 240 bits
         // [24, 24, 96 , 96 ] : 240 bits        => [ [24, 24, 96 , 96] ]
 
                                                     // 240(+16)           // 256  
-        // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 24], [14] ]
+        // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 40] ]
 
         // if all element accumulated sum <= 256 bits, just push to the current subarray
         // if all element accumulated sum >= 256 bits , skip the current subarr and psuh to next subarray / renew the sum tracker
 
+        // unpackedBits = [];
         unpackedBits.push(AddLiquidity_tokenA_BitSize);
         unpackedBits.push(AddLiquidity_tokenB_BitSize);
         unpackedBits.push(AddLiquidity_amountADesired_BitSize);
@@ -71,29 +74,34 @@ contract Mock_DataEncoder {
         unpackedBits.push(AddLiquidity_to_BitSize);
         unpackedBits.push(AddLiquidity_deadline_BitSize);
 
-
         // uint8[][] memory packedBits = new uint8[][]();
 
-        uint8 bitsSum = 0;
+        uint16 bitsSum = 0;
 
         // packedBits = new uint8[][]
+        // console2.log('unpackedBits.length', unpackedBits.length);
 
         for (uint i = 0; i < unpackedBits.length; i++) {
 
             bitsSum += unpackedBits[i];
-           
 
-            if (bitsSum <= 256) {
-                subBits.push(unpackedBits[i]);
-            } else {
+            console2.log('bitsSum: i', i);
+            console2.log('bitsSum', bitsSum);
 
+            if (bitsSum > 256) {
                 packedBits.push(subBits);
                 delete subBits;
-                bitsSum = 0;
+                
+                bitsSum = unpackedBits[i];
+            } 
 
-            }
+            console2.log('unpackedBits[i]', unpackedBits[i]);
+
+            subBits.push(unpackedBits[i]);
 
         }
+        packedBits.push(subBits);
+
         delete subBits;
 
      }
