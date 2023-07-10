@@ -5,11 +5,7 @@ import {console2} from "@forge-std/console2.sol";
 
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
-import {BytesLib} from "@main/libraries/BytesLib.sol";
-
 contract Mock_DataEncoder {
-    using BytesLib for bytes;
-
     IAddressTable public immutable addressTable;
 
     // struct AddLiquidityData_Size {
@@ -57,7 +53,6 @@ contract Mock_DataEncoder {
      function initPackedBits() private  {
                                                         // 240 bits
         // [24, 24, 96 , 96 ] : 240 bits        => [ [24, 24, 96 , 96] ]
-
                                                     // 240(+16)           // 256  
         // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 40] ]
 
@@ -74,19 +69,11 @@ contract Mock_DataEncoder {
         unpackedBits.push(AddLiquidity_to_BitSize);
         unpackedBits.push(AddLiquidity_deadline_BitSize);
 
-        // uint8[][] memory packedBits = new uint8[][]();
-
         uint16 bitsSum = 0;
-
-        // packedBits = new uint8[][]
-        // console2.log('unpackedBits.length', unpackedBits.length);
 
         for (uint i = 0; i < unpackedBits.length; i++) {
 
             bitsSum += unpackedBits[i];
-
-            console2.log('bitsSum: i', i);
-            console2.log('bitsSum', bitsSum);
 
             if (bitsSum > 256) {
                 packedBits.push(subBits);
@@ -95,15 +82,11 @@ contract Mock_DataEncoder {
                 bitsSum = unpackedBits[i];
             } 
 
-            console2.log('unpackedBits[i]', unpackedBits[i]);
-
             subBits.push(unpackedBits[i]);
 
         }
         packedBits.push(subBits);
-
         delete subBits;
-
      }
 
 

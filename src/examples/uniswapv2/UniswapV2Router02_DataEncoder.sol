@@ -1,13 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
+
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
-import {BytesLib} from "@main/libraries/BytesLib.sol";
-
 contract UniswapV2Router02_DataEncoder {
-    using BytesLib for bytes;
-
     IAddressTable public immutable addressTable;
 
     // struct AddLiquidityData_Size {
@@ -23,8 +21,6 @@ contract UniswapV2Router02_DataEncoder {
     //     uint8 deadline_Size;
     // }
 
-
-    // 3
     uint8 constant private AddLiquidity_tokenA_BitSize = 24;
     uint8 constant private AddLiquidity_tokenB_BitSize = 24;
 
@@ -36,13 +32,17 @@ contract UniswapV2Router02_DataEncoder {
     uint8 constant private AddLiquidity_to_BitSize = 24;
     uint8 constant private AddLiquidity_deadline_BitSize = 40;
 
+    uint8[] public unpackedBits;
 
+    uint8[] public subBits;
+    uint8[][] public packedBits;
 
 
     constructor(
         IAddressTable _addressTable
     ) {
         addressTable = _addressTable;
+        initPackedBits();
     }
 
     /**
@@ -50,17 +50,44 @@ contract UniswapV2Router02_DataEncoder {
      * @dev 
      *
      */
-     function init() external  {
-                                                    // 240 bits
-    // [24, 24, 96 , 96 ] : 240 bits        => [ [24, 24, 96 , 96] ]
+     function initPackedBits() private  {
+                // 240 bits
+        // [24, 24, 96 , 96 ] : 240 bits        => [ [24, 24, 96 , 96] ]
+            // 240(+16)           // 256  
+        // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 40] ]
 
-                                                  // 240(+16)           // 256  
-    // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 24], [14] ]
+        // if all element accumulated sum <= 256 bits, just push to the current subarray
+        // if all element accumulated sum >= 256 bits , skip the current subarr and psuh to next subarray / renew the sum tracker
 
-    // if all element accumulated sum <= 256 bits, just push to the current subarray
-    // if all element accumulated sum >= 256 bits , skip the current subarr and psuh to next subarray / renew the sum tracker
+        // unpackedBits = [];
+        unpackedBits.push(AddLiquidity_tokenA_BitSize);
+        unpackedBits.push(AddLiquidity_tokenB_BitSize);
+        unpackedBits.push(AddLiquidity_amountADesired_BitSize);
+        unpackedBits.push(AddLiquidity_amountBDesired_BitSize);
+        unpackedBits.push(AddLiquidity_amountAMin_BitSize);
+        unpackedBits.push(AddLiquidity_amountBMin_BitSize);
+        unpackedBits.push(AddLiquidity_to_BitSize);
+        unpackedBits.push(AddLiquidity_deadline_BitSize);
+
+        uint16 bitsSum = 0;
+
+        for (uint i = 0; i < unpackedBits.length; i++) {
+
+        bitsSum += unpackedBits[i];
+
+        if (bitsSum > 256) {
+            packedBits.push(subBits);
+            delete subBits;
+
+            bitsSum = unpackedBits[i];
+        } 
+
+        subBits.push(unpackedBits[i]);
+
+        }
+        packedBits.push(subBits);
+        delete subBits;
     }
-
 
 
     function getCursors(uint8 _bitSize, uint8 _cursor ) private pure returns(uint8 cachedCursor,uint8 byteSize, uint8 newCursor){
@@ -156,16 +183,6 @@ contract UniswapV2Router02_DataEncoder {
         require(toIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData toIndex is too large, uint24 support only.");
 
 
-        // // increase cursor and check if it should be padded or not
-        // uint8 cursor;
-        // uint8 byteSize;
-        // uint8 newCursor;
-        // // tokenAIndex 
-        // ( cursor, byteSize, newCursor) = getCursors(AddLiquidity_tokenA_BitSize, cursor);
-        // if( cursor + byteSize < 32) {
-
-        // }
-
         // // tokenBIndex
         // cursor += getEncodedBytes(AddLiquidity_tokenB_BitSize, cursor);
         // // amountADesired
@@ -180,8 +197,6 @@ contract UniswapV2Router02_DataEncoder {
         // cursor += getEncodedBytes(AddLiquidity_to_BitSize, cursor);
         // // deadline
         // cursor += getEncodedBytes(AddLiquidity_deadline_BitSize, cursor);
-
-        // if (cursor + nextBytes )
 
 
         _compressedPayload = abi.encodePacked(
