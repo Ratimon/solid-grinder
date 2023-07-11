@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
-import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
+// import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
 contract UniswapV2Router02_DataEncoder {
     IAddressTable public immutable addressTable;
@@ -305,8 +305,6 @@ contract UniswapV2Router02_DataEncoder {
         // );
 
         // require(_compressedPayload.length == 64, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData length is not 32");
-
-
     }
 
     // function getSliceFunction(uint8 bitSize, uint256 value) pure private returns (function(uint256) internal sliceFun) {
@@ -334,12 +332,17 @@ contract UniswapV2Router02_DataEncoder {
                 _payload,
                 uint24(value)
             );
+        } else if (_bitSize == 40) {
+            _newPayload = abi.encodePacked(
+                _payload,
+                uint40(value)
+            );
         } else if (_bitSize == 96) {
             _newPayload = abi.encodePacked(
                 _payload,
                 uint96(value)
             );
-        } else if (_bitSize == 96) {
+        } else  {
             revert("DataEncoder: bad bitsize");
         }
 

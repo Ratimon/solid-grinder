@@ -76,7 +76,7 @@ abstract contract DataDecoding {
     // 96-bit,  79b or 79,228,162,514 (18 decimals)
     // 112-bit, 5,192mm (denominated in 1e18)
 
-    function _deserializeAmount_functionName1(
+    function _deserializeAmount_functionName1_40bits(
         bytes memory _data,
         uint256 _cursor
     )
@@ -87,23 +87,28 @@ abstract contract DataDecoding {
             uint256 _newCursor
         )
     {
-        uint8 instruction = _data.toUint8(_cursor);
-        _cursor += 1;
 
-        if (instruction == 0) { // 40-bit, 18 (denominated in 1e18)
-            _amount = _data.toUint40(_cursor);
-            _cursor += 5;
+        // 40-bit, 18 (denominated in 1e18)
+        _amount = _data.toUint40(_cursor);
+        _cursor += 5;
 
-        } else if (instruction == 1) { // 96-bit, 79.2b (denominated in 1e18)
-            _amount = _data.toUint96(_cursor);
-            _cursor += 12;
-        
-        } else if (instruction == 2) { // zero
-            _amount = 0;
+        _newCursor = _cursor;
+    }
 
-        } else {
-            revert("DataDecoding: bad instruction");
-        }
+    function _deserializeAmount_functionName1_96bits(
+        bytes memory _data,
+        uint256 _cursor
+    )
+        internal
+        pure
+        returns (
+            uint256 _amount,
+            uint256 _newCursor
+        )
+    {
+        // 96-bit, 79.2b (denominated in 1e18)
+        _amount = _data.toUint96(_cursor);
+        _cursor += 12;
 
         _newCursor = _cursor;
     }
@@ -145,13 +150,13 @@ abstract contract DataDecoding {
         (_addLiquidityData.tokenA, _cursor) = _lookupAddress_functionName1(_data, _cursor);
         (_addLiquidityData.tokenB, _cursor) = _lookupAddress_functionName1(_data, _cursor);
 
-        (_addLiquidityData.amountADesired, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
-        (_addLiquidityData.amountBDesired, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
-        (_addLiquidityData.amountAMin, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
-        (_addLiquidityData.amountBMin, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
+        (_addLiquidityData.amountADesired, _cursor) = _deserializeAmount_functionName1_96bits(_data, _cursor);
+        (_addLiquidityData.amountBDesired, _cursor) = _deserializeAmount_functionName1_96bits(_data, _cursor);
+        (_addLiquidityData.amountAMin, _cursor) = _deserializeAmount_functionName1_96bits(_data, _cursor);
+        (_addLiquidityData.amountBMin, _cursor) = _deserializeAmount_functionName1_96bits(_data, _cursor);
 
         (_addLiquidityData.to, _cursor) = _lookupAddress_functionName1(_data, _cursor);
-        (_addLiquidityData.deadline, _cursor) = _deserializeAmount_functionName1(_data, _cursor);
+        (_addLiquidityData.deadline, _cursor) = _deserializeAmount_functionName1_40bits(_data, _cursor);
 
         _newCursor = _cursor;
     }
