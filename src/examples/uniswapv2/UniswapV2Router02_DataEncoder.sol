@@ -1,9 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
-
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
+
+import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
 contract UniswapV2Router02_DataEncoder {
     IAddressTable public immutable addressTable;
@@ -51,7 +51,7 @@ contract UniswapV2Router02_DataEncoder {
      *
      */
      function initPackedBits() private  {
-                // 240 bits
+            // 240 bits
         // [24, 24, 96 , 96 ] : 240 bits        => [ [24, 24, 96 , 96] ]
             // 240(+16)           // 256  
         // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 40] ]
@@ -73,16 +73,13 @@ contract UniswapV2Router02_DataEncoder {
 
         for (uint i = 0; i < unpackedBits.length; i++) {
 
-        bitsSum += unpackedBits[i];
-
-        if (bitsSum > 256) {
-            packedBits.push(subBits);
-            delete subBits;
-
-            bitsSum = unpackedBits[i];
-        } 
-
-        subBits.push(unpackedBits[i]);
+            bitsSum += unpackedBits[i];
+            if (bitsSum > 256) {
+                packedBits.push(subBits);
+                delete subBits;
+                bitsSum = unpackedBits[i];
+            } 
+            subBits.push(unpackedBits[i]);
 
         }
         packedBits.push(subBits);
@@ -182,6 +179,8 @@ contract UniswapV2Router02_DataEncoder {
 
         require(toIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData toIndex is too large, uint24 support only.");
 
+        
+
 
         // // tokenBIndex
         // cursor += getEncodedBytes(AddLiquidity_tokenB_BitSize, cursor);
@@ -198,13 +197,92 @@ contract UniswapV2Router02_DataEncoder {
         // // deadline
         // cursor += getEncodedBytes(AddLiquidity_deadline_BitSize, cursor);
 
+        // uint256[] memory unpackedArguments=  new uint256[](unpackedBits.length);
+        // uint256[][] memory packedArguments = new uint256[](packedBits.length);
 
-        _compressedPayload = abi.encodePacked(
-            uint24(tokenAIndex),
-            uint24(tokenBIndex),
-            uint8(1),uint96(amountADesired),
-            uint8(1),uint96(amountBDesired)
-        );
+        // uint16 bitsSum = 0;
+        
+        // uint8 subArgumentsIndex = 0;
+        // uint8 packedArgumentsIndex = 0;
+
+        // for (uint i = 0; i < unpackedBits.length; i++) {
+
+        //     uint256[] memory subArguments = new uint256[](unpackedBits[i].length);
+
+        //     bitsSum += unpackedBits[i];
+
+        //     if (bitsSum > 256) {
+
+        //         // packedArguments.push(subArguments);
+        //         packedArguments[packedArgumentsIndex] = subArguments;
+        //         packedArgumentsIndex++;
+        //         delete subArguments;
+
+        //         subArgumentsIndex = 0;
+        //         bitsSum = unpackedBits[i];
+        //     }
+
+        //     // subBits.push(unpackedBits[i]);
+        //     subArguments[subArgumentsIndex] = unpackedBits[i];
+        //     subArgumentsIndex++;
+
+        // }
+        // // packedBits.push(subBits);
+        // packedArguments[packedArgumentsIndex] = subArguments;
+        // delete subArguments;
+        // delete subArgumentsIndex;
+        // delete packedArgumentsIndex;
+
+
+        uint256[] memory unpackedArguments=  new uint256[](unpackedBits.length);
+        // uint256[][] memory packedArguments = new uint256[](packedBits.length);
+
+        // require(_compressedPayload.length == 64, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData length is not 32");
+
+        uint8 unpackedArgumentsIndex = 0;
+
+        unpackedArguments[unpackedArgumentsIndex] = tokenAIndex;
+        // unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = tokenBIndex;
+        // unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountADesired;
+        // unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountBDesired;
+        // unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountAMin;
+        // unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountBMin;
+        // unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = toIndex;
+        // unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = deadline;
+        // unpackedArgumentsIndex++;
+
+        require(unpackedArguments.length == unpackedBits.length, "length must equal");
+
+        for (uint i = 0; i < packedBits.length; i++) {
+
+            for (uint j = 0; j < packedBits[i].length; j++) {
+
+                // _compressedPayload = abi.encodePacked(
+                //     _compressedPayload,
+                //     uint24(tokenBIndex)
+                // );
+
+                _compressedPayload= concatPayload(packedBits[i][j], _compressedPayload,unpackedArguments[unpackedArgumentsIndex] );
+                unpackedArgumentsIndex++;
+                // _compressedPayload= concatPayload(packedBits[i],_compressedPayload,packedArguments[i][j] );
+
+            }
+
+        }
+
+        // _compressedPayload = abi.encodePacked(
+        //     uint24(tokenAIndex),
+        //     uint24(tokenBIndex),
+        //     uint8(1),uint96(amountADesired),
+        //     uint8(1),uint96(amountBDesired)
+        // );
 
         // token instruction: 1 (8 bit + 96-bit ) 13 bytes 26 hex
         // uint8 instructions = 1 << 13;
@@ -215,19 +293,55 @@ contract UniswapV2Router02_DataEncoder {
         // // instruction: 2 (24-bit)
         // uint8 instructions = 2 << 6;
 
-        require(_compressedPayload.length == 32, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData length is not 32");
+        // require(_compressedPayload.length == 32, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData length is not 32");
 
 
-        _compressedPayload = abi.encodePacked(
-            uint8(1),uint96(amountAMin),
-            uint8(1),uint96(amountBMin),
-            uint24(toIndex),
-            // uint40(deadline)
-            uint40(deadline) // break into uint16
-        );
+        // _compressedPayload = abi.encodePacked(
+        //     uint8(1),uint96(amountAMin),
+        //     uint8(1),uint96(amountBMin),
+        //     uint24(toIndex),
+        //     // uint40(deadline)
+        //     uint40(deadline) // break into uint16
+        // );
 
-        require(_compressedPayload.length == 64, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData length is not 32");
+        // require(_compressedPayload.length == 64, "UniswapV2Router02_DataEncoder: encode_AddLiquidityData length is not 32");
 
+
+    }
+
+    // function getSliceFunction(uint8 bitSize, uint256 value) pure private returns (function(uint256) internal sliceFun) {
+
+    //     if(bitSize == 8) {
+    //         assembly {
+    //             fun.selector := newSelector// bb29998e -> test(address)
+    //             fun.address  := newAddress// 
+    //         }
+    //     }
+
+    // }
+
+            // _compressedPayload = abi.encodePacked(
+        //     uint24(tokenAIndex),
+        //     uint24(tokenBIndex),
+        //     uint96(amountADesired),
+        //     uint96(amountBDesired)
+        // );
+
+    function concatPayload(uint8 _bitSize, bytes memory _payload, uint256 value) pure private returns (bytes memory _newPayload) {
+
+        if(_bitSize == 24) {
+            _newPayload = abi.encodePacked(
+                _payload,
+                uint24(value)
+            );
+        } else if (_bitSize == 96) {
+            _newPayload = abi.encodePacked(
+                _payload,
+                uint96(value)
+            );
+        } else if (_bitSize == 96) {
+            revert("DataEncoder: bad bitsize");
+        }
 
     }
 

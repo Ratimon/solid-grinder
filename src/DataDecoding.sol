@@ -102,7 +102,7 @@ abstract contract DataDecoding {
             _amount = 0;
 
         } else {
-            revert("DataDecompress: bad instruction");
+            revert("DataDecoding: bad instruction");
         }
 
         _newCursor = _cursor;
