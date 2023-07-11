@@ -2,14 +2,12 @@
 pragma solidity ^0.8.0;
 
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
-
 import {BytesLib} from "@main/libraries/BytesLib.sol";
 
 abstract contract UniswapV2Router02_DataDecoder {
     using BytesLib for bytes;
 
     IAddressTable public immutable addressTable;
-
     bool public autoRegisterAddressMapping;
 
     event SetAutoRegisterAddressMapping(bool _enable);
@@ -31,11 +29,7 @@ abstract contract UniswapV2Router02_DataDecoder {
         emit SetAutoRegisterAddressMapping(_enable);
     }
 
-    // function toBytes(bytes32 _data) private pure returns (bytes memory) {
-    //     return abi.encodePacked(_data);
-    // }
-
-    function _lookupAddress_functionName1(
+    function _lookupAddress_AddLiquidity_24bits(
         bytes memory _data,
         uint256 _cursor
     )
@@ -45,28 +39,22 @@ abstract contract UniswapV2Router02_DataDecoder {
             uint256 _newCursor
         )
     {
+        // registered (24-bit)
+        // _address = addressTable.lookupIndex(_data.toUint24(_cursor));
         // (bool isIndexExisted,) = address(addressTable).call(abi.encodeWithSignature("lookupIndex(uint)", _data.toUint24(_cursor)));
         (bool isIndexExisted, bytes memory data) = address(addressTable).call(abi.encodeWithSelector(IAddressTable.lookupIndex.selector, _data.toUint24(_cursor)));
         _address = abi.decode(data, (address));
         _cursor += 3;
-        // require(isIndexExisted, "DataDecompress: index is not existed ");
 
         if ( !isIndexExisted) {
-
             if (autoRegisterAddressMapping) {
                 addressTable.register(_address);
             } else {
-                revert("DataDecompress: must register first");
+                revert("UniswapV2Router02_DataDecoder: must register first");
             }
-
         } 
 
-        // registered (24-bit)
-        // _address = addressTable.lookupIndex(_data.toUint24(_cursor));
-        // _cursor += 3;
-
         _newCursor = _cursor;
-
     }
 
     // 24-bit, 16,777,216 possible
@@ -76,7 +64,7 @@ abstract contract UniswapV2Router02_DataDecoder {
     // 96-bit,  79b or 79,228,162,514 (18 decimals)
     // 112-bit, 5,192mm (denominated in 1e18)
 
-    function _deserializeAmount_functionName1_40bits(
+    function _deserializeAmount_AddLiquidity_40bits(
         bytes memory _data,
         uint256 _cursor
     )
@@ -95,7 +83,7 @@ abstract contract UniswapV2Router02_DataDecoder {
         _newCursor = _cursor;
     }
 
-    function _deserializeAmount_functionName1_96bits(
+    function _deserializeAmount_AddLiquidity_96bits(
         bytes memory _data,
         uint256 _cursor
     )
@@ -137,7 +125,7 @@ abstract contract UniswapV2Router02_DataDecoder {
         uint deadline;
     }
 
-    function _decodeAddLiquidityData(
+    function _decode_AddLiquidityData(
         bytes memory _data,
         uint256 _cursor
     )
@@ -147,20 +135,18 @@ abstract contract UniswapV2Router02_DataDecoder {
             uint256 _newCursor
         )
     {
-        (_addLiquidityData.tokenA, _cursor) = _lookupAddress_functionName1(_data, _cursor);
-        (_addLiquidityData.tokenB, _cursor) = _lookupAddress_functionName1(_data, _cursor);
+        (_addLiquidityData.tokenA, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
+        (_addLiquidityData.tokenB, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
 
-        (_addLiquidityData.amountADesired, _cursor) = _deserializeAmount_functionName1_96bits(_data, _cursor);
-        (_addLiquidityData.amountBDesired, _cursor) = _deserializeAmount_functionName1_96bits(_data, _cursor);
-        (_addLiquidityData.amountAMin, _cursor) = _deserializeAmount_functionName1_96bits(_data, _cursor);
-        (_addLiquidityData.amountBMin, _cursor) = _deserializeAmount_functionName1_96bits(_data, _cursor);
+        (_addLiquidityData.amountADesired, _cursor) = _deserializeAmount_AddLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountBDesired, _cursor) = _deserializeAmount_AddLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountAMin, _cursor) = _deserializeAmount_AddLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountBMin, _cursor) = _deserializeAmount_AddLiquidity_96bits(_data, _cursor);
 
-        (_addLiquidityData.to, _cursor) = _lookupAddress_functionName1(_data, _cursor);
-        (_addLiquidityData.deadline, _cursor) = _deserializeAmount_functionName1_40bits(_data, _cursor);
+        (_addLiquidityData.to, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
+        (_addLiquidityData.deadline, _cursor) = _deserializeAmount_AddLiquidity_40bits(_data, _cursor);
 
         _newCursor = _cursor;
     }
-
-
 
 }
