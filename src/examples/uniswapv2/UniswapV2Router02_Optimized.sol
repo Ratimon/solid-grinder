@@ -7,13 +7,13 @@ import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {UniswapV2Router02} from "@main/examples/uniswapv2/UniswapV2Router02.sol";
 
-import {DataDecoding} from "@main/DataDecoding.sol";
+import {UniswapV2Router02_DataDecoder} from "@main/examples/uniswapv2/UniswapV2Router02_DataDecoder.sol";
 
 
 /**
 * @notice optimized version
 */
-contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, DataDecoding  {
+contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Router02_DataDecoder  {
 
     constructor(
         address _factory,
@@ -22,7 +22,7 @@ contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, DataDecoding
         bool _autoRegisterAddressMapping
     )
         UniswapV2Router02(_factory, _WETH)
-        DataDecoding(_addressTable, _autoRegisterAddressMapping)
+        UniswapV2Router02_DataDecoder(_addressTable, _autoRegisterAddressMapping)
     {
         _setAutoRegisterAddressMapping(true);
     }
