@@ -1,6 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import {console2} from "@forge-std/console2.sol";
+
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
 contract UniswapV2Router02_DataEncoder {
@@ -150,17 +152,27 @@ contract UniswapV2Router02_DataEncoder {
         uint256[] memory unpackedArguments = new uint256[](unpackedBits.length);
         uint8 unpackedArgumentsIndex;
         unpackedArguments[unpackedArgumentsIndex] = tokenAIndex;
+        unpackedArgumentsIndex++;
         unpackedArguments[unpackedArgumentsIndex] = tokenBIndex;
+        unpackedArgumentsIndex++;
         unpackedArguments[unpackedArgumentsIndex] = amountADesired;
+        unpackedArgumentsIndex++;
         unpackedArguments[unpackedArgumentsIndex] = amountBDesired;
+        unpackedArgumentsIndex++;
         unpackedArguments[unpackedArgumentsIndex] = amountAMin;
+        unpackedArgumentsIndex++;
         unpackedArguments[unpackedArgumentsIndex] = amountBMin;
+        unpackedArgumentsIndex++;
         unpackedArguments[unpackedArgumentsIndex] = toIndex;
+        unpackedArgumentsIndex++;
         unpackedArguments[unpackedArgumentsIndex] = deadline;
+        unpackedArgumentsIndex++;
         require(unpackedArguments.length == unpackedBits.length, "length must equal");
+        delete unpackedArgumentsIndex;
 
         for (uint256 i = 0; i < packedBits.length; i++) {
             for (uint256 j = 0; j < packedBits[i].length; j++) {
+                console2.log('i',unpackedArguments[unpackedArgumentsIndex]);
                 _compressedPayload =
                     concatPayload(packedBits[i][j], _compressedPayload, unpackedArguments[unpackedArgumentsIndex]);
                 unpackedArgumentsIndex++;
