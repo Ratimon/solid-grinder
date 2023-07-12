@@ -35,7 +35,6 @@ contract UniswapV2Router02_DataEncoder {
 
     /**
      * @notice init the array to store the byte chunks to be encode
-     * @dev
      *
      */
     function initPackedBits() private {
@@ -72,15 +71,15 @@ contract UniswapV2Router02_DataEncoder {
         delete subBits;
     }
 
-    //****** first packed  256 bits (32 bytes) : 24+24+96+96 (+16 as padded) = 240 + 16 of 256
+    // first packed  256 bits (32 bytes) : 24+24+96+96 (+16 as padded) = 240 + 16 of 256
 
-    // uint256 tokenA , // 24-bit, 16,777,216 possible # of addresses
-    // uint256 tokenB, //  24-bit, 16,777,216 possible # of addresses
+    // uint256 tokenA , 24-bit, 16,777,216 possible # of addresses
+    // uint256 tokenB,  24-bit, 16,777,216 possible # of addresses
 
     // uint256 amountADesired, // 96-bit, 79,228,162,514 (18 decimals)
     // uint256 amountBDesired, // 96-bit, 79,228,162,514 (18 decimals)
 
-    //****** second packed of 256 bits (32 bytes) : 96+96+24+40 = 256 of 256
+    // second packed of 256 bits (32 bytes) : 96+96+24+40 = 256 of 256
 
     // uint256 amountAMin, // 96-bit, 79,228,162,514 (18 decimals)
     // uint256 amountBMin, // 96-bit, 79,228,162,514 (18 decimals)
@@ -135,15 +134,17 @@ contract UniswapV2Router02_DataEncoder {
             amountBMin <= type(uint96).max,
             "UniswapV2Router02_DataEncoder: encode_AddLiquidityData amountBMin is too large, uint96 support only."
         );
-        require(
-            deadline <= type(uint40).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData amountBMin is too large, uint40 support only."
-        );
 
         uint256 toIndex = addressTable.lookup(to);
+
         require(
             toIndex <= type(uint24).max,
             "UniswapV2Router02_DataEncoder: encode_AddLiquidityData toIndex is too large, uint24 support only."
+        );
+
+        require(
+            deadline <= type(uint40).max,
+            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData amountBMin is too large, uint40 support only."
         );
 
         uint256[] memory unpackedArguments = new uint256[](unpackedBits.length);

@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 import {BytesLib} from "@main/libraries/BytesLib.sol";
 
-abstract contract UniswapV2Router02_DataDecoder {
+contract UniswapV2Router02_DataDecoder {
     using BytesLib for bytes;
 
     IAddressTable public immutable addressTable;

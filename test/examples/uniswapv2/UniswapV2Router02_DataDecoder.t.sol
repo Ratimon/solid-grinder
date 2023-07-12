@@ -5,11 +5,14 @@ pragma solidity ^0.8.0;
 import {Test, stdError} from "@forge-std/Test.sol";
 
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
-
-import {Mock_DataEncoder} from "@test/mock/Mock_DataEncoder.sol";
 import {AddressTable} from "@main/AddressTable.sol";
 
-contract DataEncoderTest is Test {
+import {UniswapV2Router02_DataEncoder} from "@main/examples/uniswapv2/UniswapV2Router02_DataEncoder.sol";
+import {UniswapV2Router02_DataDecoder} from "@main/examples/uniswapv2/UniswapV2Router02_DataDecoder.sol";
+
+// import {UniswapV2Router02_Optimized} from "@main/examples/uniswapv2/UniswapV2Router02_Optimized.sol";
+
+contract UniswapV2Router02_OptimizedTest is Test {
     string mnemonic = "test test test test test test test test test test test junk";
     uint256 deployerPrivateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/0/", 1); //  address = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
 
@@ -17,7 +20,8 @@ contract DataEncoderTest is Test {
     address alice = makeAddr("Alice");
 
     AddressTable table;
-    Mock_DataEncoder encoder;
+    UniswapV2Router02_DataEncoder encoder;
+    UniswapV2Router02_DataDecoder decoder;
 
     function setUp() public {
         vm.startPrank(deployer);
@@ -26,10 +30,12 @@ contract DataEncoderTest is Test {
         vm.label(deployer, "Deployer");
 
         table = new AddressTable();
-        encoder = new Mock_DataEncoder(table);
+        encoder = new UniswapV2Router02_DataEncoder(table);
+        decoder = new UniswapV2Router02_DataDecoder(table, true);
 
         vm.label(address(table), "AddressTable");
-        vm.label(address(encoder), "DataEncoder");
+        vm.label(address(encoder), "UniswapV2Router02_DataEncoder");
+        vm.label(address(decoder), "UniswapV2Router02_DataDecoder");
 
         vm.stopPrank();
     }
@@ -49,4 +55,5 @@ contract DataEncoderTest is Test {
 
         vm.stopPrank();
     }
+
 }
