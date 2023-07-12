@@ -32,8 +32,17 @@ contract AddressTableTest is Test {
     function test_lookup() external {
         vm.startPrank(alice);
 
-        vm.expectRevert(bytes("address not registered"));
+        vm.expectRevert(bytes("AddressTable: must register first"));
         table.lookup(alice);
+
+        vm.stopPrank();
+    }
+
+    function test_lookupIndex() external {
+        vm.startPrank(alice);
+        
+        vm.expectRevert(stdError.indexOOBError);
+        table.lookupIndex(10);
 
         vm.stopPrank();
     }
