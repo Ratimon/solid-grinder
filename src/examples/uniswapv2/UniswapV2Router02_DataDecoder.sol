@@ -8,18 +8,9 @@ contract UniswapV2Router02_DataDecoder {
     using BytesLib for bytes;
 
     IAddressTable public immutable addressTable;
-    bool public autoRegisterAddressMapping;
 
-    event SetAutoRegisterAddressMapping(bool _enable);
-
-    constructor(IAddressTable _addressTable, bool _autoRegisterAddressMapping) {
+    constructor(IAddressTable _addressTable) {
         addressTable = _addressTable;
-        autoRegisterAddressMapping = _autoRegisterAddressMapping;
-    }
-
-    function _setAutoRegisterAddressMapping(bool _enable) internal {
-        autoRegisterAddressMapping = _enable;
-        emit SetAutoRegisterAddressMapping(_enable);
     }
 
     // function addLiquidity(
@@ -46,6 +37,7 @@ contract UniswapV2Router02_DataDecoder {
 
     function _decode_AddLiquidityData(bytes memory _data, uint256 _cursor)
         internal
+        view
         returns (AddLiquidityData memory _addLiquidityData, uint256 _newCursor)
     {
         (_addLiquidityData.tokenA, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
@@ -64,24 +56,12 @@ contract UniswapV2Router02_DataDecoder {
 
     function _lookupAddress_AddLiquidity_24bits(bytes memory _data, uint256 _cursor)
         internal
+        view
         returns (address _address, uint256 _newCursor)
     {
         // registered (24-bit)
-        // _address = addressTable.lookupIndex(_data.toUint24(_cursor));
-        // (bool isIndexExisted,) = address(addressTable).call(abi.encodeWithSignature("lookupIndex(uint)", _data.toUint24(_cursor)));
-        (bool isIndexExisted, bytes memory data) = address(addressTable).call(
-            abi.encodeWithSelector(IAddressTable.lookupIndex.selector, _data.toUint24(_cursor))
-        );
-        _address = abi.decode(data, (address));
+        _address = addressTable.lookupIndex(_data.toUint24(_cursor));
         _cursor += 3;
-
-        if (!isIndexExisted) {
-            if (autoRegisterAddressMapping) {
-                addressTable.register(_address);
-            } else {
-                revert("UniswapV2Router02_DataDecoder: must register first");
-            }
-        }
 
         _newCursor = _cursor;
     }

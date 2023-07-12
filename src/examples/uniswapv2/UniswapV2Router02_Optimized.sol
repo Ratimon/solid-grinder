@@ -11,16 +11,12 @@ import {UniswapV2Router02_DataDecoder} from "@main/examples/uniswapv2/UniswapV2R
  * @notice optimized version
  */
 contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Router02_DataDecoder {
-    constructor(address _factory, address _WETH, IAddressTable _addressTable, bool _autoRegisterAddressMapping)
+    constructor(address _factory, address _WETH, IAddressTable _addressTable)
         UniswapV2Router02(_factory, _WETH)
-        UniswapV2Router02_DataDecoder(_addressTable, _autoRegisterAddressMapping)
+        UniswapV2Router02_DataDecoder(_addressTable)
     {
-        _setAutoRegisterAddressMapping(true);
     }
 
-    function setAutoRegisterAddressMapping(bool _enable) external onlyOwner {
-        _setAutoRegisterAddressMapping(_enable);
-    }
 
     function addLiquidityCompressed(bytes calldata _payload)
         external

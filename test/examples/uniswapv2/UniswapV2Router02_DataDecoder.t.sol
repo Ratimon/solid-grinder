@@ -31,7 +31,7 @@ contract UniswapV2Router02_DataDecoderTest is Test {
 
         table = new AddressTable();
         encoder = new UniswapV2Router02_DataEncoder(table);
-        decoder = new UniswapV2Router02_DataDecoder(table, true);
+        decoder = new UniswapV2Router02_DataDecoder(table);
 
         vm.label(address(table), "AddressTable");
         vm.label(address(encoder), "UniswapV2Router02_DataEncoder");
