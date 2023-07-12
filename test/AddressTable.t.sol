@@ -29,4 +29,13 @@ contract AddressTableTest is Test {
         vm.stopPrank();
     }
 
+    function test_lookup() external {
+        vm.startPrank(alice);
+
+        vm.expectRevert(bytes("address not registered"));
+        table.lookup(alice);
+
+        vm.stopPrank();
+    }
+
 }

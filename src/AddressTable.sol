@@ -32,6 +32,7 @@ contract AddressTable is IAddressTable {
      * @return index of an address in the address table (revert if address isn't in the table)
      */
     function lookup(address addr) external view override returns (uint256) {
+        if  (accountIds[addr] == 0) revert("address not registered");
         return accountIds[addr];
     }
 

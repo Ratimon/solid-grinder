@@ -12,7 +12,7 @@ import {UniswapV2Router02_DataDecoder} from "@main/examples/uniswapv2/UniswapV2R
 
 // import {UniswapV2Router02_Optimized} from "@main/examples/uniswapv2/UniswapV2Router02_Optimized.sol";
 
-contract UniswapV2Router02_OptimizedTest is Test {
+contract UniswapV2Router02_DataDecoderTest is Test {
     string mnemonic = "test test test test test test test test test test test junk";
     uint256 deployerPrivateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/0/", 1); //  address = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
 
