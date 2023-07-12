@@ -11,94 +11,15 @@ abstract contract UniswapV2Router02_DataDecoder {
     bool public autoRegisterAddressMapping;
 
     event SetAutoRegisterAddressMapping(bool _enable);
-    
-    constructor(
-        IAddressTable _addressTable,
-        bool _autoRegisterAddressMapping
-    ) {
+
+    constructor(IAddressTable _addressTable, bool _autoRegisterAddressMapping) {
         addressTable = _addressTable;
         autoRegisterAddressMapping = _autoRegisterAddressMapping;
     }
 
-    function _setAutoRegisterAddressMapping(
-        bool _enable
-    )
-        internal
-    {
+    function _setAutoRegisterAddressMapping(bool _enable) internal {
         autoRegisterAddressMapping = _enable;
         emit SetAutoRegisterAddressMapping(_enable);
-    }
-
-    function _lookupAddress_AddLiquidity_24bits(
-        bytes memory _data,
-        uint256 _cursor
-    )
-        internal
-        returns (
-            address _address,
-            uint256 _newCursor
-        )
-    {
-        // registered (24-bit)
-        // _address = addressTable.lookupIndex(_data.toUint24(_cursor));
-        // (bool isIndexExisted,) = address(addressTable).call(abi.encodeWithSignature("lookupIndex(uint)", _data.toUint24(_cursor)));
-        (bool isIndexExisted, bytes memory data) = address(addressTable).call(abi.encodeWithSelector(IAddressTable.lookupIndex.selector, _data.toUint24(_cursor)));
-        _address = abi.decode(data, (address));
-        _cursor += 3;
-
-        if ( !isIndexExisted) {
-            if (autoRegisterAddressMapping) {
-                addressTable.register(_address);
-            } else {
-                revert("UniswapV2Router02_DataDecoder: must register first");
-            }
-        } 
-
-        _newCursor = _cursor;
-    }
-
-    // 24-bit, 16,777,216 possible
-    // 32-bit, 4,294,967,296  possible
-    // 40-bit, 1,099,511,627,776  => ~35k years
-    // 72-bit, 4,722 (18 decimals)
-    // 96-bit,  79b or 79,228,162,514 (18 decimals)
-    // 112-bit, 5,192mm (denominated in 1e18)
-
-    function _deserializeAmount_AddLiquidity_40bits(
-        bytes memory _data,
-        uint256 _cursor
-    )
-        internal
-        pure
-        returns (
-            uint256 _amount,
-            uint256 _newCursor
-        )
-    {
-
-        // 40-bit, 18 (denominated in 1e18)
-        _amount = _data.toUint40(_cursor);
-        _cursor += 5;
-
-        _newCursor = _cursor;
-    }
-
-    function _deserializeAmount_AddLiquidity_96bits(
-        bytes memory _data,
-        uint256 _cursor
-    )
-        internal
-        pure
-        returns (
-            uint256 _amount,
-            uint256 _newCursor
-        )
-    {
-        // 96-bit, 79.2b (denominated in 1e18)
-        _amount = _data.toUint96(_cursor);
-        _cursor += 12;
-
-        _newCursor = _cursor;
     }
 
     // function addLiquidity(
@@ -115,25 +36,17 @@ abstract contract UniswapV2Router02_DataDecoder {
     struct AddLiquidityData {
         address tokenA;
         address tokenB;
-        
-        uint amountADesired;
-        uint amountBDesired;
-        uint amountAMin;
-        uint amountBMin;
-
+        uint256 amountADesired;
+        uint256 amountBDesired;
+        uint256 amountAMin;
+        uint256 amountBMin;
         address to;
-        uint deadline;
+        uint256 deadline;
     }
 
-    function _decode_AddLiquidityData(
-        bytes memory _data,
-        uint256 _cursor
-    )
+    function _decode_AddLiquidityData(bytes memory _data, uint256 _cursor)
         internal
-        returns (
-            AddLiquidityData memory _addLiquidityData,
-            uint256 _newCursor
-        )
+        returns (AddLiquidityData memory _addLiquidityData, uint256 _newCursor)
     {
         (_addLiquidityData.tokenA, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
         (_addLiquidityData.tokenB, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
@@ -149,4 +62,58 @@ abstract contract UniswapV2Router02_DataDecoder {
         _newCursor = _cursor;
     }
 
+    function _lookupAddress_AddLiquidity_24bits(bytes memory _data, uint256 _cursor)
+        internal
+        returns (address _address, uint256 _newCursor)
+    {
+        // registered (24-bit)
+        // _address = addressTable.lookupIndex(_data.toUint24(_cursor));
+        // (bool isIndexExisted,) = address(addressTable).call(abi.encodeWithSignature("lookupIndex(uint)", _data.toUint24(_cursor)));
+        (bool isIndexExisted, bytes memory data) = address(addressTable).call(
+            abi.encodeWithSelector(IAddressTable.lookupIndex.selector, _data.toUint24(_cursor))
+        );
+        _address = abi.decode(data, (address));
+        _cursor += 3;
+
+        if (!isIndexExisted) {
+            if (autoRegisterAddressMapping) {
+                addressTable.register(_address);
+            } else {
+                revert("UniswapV2Router02_DataDecoder: must register first");
+            }
+        }
+
+        _newCursor = _cursor;
+    }
+
+    // 24-bit, 16,777,216 possible
+    // 32-bit, 4,294,967,296  possible
+    // 40-bit, 1,099,511,627,776  => ~35k years
+    // 72-bit, 4,722 (18 decimals)
+    // 96-bit,  79b or 79,228,162,514 (18 decimals)
+    // 112-bit, 5,192mm (denominated in 1e18)
+
+    function _deserializeAmount_AddLiquidity_40bits(bytes memory _data, uint256 _cursor)
+        internal
+        pure
+        returns (uint256 _amount, uint256 _newCursor)
+    {
+        // 40-bit, 18 (denominated in 1e18)
+        _amount = _data.toUint40(_cursor);
+        _cursor += 5;
+
+        _newCursor = _cursor;
+    }
+
+    function _deserializeAmount_AddLiquidity_96bits(bytes memory _data, uint256 _cursor)
+        internal
+        pure
+        returns (uint256 _amount, uint256 _newCursor)
+    {
+        // 96-bit, 79.2b (denominated in 1e18)
+        _amount = _data.toUint96(_cursor);
+        _cursor += 12;
+
+        _newCursor = _cursor;
+    }
 }

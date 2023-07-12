@@ -8,41 +8,26 @@ import {UniswapV2Router02} from "@main/examples/uniswapv2/UniswapV2Router02.sol"
 import {UniswapV2Router02_DataDecoder} from "@main/examples/uniswapv2/UniswapV2Router02_DataDecoder.sol";
 
 /**
-* @notice optimized version
-*/
-contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Router02_DataDecoder  {
-
-    constructor(
-        address _factory,
-        address _WETH,
-        IAddressTable _addressTable,
-        bool _autoRegisterAddressMapping
-    )
+ * @notice optimized version
+ */
+contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Router02_DataDecoder {
+    constructor(address _factory, address _WETH, IAddressTable _addressTable, bool _autoRegisterAddressMapping)
         UniswapV2Router02(_factory, _WETH)
         UniswapV2Router02_DataDecoder(_addressTable, _autoRegisterAddressMapping)
     {
         _setAutoRegisterAddressMapping(true);
     }
 
-    function setAutoRegisterAddressMapping(
-        bool _enable
-    )
-        external
-        onlyOwner
-    {
+    function setAutoRegisterAddressMapping(bool _enable) external onlyOwner {
         _setAutoRegisterAddressMapping(_enable);
     }
 
-    function addLiquidityCompressed(
-        bytes calldata _payload
-    )
+    function addLiquidityCompressed(bytes calldata _payload)
         external
         payable
-        returns(uint amountA, uint amountB, uint liquidity)
+        returns (uint256 amountA, uint256 amountB, uint256 liquidity)
     {
-        (
-            AddLiquidityData memory addLiquidityData,
-        ) = _decode_AddLiquidityData(_payload, 0);
+        (AddLiquidityData memory addLiquidityData,) = _decode_AddLiquidityData(_payload, 0);
 
         return UniswapV2Router02.addLiquidity(
             addLiquidityData.tokenA,
@@ -55,6 +40,4 @@ contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Rou
             addLiquidityData.deadline
         );
     }
-
-
 }

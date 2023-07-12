@@ -58,5 +58,4 @@ contract AddressTable is IAddressTable {
     function lookupIndex(uint256 index) external view override returns (address) {
         return accounts[index];
     }
-
 }
