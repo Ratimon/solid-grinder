@@ -48,7 +48,7 @@ We provide how the UniswapV2's router is optimized as follows:
 
 ```
 
-- The optimized version:[ `UniswapV2Router02_Optimized.sol`](https://github.com/Ratimon/solid-grinder/blob/main/src/examples/uniswapv2/UniswapV2Router02_Optimized.sol)
+- The optimized version: including two components. The first one is [ `UniswapV2Router02_Optimized.sol`](https://github.com/Ratimon/solid-grinder/blob/main/src/examples/uniswapv2/UniswapV2Router02_Optimized.sol) which inherits main functionality from [ `UniswapV2Router02_DataDecoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/src/examples/uniswapv2/UniswapV2Router02_DataDecoder.sol)
 
 ```solidity
 
@@ -80,7 +80,42 @@ We provide how the UniswapV2's router is optimized as follows:
     }
 
 ```
-As shown above, the various input arguments of original contract are compressed into a single calldata. Thus, nearly half bytes of calldata is reduced.
+The second one is [ `UniswapV2Router02_DataEncoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/src/examples/uniswapv2/UniswapV2Router02_DataEncoder.sol)
+
+```solidity
+
+    /** ... */
+   contract UniswapV2Router02_DataEncoder {
+    IAddressTable public immutable addressTable;
+
+        /** ... */
+
+        function encode_AddLiquidityData(
+            address tokenA,
+            address tokenB,
+            uint256 amountADesired,
+            uint256 amountBDesired,
+            uint256 amountAMin,
+            uint256 amountBMin,
+            address to,
+            uint256 deadline
+        )
+            external
+            view
+            returns (
+                bytes memory _compressedPayload // bytes32 _compressedPayload
+            )
+        {
+            /** ... */
+        }
+
+        /** ... */
+
+    }
+
+```
+
+As shown above, the various input arguments of original contract are compressed into a single calldata via **encoder**. It is then decoded to be used later in **decoder**. Thus, nearly half bytes of calldata is reduced.
 
 This can be illustrated by following:
 
