@@ -61,7 +61,6 @@ contract UniswapV2Router02_DataDecoderTest is Test {
             100          // deadline
         );
 
-        console2.logBytes( compressedPayload);
         assertEq(compressedPayload, hex'000001000002000000410d586a20a4c00000000000878678326eac9000000000003635c9adc5dea000000000006c6b935b8bbd4000000000030000000064');
 
         (

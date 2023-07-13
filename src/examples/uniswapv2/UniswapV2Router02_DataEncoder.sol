@@ -1,8 +1,6 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {console2} from "@forge-std/console2.sol";
-
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
 contract UniswapV2Router02_DataEncoder {
@@ -172,7 +170,6 @@ contract UniswapV2Router02_DataEncoder {
 
         for (uint256 i = 0; i < packedBits.length; i++) {
             for (uint256 j = 0; j < packedBits[i].length; j++) {
-                console2.log('i',unpackedArguments[unpackedArgumentsIndex]);
                 _compressedPayload =
                     concatPayload(packedBits[i][j], _compressedPayload, unpackedArguments[unpackedArgumentsIndex]);
                 unpackedArgumentsIndex++;
