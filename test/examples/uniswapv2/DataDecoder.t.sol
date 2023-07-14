@@ -8,7 +8,7 @@ import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 import {AddressTable} from "@main/AddressTable.sol";
 
 import {UniswapV2Router02_DataEncoder} from "@main/examples/uniswapv2/UniswapV2Router02_DataEncoder.sol";
-import {Mock_DataDecoder} from "@test/mock/Mock_DataDecoder.sol";
+import {Mock_DataDecoder} from "@test/examples/uniswapv2/mock/Mock_DataDecoder.sol";
 
 
 contract UniswapV2Router02_DataDecoderTest is Test {
@@ -35,6 +35,22 @@ contract UniswapV2Router02_DataDecoderTest is Test {
         vm.label(address(table), "AddressTable");
         vm.label(address(encoder), "UniswapV2Router02_DataEncoder");
         vm.label(address(decoder), "Mock_DataDecoder");
+
+        vm.stopPrank();
+    }
+
+    function test_constructor() external {
+        vm.startPrank(deployer);
+
+        assertEq(encoder.packedBits(0, 0), 24);
+        assertEq(encoder.packedBits(0, 1), 24);
+        assertEq(encoder.packedBits(0, 2), 96);
+        assertEq(encoder.packedBits(0, 3), 96);
+
+        assertEq(encoder.packedBits(1, 0), 96);
+        assertEq(encoder.packedBits(1, 1), 96);
+        assertEq(encoder.packedBits(1, 2), 24);
+        assertEq(encoder.packedBits(1, 3), 40);
 
         vm.stopPrank();
     }
