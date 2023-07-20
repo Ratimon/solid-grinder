@@ -12,3 +12,8 @@ docs/
 
 # Dotenv file
 .env
+
+
+# Added by cargo
+
+/target
