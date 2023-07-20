@@ -1,4 +1,4 @@
-@main/=src/
+@main/=contracts/
 @script/=script/
 @test/=test/
 @forge-std/=lib/forge-std/src/

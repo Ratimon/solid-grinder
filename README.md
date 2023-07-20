@@ -23,7 +23,7 @@ While security in our top priority, we aim to enhance developer experience, such
 
 We provide how the UniswapV2's router is optimized as follows:
 
-- The original version:[ `UniswapV2Router02.sol`](https://github.com/Ratimon/solid-grinder/blob/main/src/examples/uniswapv2/UniswapV2Router02.sol)
+- The original version:[ `UniswapV2Router02.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02.sol)
 
 ```solidity
     /** ... */
@@ -48,7 +48,7 @@ We provide how the UniswapV2's router is optimized as follows:
 
 ```
 
-- The optimized version: including two components. The first one is [ `UniswapV2Router02_Optimized.sol`](https://github.com/Ratimon/solid-grinder/blob/main/src/examples/uniswapv2/UniswapV2Router02_Optimized.sol) which inherits main functionality from [ `UniswapV2Router02_DataDecoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/src/examples/uniswapv2/UniswapV2Router02_DataDecoder.sol)
+- The optimized version: including two components. The first one is [ `UniswapV2Router02_Optimized.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02_Optimized.sol) which inherits main functionality from [ `UniswapV2Router02_DataDecoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02_DataDecoder.sol)
 
 ```solidity
 
@@ -81,7 +81,7 @@ We provide how the UniswapV2's router is optimized as follows:
 
 ```
 
-The second one is [ `UniswapV2Router02_DataEncoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/src/examples/uniswapv2/UniswapV2Router02_DataEncoder.sol)
+The second one is [ `UniswapV2Router02_DataEncoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02_DataEncoder.sol)
 
 ```solidity
 
