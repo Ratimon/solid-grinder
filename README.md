@@ -2,7 +2,7 @@
 
 be optimism gas optimizooor!!
 
-a cli that goes along with building blocks of smart contract. Along with front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as  possible.
+a cli that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible.
 
 > **Note**💡
 
@@ -18,6 +18,8 @@ a cli that goes along with building blocks of smart contract. Along with front-
 This dApp building block is intended to reduce L2 gas costs by a significant amount, using calldata optimization paradigm.
 
 While security in our top priority, we aim to enhance developer experience, such that the entire protocol is not required to re-written from scratch.
+
+What you need to do is specify how argument is packed into one single calldata, then our cli will generate required files for you !!
 
 ## Benchmarks
 
