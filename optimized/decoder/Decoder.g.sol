@@ -15,7 +15,7 @@ contract UniswapV2Router02_DataDecoder {
         addressTable = _addressTable;
     }
 
-    struct addLiquiditydata {
+    struct addLiquidityData {
         
         address tokenA;
         
@@ -33,6 +33,14 @@ contract UniswapV2Router02_DataDecoder {
         
         uint256 deadline;
         
+    }
+
+    function _decode_addLiquidityData(bytes memory _data, uint256 _cursor)
+        internal
+        view
+        returns (addLiquidityData memory _addLiquidityData, uint256 _newCursor)
+    {
+
     }
 
 }

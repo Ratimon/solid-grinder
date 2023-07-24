@@ -15,10 +15,18 @@ contract {{contract_name}}_DataDecoder {
         addressTable = _addressTable;
     }
 
-    struct {{#with this}}{{function_name}}data{{/with}} {
+    struct {{#with this}}{{function_name}}Data{{/with}} {
         {{#each this.function.args}}
         {{this.type}} {{this.name}};
         {{/each}}
+    }
+
+    function _decode_{{#with this}}{{function_name}}Data{{/with}}(bytes memory _data, uint256 _cursor)
+        internal
+        view
+        returns ({{#with this}}{{function_name}}Data{{/with}} memory _{{#with this}}{{function_name}}Data{{/with}}, uint256 _newCursor)
+    {
+
     }
 
 }
