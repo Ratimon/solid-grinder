@@ -14,9 +14,7 @@ contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Rou
     constructor(address _factory, address _WETH, IAddressTable _addressTable)
         UniswapV2Router02(_factory, _WETH)
         UniswapV2Router02_DataDecoder(_addressTable)
-    {
-    }
-
+    {}
 
     function addLiquidityCompressed(bytes calldata _payload)
         external

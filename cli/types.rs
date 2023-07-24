@@ -19,6 +19,6 @@ pub struct FunctionObject {
 pub struct ContractObject {
     pub solidity_filepath: String,
     pub contract_name: String,
-    pub solidity_filename: String,
+    pub function_name: String,
     pub function: FunctionObject,
 }

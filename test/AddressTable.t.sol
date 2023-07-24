@@ -7,7 +7,6 @@ import {Test, stdError} from "@forge-std/Test.sol";
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 import {AddressTable} from "@main/AddressTable.sol";
 
-
 contract AddressTableTest is Test {
     string mnemonic = "test test test test test test test test test test test junk";
     uint256 deployerPrivateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/0/", 1); //  address = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
@@ -40,11 +39,10 @@ contract AddressTableTest is Test {
 
     function test_lookupIndex() external {
         vm.startPrank(alice);
-        
+
         vm.expectRevert(stdError.indexOOBError);
         table.lookupIndex(10);
 
         vm.stopPrank();
     }
-
 }

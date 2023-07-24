@@ -10,7 +10,6 @@ import {AddressTable} from "@main/AddressTable.sol";
 import {UniswapV2Router02_DataEncoder} from "@main/examples/uniswapv2/UniswapV2Router02_DataEncoder.sol";
 import {Mock_DataDecoder} from "@test/examples/uniswapv2/mock/Mock_DataDecoder.sol";
 
-
 contract UniswapV2Router02_DataDecoderTest is Test {
     string mnemonic = "test test test test test test test test test test test junk";
     uint256 deployerPrivateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/0/", 1); //  address = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
@@ -73,11 +72,14 @@ contract UniswapV2Router02_DataDecoderTest is Test {
             2_500 ether, // amountBDesired,
             1_000 ether, // amountAMin,
             2_000 ether, // amountBMin,
-            to,          
-            100          // deadline
+            to,
+            100 // deadline
         );
 
-        assertEq(compressedPayload, hex'000001000002000000410d586a20a4c00000000000878678326eac9000000000003635c9adc5dea000000000006c6b935b8bbd4000000000030000000064');
+        assertEq(
+            compressedPayload,
+            hex"000001000002000000410d586a20a4c00000000000878678326eac9000000000003635c9adc5dea000000000006c6b935b8bbd4000000000030000000064"
+        );
 
         (
             address decodedTokenA,
@@ -101,5 +103,4 @@ contract UniswapV2Router02_DataDecoderTest is Test {
 
         vm.stopPrank();
     }
-
 }

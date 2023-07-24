@@ -7,12 +7,6 @@ use walkdir::WalkDir;
 
 use crate::types::{FunctionArgObject, FunctionObject, ContractObject};
 
-struct ContractName {
-    start: usize,
-    end: usize,
-    name: String,
-}
-
 static INTERNAL_TYPES: [&str; 103] = [
     "uint",
     "uint256",
@@ -136,4 +130,100 @@ fn is_custom_type(t: &str) -> bool {
         return false;
     }
     return true;
+}
+
+pub fn get_contract(root_directory: &str, source_directory: &str, contract_name: &str, function_name: &str) -> ContractObject {
+    let match_comments = Regex::new(r#"(?ms)(".*?"|'.*?')|(/\*.*?\*/|//[^\r\n]*$)"#).unwrap();
+    let match_strings = Regex::new(r#"(?m)(".*?"|'.*?')"#).unwrap();
+    // let match_contract_names = Regex::new(r#"(?m)(abstract)?[\s]+contract[\s]+(\w*)[\s]"#).unwrap();
+    // let match_function = Regex::new(r#"(?s)function[\s]*\((.*?)\)"#).unwrap();
+    // let match_function_1 = Regex::new(r#"(?s)function[\s]*\((.*?)\)"#).unwrap();
+
+    // function\s+(\w+)\s*\(\s*([^)]*)\s*\)
+
+    let pattern: String = format!(
+        r#"(?m)function\s+{}\s*\(\s*([^)]*)\s*\)"#,
+        regex::escape(function_name)
+    );
+
+
+    let match_function_name = Regex::new(&pattern).unwrap();
+
+    let directory_path_buf = Path::new(root_directory).join(source_directory);
+    let directory_path = directory_path_buf.to_str().unwrap();
+
+    let data = fs::read_to_string(directory_path).expect("Unable to read file");
+    let data = match_comments.replace_all(&data, "");
+    let data = match_strings.replace_all(&data, "");
+
+    let function_string =
+    match match_function_name.captures(&data) {
+        Some(found) => match found.get(1) {
+            Some(function) => {
+                let result = function.as_str().trim();
+                if result.eq("") {
+                    None
+                } else {
+                    Some(result.to_string())
+                }
+            }
+            None => None,
+        },
+        None => None,
+    };
+
+    let parsable_function_string =
+    function_string.clone().unwrap_or("".to_string());
+
+    let args: Vec<FunctionArgObject> = if parsable_function_string.eq("") {
+        Vec::new()
+    } else {
+        let args_split = parsable_function_string.split(",");
+        args_split
+            .map(|s| {
+                let components = s
+                    .trim()
+                    .split(" ")
+                    .map(|v| v.to_string())
+                    .collect::<Vec<String>>();
+
+                let mut args_type = components.get(0).unwrap().to_string();
+
+                let custom_type = is_custom_type(&args_type);
+
+                let second = components.get(1).unwrap();
+                let mut memory_type = false;
+                if second.eq("memory") {
+                    memory_type = true;
+                }
+
+                let name = if memory_type {
+                    components.get(2).unwrap()
+                } else {
+                    if args_type.eq("address") && second.eq("payable") {
+                        args_type = format!("{} payable", args_type);
+                        components.get(2).unwrap()
+                    } else {
+                        second
+                    }
+                };
+
+                return FunctionArgObject {
+                    name: name.to_string(),
+                    memory_type,
+                    r#type: args_type,
+                    custom_type,
+                };
+            })
+            .collect()
+    };
+
+    let mut contract = ContractObject {
+        solidity_filepath: String::from(directory_path),
+        contract_name: String::from(contract_name),
+        function_name: String::from(function_name),
+        function: FunctionObject { args },
+    };
+
+    return contract;
 }

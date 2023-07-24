@@ -29,10 +29,16 @@ enum Commands {
 #[derive(clap::Args)]
 struct GenDecoderArgs {
     #[arg(short, long)]
-    templates: Option<String>, // ./templates/Encoder.g.sol.hbs
+    template: Option<String>, // ./templates/Decoder.g.sol.hbs
 
     #[arg(short, long)]
-    sources: Option<String>,   // ./templates/original.sol
+    source: Option<String>,   // ./src/original.sol
+
+    #[arg(short, long)]
+    contract_name: Option<String>,   // .contractName
+
+    #[arg(short, long)]
+    function_name: Option<String>,   // addLiquidity
 
     #[arg(short, long)]
     output: Option<String>,    // ./optimized
@@ -45,7 +51,7 @@ fn main() {
     match &cli.command {
         Some(command) => match command {
             Commands::GenDecoder(args) => {
-                gen_decoder(&cli.root, &args.templates, &args.sources, &args.output)
+                gen_decoder(&cli.root, &args.template,  &args.source, &args.contract_name, &args.function_name, &args.output)
             }
         },
         None => test(),
@@ -54,18 +60,34 @@ fn main() {
 
 fn gen_decoder(
     root: &Option<String>,
-    templates: &Option<String>,
-    sources: &Option<String>,
+    template: &Option<String>,
+    source: &Option<String>,
+    contract_name: &Option<String>,
+    function_name: &Option<String>,
     output: &Option<String>,
 ) {
-    let root_folder = root.as_deref().unwrap_or(".");
-    let sources_folder = sources.as_deref().unwrap_or("src");
-    let generated_folder = output.as_deref().unwrap_or("optimized");
+    let root_directory = root.as_deref().unwrap_or(".");
+    let source_directory = source.as_deref().unwrap_or("contracts/examples/uniswapv2/UniswapV2Router02.sol");
+    let contract_name = contract_name.as_deref().unwrap_or("UniswapV2Router02");
+    let function_name = function_name.as_deref().unwrap_or("addLiquidity");
+    let generated_directory = output.as_deref().unwrap_or("optimized");
 
-    // let contracts = src_artifacts::get_contract(root_folder, sources_folder);
-    // let generated_folder_path_buf = Path::new(root_folder).join(generated_folder);
-    // let generated_folder_path = generated_folder_path_buf.to_str().unwrap();
+    
 
+    let contract = src_artifacts::get_contract(root_directory, source_directory, contract_name, function_name);
+    let generated_directory_path_buf = Path::new(root_directory).join(generated_directory);
+    let generated_directory_path = generated_directory_path_buf.to_str().unwrap();
+
+    let template_paths = if let Some(template) = template {
+        template
+            .split(",")
+            .map(|v| PathBuf::from(v))
+            .collect::<Vec<PathBuf>>()
+    } else {
+        Vec::new()
+    };
+
+    decoder::generate_decoder( contract, &template_paths, generated_directory_path);
 }
 
 fn test() {
