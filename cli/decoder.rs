@@ -6,19 +6,11 @@ use crate::types::ContractObject;
 
 pub fn generate_decoder(
     contract: ContractObject,
-    template_path: &Vec<PathBuf>,
     generated_directory: &str,
 ) {
 
     let mut handlebars = Handlebars::new();
     handlebars.set_strict_mode(true);
-
-    // handlebars
-    //     .register_template_string(
-    //         "Decoder.g.sol.hbs",
-    //         include_str!("templates/Decoder.g.sol.hbs"),
-    //     )
-    //     .unwrap();
 
     handlebars
         .register_template_string(
@@ -76,24 +68,4 @@ fn memory_type(
     }
 
     Ok(())
-}
-
-
-fn template_name(template_path: &PathBuf) -> String {
-    let filename = template_path
-        .file_name()
-        .unwrap()
-        .to_str()
-        .unwrap()
-        .to_string();
-    let filename = if filename.ends_with(".hbs") {
-        filename.strip_suffix(".hbs").unwrap().to_string()
-    } else {
-        filename
-    };
-    if !filename.ends_with(".sol") {
-        format!("{}.sol", filename)
-    } else {
-        filename
-    }
 }

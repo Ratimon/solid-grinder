@@ -1,7 +1,5 @@
-use std::path::{Path, PathBuf};
+use std::path::{Path};
 
-use handlebars::Handlebars;
-use regex::Regex;
 use clap::{Parser, Subcommand};
 
 pub mod encoder;
@@ -28,8 +26,6 @@ enum Commands {
 
 #[derive(clap::Args)]
 struct GenDecoderArgs {
-    #[arg(short, long)]
-    template: Option<String>, // ./templates/Decoder.g.sol.hbs
 
     #[arg(short, long)]
     source: Option<String>,   // ./src/original.sol
@@ -51,7 +47,7 @@ fn main() {
     match &cli.command {
         Some(command) => match command {
             Commands::GenDecoder(args) => {
-                gen_decoder(&cli.root, &args.template,  &args.source, &args.contract_name, &args.function_name, &args.output)
+                gen_decoder(&cli.root, &args.source, &args.contract_name, &args.function_name, &args.output)
             }
         },
         None => test(),
@@ -60,7 +56,6 @@ fn main() {
 
 fn gen_decoder(
     root: &Option<String>,
-    template: &Option<String>,
     source: &Option<String>,
     contract_name: &Option<String>,
     function_name: &Option<String>,
@@ -72,22 +67,11 @@ fn gen_decoder(
     let function_name = function_name.as_deref().unwrap_or("addLiquidity");
     let generated_directory = output.as_deref().unwrap_or("optimized");
 
-    
-
     let contract = src_artifacts::get_contract(root_directory, source_directory, contract_name, function_name);
     let generated_directory_path_buf = Path::new(root_directory).join(generated_directory);
     let generated_directory_path = generated_directory_path_buf.to_str().unwrap();
 
-    let template_paths = if let Some(template) = template {
-        template
-            .split(",")
-            .map(|v| PathBuf::from(v))
-            .collect::<Vec<PathBuf>>()
-    } else {
-        Vec::new()
-    };
-
-    decoder::generate_decoder( contract, &template_paths, generated_directory_path);
+    decoder::generate_decoder( contract, generated_directory_path);
 }
 
 fn test() {

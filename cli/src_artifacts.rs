@@ -1,9 +1,6 @@
 use std::{fs, path::Path};
 
-use path_slash::PathExt;
 use regex::Regex;
-use substring::Substring;
-use walkdir::WalkDir;
 
 use crate::types::{FunctionArgObject, FunctionObject, ContractObject};
 
@@ -135,9 +132,6 @@ fn is_custom_type(t: &str) -> bool {
 pub fn get_contract(root_directory: &str, source_directory: &str, contract_name: &str, function_name: &str) -> ContractObject {
     let match_comments = Regex::new(r#"(?ms)(".*?"|'.*?')|(/\*.*?\*/|//[^\r\n]*$)"#).unwrap();
     let match_strings = Regex::new(r#"(?m)(".*?"|'.*?')"#).unwrap();
-    // let match_contract_names = Regex::new(r#"(?m)(abstract)?[\s]+contract[\s]+(\w*)[\s]"#).unwrap();
-    // let match_function = Regex::new(r#"(?s)function[\s]*\((.*?)\)"#).unwrap();
-    // let match_function_1 = Regex::new(r#"(?s)function[\s]*\((.*?)\)"#).unwrap();
 
     // function\s+(\w+)\s*\(\s*([^)]*)\s*\)
 
@@ -218,7 +212,7 @@ pub fn get_contract(root_directory: &str, source_directory: &str, contract_name:
             .collect()
     };
 
-    let mut contract = ContractObject {
+    let contract = ContractObject {
         solidity_filepath: String::from(directory_path),
         contract_name: String::from(contract_name),
         function_name: String::from(function_name),
