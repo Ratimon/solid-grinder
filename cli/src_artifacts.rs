@@ -212,6 +212,13 @@ pub fn get_contract(root_directory: &str, source_directory: &str, contract_name:
             .collect()
     };
 
+    println!("{:?} function_name", function_name);
+
+    println!(
+        "{:?} {:?}",
+        args[0], args[1]
+    );
+
     let contract = ContractObject {
         solidity_filepath: String::from(directory_path),
         contract_name: String::from(contract_name),

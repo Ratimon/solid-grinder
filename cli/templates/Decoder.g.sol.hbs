@@ -2,9 +2,23 @@
 pragma solidity ^0.8.0;
 
 import {IAddressTable} from "@solid-grinder/interfaces/IAddressTable.sol";
+import {BytesLib} from "@main/libraries/BytesLib.sol";
 
 {{#with this}}
-contract {{contract_name}}_DataEncoder {
+contract {{contract_name}}_DataDecoder {
 {{/with}}
+
+    using BytesLib for bytes;
+    IAddressTable public immutable addressTable;
+
+    constructor(IAddressTable _addressTable) {
+        addressTable = _addressTable;
+    }
+
+    struct {{#with this}}{{function_name}}data{{/with}} {
+        {{#each this.function.args}}
+        {{this.type}} {{this.name}};
+        {{/each}}
+    }
 
 }
