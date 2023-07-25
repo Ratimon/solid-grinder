@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]
 pub struct FunctionArgObject {
     pub function_name: String,
-    pub name: String,
+    pub arg_name: String,
     pub memory_type: bool,
     pub r#type: String,
     pub custom_type: bool,

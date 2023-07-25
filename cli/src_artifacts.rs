@@ -196,7 +196,7 @@ pub fn get_contract(
                     memory_type = true;
                 }
 
-                let name = if memory_type {
+                let arg_name = if memory_type {
                     components.get(2).unwrap()
                 } else {
                     if args_type.eq("address") && second.eq("payable") {
@@ -209,7 +209,7 @@ pub fn get_contract(
 
                 return FunctionArgObject {
                     function_name: function_name.to_string(),
-                    name: name.to_string(),
+                    arg_name: arg_name.to_string(),
                     memory_type,
                     r#type: args_type,
                     custom_type,
