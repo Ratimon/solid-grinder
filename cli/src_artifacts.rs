@@ -217,17 +217,30 @@ pub fn get_contract(
             .collect()
     };
 
-    // if args.len() != bits.len() {
-    //     return Err("Please specify bits of all arguments.".to_string());
-    // }
-
-    // println!("{:?} args.len()", args.len());
-    // println!("{:?} bits.len()", bits.len());
-
     // println!(
-    //     "{:?} {:?} {:?} {:?} {:?} {:?}",
-    //     bits[0], bits[1], bits[2], bits[3], bits[4], bits[5]
+    //     "{:?} {:?} {:?} {:?} ",
+    //     args[0].name, args[0].memory_type, args[0].r#type,  args[0].custom_type
     // );
+    // println!(
+    //     "{:?} {:?} {:?} {:?} ",
+    //     args[1].name, args[1].memory_type, args[1].r#type,  args[1].custom_type
+    // );
+    // println!(
+    //     "{:?} {:?} {:?} {:?} ",
+    //     args[2].name, args[2].memory_type, args[2].r#type,  args[2].custom_type
+    // );
+    // println!(
+    //     "{:?} {:?} {:?} {:?} ",
+    //     args[3].name, args[3].memory_type, args[3].r#type,  args[3].custom_type
+    // );
+    // println!(
+    //     "{:?} {:?} {:?} {:?} ",
+    //     args[4].name, args[4].memory_type, args[4].r#type,  args[4].custom_type
+    // );
+
+    if args.iter().any(|arg| arg.r#type != "address" && arg.r#type != "uint256") {
+        return Err("We currently only support `address` and`uint256`type. Please modify your data type to either address or uint256  ".to_string())
+    }
 
     match args.len() {
         args_length if args_length == bits.len() => {

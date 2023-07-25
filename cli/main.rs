@@ -1,6 +1,5 @@
-use std::path::{Path};
+use std::path::Path;
 use itertools::{Either, Itertools};
-
 
 use clap::{Parser, Subcommand};
 
@@ -43,9 +42,6 @@ struct GenDecoderArgs {
 
     #[arg(short, long, value_parser, num_args = 1, value_delimiter = ' ')]
     arg_bits: Vec<String>,
-
-    // TODO handling error for boolean
-    // TODO handling error for unsupport types now only support address and uint
 }
 
 fn main() {
