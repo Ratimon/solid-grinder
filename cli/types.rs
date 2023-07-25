@@ -6,11 +6,13 @@ pub struct FunctionArgObject {
     pub memory_type: bool,
     pub r#type: String,
     pub custom_type: bool,
+    // 
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]
 pub struct FunctionObject {
     pub args: Vec<FunctionArgObject>,
+    // len
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]

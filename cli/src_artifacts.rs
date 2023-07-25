@@ -129,12 +129,18 @@ fn is_custom_type(t: &str) -> bool {
     return true;
 }
 
-pub fn get_contract(root_directory: &str, source_directory: &str, contract_name: &str, function_name: &str) -> ContractObject {
+pub fn get_contract(
+    root_directory: &str,
+    source_directory: &str,
+    contract_name: &str,
+    function_name: &str,
+    bits: Vec<i8>
+) -> Result<ContractObject, String>  {
+
     let match_comments = Regex::new(r#"(?ms)(".*?"|'.*?')|(/\*.*?\*/|//[^\r\n]*$)"#).unwrap();
     let match_strings = Regex::new(r#"(?m)(".*?"|'.*?')"#).unwrap();
 
     // function\s+(\w+)\s*\(\s*([^)]*)\s*\)
-
     let pattern: String = format!(
         r#"(?m)function\s+{}\s*\(\s*([^)]*)\s*\)"#,
         regex::escape(function_name)
@@ -212,19 +218,29 @@ pub fn get_contract(root_directory: &str, source_directory: &str, contract_name:
             .collect()
     };
 
-    println!("{:?} function_name", function_name);
+    // if args.len() != bits.len() {
+    //     return Err("Please specify bits of all arguments.".to_string());
+    // }
 
-    println!(
-        "{:?} {:?}",
-        args[0], args[1]
-    );
+    // println!("{:?} args.len()", args.len());
+    // println!("{:?} bits.len()", bits.len());
 
-    let contract = ContractObject {
-        solidity_filepath: String::from(directory_path),
-        contract_name: String::from(contract_name),
-        function_name: String::from(function_name),
-        function: FunctionObject { args },
-    };
+    // println!(
+    //     "{:?} {:?} {:?} {:?} {:?} {:?}",
+    //     bits[0], bits[1], bits[2], bits[3], bits[4], bits[5]
+    // );
 
-    return contract;
+    match args.len() {
+        args_length if args_length == bits.len() => {
+            let contract: ContractObject = ContractObject {
+                solidity_filepath: String::from(directory_path),
+                contract_name: String::from(contract_name),
+                function_name: String::from(function_name),
+                function: FunctionObject { args },
+            };
+            return Ok(contract);
+        },
+        _ => return Err("Please specify the same amount of bits as argument number.".to_string())
+    }
+
 }
