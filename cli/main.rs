@@ -1,4 +1,6 @@
 use std::path::{Path};
+use itertools::{Either, Itertools};
+
 
 use clap::{Parser, Subcommand};
 
@@ -72,13 +74,19 @@ fn gen_decoder(
     let source_directory = source.as_deref().unwrap_or("contracts/examples/uniswapv2/UniswapV2Router02.sol");
     let contract_name = contract_name.as_deref().unwrap_or("UniswapV2Router02");
     let function_name = function_name.as_deref().unwrap_or("addLiquidity");
-    let bits: Vec<i8> = arg_bits
-        .iter()
-        .map(|s| s.parse::<i8>().unwrap()) 
-        .collect();
 
-    let contract = src_artifacts::get_contract(root_directory, source_directory, contract_name, function_name, bits).unwrap();
+    let (successes, _): (Vec<_>, Vec<_>) = arg_bits.iter().partition_map(|i| match i.parse::<i8>() {
+        Ok(v) => Either::Left(v),
+        Err(_) => Either::Right(i.to_string()),
+    });
 
+    let bits: Result<Vec<i8>, String> = if successes.iter().all(|bit| bit % 8 == 0) {
+        Ok(successes)
+    } else {
+        Err("Some elements are not divisible by 8.".to_string())
+    };
+
+    let contract: types::ContractObject = src_artifacts::get_contract(root_directory, source_directory, contract_name, function_name, bits.unwrap()).unwrap();
     let generated_directory = output.as_deref().unwrap_or("optimized");
     let generated_directory_path_buf = Path::new(root_directory).join(generated_directory);
     let generated_directory_path = generated_directory_path_buf.to_str().unwrap();

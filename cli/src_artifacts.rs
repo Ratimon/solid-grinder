@@ -146,7 +146,6 @@ pub fn get_contract(
         regex::escape(function_name)
     );
 
-
     let match_function_name = Regex::new(&pattern).unwrap();
 
     let directory_path_buf = Path::new(root_directory).join(source_directory);

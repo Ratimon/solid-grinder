@@ -1,4 +1,4 @@
-use std::{fs, path::Path, path::PathBuf, task::Context};
+use std::{fs, path::Path, task::Context};
 
 use handlebars::Handlebars;
 
