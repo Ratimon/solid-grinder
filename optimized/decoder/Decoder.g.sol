@@ -16,21 +16,13 @@ contract UniswapV2Router02_DataDecoder {
     }
 
     struct addLiquidityData {
-        
         address tokenA;
-        
         address tokenB;
-        
         uint256 amountADesired;
-        
         uint256 amountBDesired;
-        
         uint256 amountAMin;
-        
         uint256 amountBMin;
-        
         address to;
-        
         uint256 deadline;
         
     }
@@ -40,7 +32,16 @@ contract UniswapV2Router02_DataDecoder {
         view
         returns (addLiquidityData memory _addLiquidityData, uint256 _newCursor)
     {
-
+        (_addLiquidityData.tokenA, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
+        (_addLiquidityData.tokenB, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
+        (_addLiquidityData.amountADesired, _cursor) = _lookupAddress_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountBDesired, _cursor) = _lookupAddress_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountAMin, _cursor) = _lookupAddress_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountBMin, _cursor) = _lookupAddress_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.to, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
+        (_addLiquidityData.deadline, _cursor) = _lookupAddress_addLiquidity_40bits(_data, _cursor);
+        
+        _newCursor = _cursor;
     }
 
 }

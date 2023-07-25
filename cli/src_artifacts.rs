@@ -174,7 +174,7 @@ pub fn get_contract(
     let parsable_function_string =
     function_string.clone().unwrap_or("".to_string());
 
-    let args: Vec<FunctionArgObject> = if parsable_function_string.eq("") {
+    let mut args: Vec<FunctionArgObject> = if parsable_function_string.eq("") {
         Vec::new()
     } else {
         let args_split = parsable_function_string.split(",");
@@ -208,10 +208,12 @@ pub fn get_contract(
                 };
 
                 return FunctionArgObject {
+                    function_name: function_name.to_string(),
                     name: name.to_string(),
                     memory_type,
                     r#type: args_type,
                     custom_type,
+                    packed_bit_size: 0
                 };
             })
             .collect()
@@ -244,11 +246,19 @@ pub fn get_contract(
 
     match args.len() {
         args_length if args_length == bits.len() => {
+
+            for (arg, &bit) in args.iter_mut().zip(bits.iter()) {
+                // Modify the packed_bit_size field by adding the corresponding value from bits
+                arg.packed_bit_size = bit;
+            }
+
             let contract: ContractObject = ContractObject {
                 solidity_filepath: String::from(directory_path),
                 contract_name: String::from(contract_name),
                 function_name: String::from(function_name),
-                function: FunctionObject { args },
+                function: FunctionObject {
+                    args: args
+                },
             };
             return Ok(contract);
         },
