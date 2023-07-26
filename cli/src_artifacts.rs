@@ -134,7 +134,7 @@ pub fn get_contract(
     source_directory: &str,
     contract_name: &str,
     function_name: &str,
-    bits: Vec<i8>
+    bits: Vec<u16>
 ) -> Result<ContractObject, String>  {
 
     let match_comments = Regex::new(r#"(?ms)(".*?"|'.*?')|(/\*.*?\*/|//[^\r\n]*$)"#).unwrap();

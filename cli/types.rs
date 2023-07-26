@@ -5,10 +5,9 @@ pub struct FunctionArgObject {
     pub function_name: String,
     pub arg_name: String,
     pub memory_type: bool,
-    // pub address_type: bool,
     pub r#type: String,
     pub custom_type: bool,
-    pub packed_bit_size: i8,
+    pub packed_bit_size: u16,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]

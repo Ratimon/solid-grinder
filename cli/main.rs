@@ -71,15 +71,15 @@ fn gen_decoder(
     let contract_name = contract_name.as_deref().unwrap_or("UniswapV2Router02");
     let function_name = function_name.as_deref().unwrap_or("addLiquidity");
 
-    let (successes, _): (Vec<_>, Vec<_>) = arg_bits.iter().partition_map(|i| match i.parse::<i8>() {
+    let (successes, _): (Vec<_>, Vec<_>) = arg_bits.iter().partition_map(|i| match i.parse::<u16>() {
         Ok(v) => Either::Left(v),
         Err(_) => Either::Right(i.to_string()),
     });
 
-    let bits: Result<Vec<i8>, String> = if successes.iter().all(|bit| bit % 8 == 0) {
+    let bits: Result<Vec<u16>, String> = if successes.iter().all(|bit| bit % 8 == 0 && bit <= &256) {
         Ok(successes)
     } else {
-        Err("Some elements are not divisible by 8.".to_string())
+        Err("Some elements are not divisible by 8 or greater than 256.".to_string())
     };
 
     let contract: types::ContractObject = src_artifacts::get_contract(root_directory, source_directory, contract_name, function_name, bits.unwrap()).unwrap();
