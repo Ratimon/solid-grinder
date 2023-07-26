@@ -1,8 +1,8 @@
-use std::{fs, path::Path};
+use std::{collections::HashSet, fs, path::Path};
 
 use regex::Regex;
 
-use crate::types::{FunctionArgObject, FunctionObject, ContractObject};
+use crate::types::{FunctionArgObject, EncodingObject, FunctionObject, ContractObject};
 
 static INTERNAL_TYPES: [&str; 103] = [
     "uint",
@@ -236,37 +236,41 @@ pub fn get_contract(
     //     "{:?} {:?} {:?} {:?} ",
     //     args[1].name, args[1].memory_type, args[1].r#type,  args[1].custom_type
     // );
-    // println!(
-    //     "{:?} {:?} {:?} {:?} ",
-    //     args[2].name, args[2].memory_type, args[2].r#type,  args[2].custom_type
-    // );
-    // println!(
-    //     "{:?} {:?} {:?} {:?} ",
-    //     args[3].name, args[3].memory_type, args[3].r#type,  args[3].custom_type
-    // );
-    // println!(
-    //     "{:?} {:?} {:?} {:?} ",
-    //     args[4].name, args[4].memory_type, args[4].r#type,  args[4].custom_type
-    // );
-
     if args.iter().any(|arg| arg.r#type != "address" && arg.r#type != "uint256") {
         return Err("We currently only support `address` and`uint256`type. Please modify your data type to either address or uint256".to_string())
     }
 
+    for (arg, &bit) in args.iter_mut().zip(bits.iter()) {
+        // Modify the packed_bit_size field by adding the corresponding value from bits
+        arg.packed_bit_size = bit;
+    }
+
+    let mut encodings: Vec<EncodingObject> = args
+        .iter()
+        .map(|arg| EncodingObject {
+            instruction: arg.instruction.clone(),
+            function_name: arg.function_name.clone(),
+            r#type: arg.r#type.clone(),
+            packed_bit_size: arg.packed_bit_size,
+            packed_byte_size: arg.packed_bit_size / 8,
+            address_type: arg.r#type.eq("address"), 
+            uint256_type: arg.r#type.eq("uint256"), 
+        })
+        .collect();
+
+    let mut seen = HashSet::new();
+    encodings.retain(|encoding| seen.insert((encoding.instruction.clone(), encoding.function_name.clone(), encoding.packed_bit_size)));
+
     match args.len() {
         args_length if args_length == bits.len() => {
-
-            for (arg, &bit) in args.iter_mut().zip(bits.iter()) {
-                // Modify the packed_bit_size field by adding the corresponding value from bits
-                arg.packed_bit_size = bit;
-            }
 
             let contract: ContractObject = ContractObject {
                 solidity_filepath: String::from(directory_path),
                 contract_name: String::from(contract_name),
                 function_name: String::from(function_name),
                 function: FunctionObject {
-                    args: args
+                    args: args,
+                    encodings: encodings
                 },
             };
             return Ok(contract);
@@ -275,3 +279,9 @@ pub fn get_contract(
     }
 
 }
+
+// pub fn get_encoding(
+//     args: Vec<FunctionArgObject>
+// ) -> Vec<EncodingObject>  {
+
+// }

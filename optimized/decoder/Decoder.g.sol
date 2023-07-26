@@ -44,4 +44,43 @@ contract UniswapV2Router02_DataDecoder {
         _newCursor = _cursor;
     }
 
+
+    function _lookupAddress_addLiquidity_24bits(bytes memory _data, uint256 _cursor)
+        internal
+        view
+        
+        returns ( address _decoded, uint256 _newCursor)
+    {
+        _decoded = addressTable.lookupIndex(_data.toUint24(_cursor));
+        
+        _cursor += 3;
+
+        _newCursor = _cursor;
+    }
+    function _deserializeAmount_addLiquidity_96bits(bytes memory _data, uint256 _cursor)
+        internal
+        
+        pure
+        returns ( uint256 _decoded, uint256 _newCursor)
+    {
+        
+        _decoded = _data.toUint96(_cursor);
+        _cursor += 12;
+
+        _newCursor = _cursor;
+    }
+    function _deserializeAmount_addLiquidity_40bits(bytes memory _data, uint256 _cursor)
+        internal
+        
+        pure
+        returns ( uint256 _decoded, uint256 _newCursor)
+    {
+        
+        _decoded = _data.toUint40(_cursor);
+        _cursor += 5;
+
+        _newCursor = _cursor;
+    }
+    
+
 }

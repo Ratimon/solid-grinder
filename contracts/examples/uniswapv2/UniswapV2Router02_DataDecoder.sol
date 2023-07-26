@@ -46,10 +46,10 @@ contract UniswapV2Router02_DataDecoder {
     function _lookupAddress_AddLiquidity_24bits(bytes memory _data, uint256 _cursor)
         internal
         view
-        returns (address _address, uint256 _newCursor)
+        returns (address _decoded, uint256 _newCursor)
     {
         // registered (24-bit)
-        _address = addressTable.lookupIndex(_data.toUint24(_cursor));
+        _decoded = addressTable.lookupIndex(_data.toUint24(_cursor));
         _cursor += 3;
 
         _newCursor = _cursor;
@@ -65,10 +65,10 @@ contract UniswapV2Router02_DataDecoder {
     function _deserializeAmount_AddLiquidity_40bits(bytes memory _data, uint256 _cursor)
         internal
         pure
-        returns (uint256 _amount, uint256 _newCursor)
+        returns (uint256 _decoded, uint256 _newCursor)
     {
         // 40-bit, 18 (denominated in 1e18)
-        _amount = _data.toUint40(_cursor);
+        _decoded = _data.toUint40(_cursor);
         _cursor += 5;
 
         _newCursor = _cursor;
@@ -77,10 +77,10 @@ contract UniswapV2Router02_DataDecoder {
     function _deserializeAmount_AddLiquidity_96bits(bytes memory _data, uint256 _cursor)
         internal
         pure
-        returns (uint256 _amount, uint256 _newCursor)
+        returns (uint256 _decoded, uint256 _newCursor)
     {
         // 96-bit, 79.2b (denominated in 1e18)
-        _amount = _data.toUint96(_cursor);
+        _decoded = _data.toUint96(_cursor);
         _cursor += 12;
 
         _newCursor = _cursor;

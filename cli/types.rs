@@ -12,8 +12,20 @@ pub struct FunctionArgObject {
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]
+pub struct EncodingObject {
+    pub instruction: String,
+    pub function_name: String,
+    pub r#type: String,
+    pub packed_bit_size: u16,
+    pub packed_byte_size: u16,
+    pub address_type: bool,
+    pub uint256_type: bool,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone, Default)]
 pub struct FunctionObject {
     pub args: Vec<FunctionArgObject>,
+    pub encodings: Vec<EncodingObject>,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]
