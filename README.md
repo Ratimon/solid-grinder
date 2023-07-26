@@ -10,8 +10,10 @@ a cli that goes along with building blocks of smart contract. Along with our fr
 
 - [What is it for](#what-is-it-for)
 - [Benchmarks](#benchmarks)
+- [Quickstart](#quickstart)
 - [How It Works](#how-it-works)
 - [Architecture](#architecture)
+
 
 ## What is it for ?
 
@@ -20,6 +22,7 @@ This dApp building block is intended to reduce L2 gas costs by a significant amo
 While security in our top priority, we aim to enhance developer experience, such that the entire protocol is not required to re-written from scratch.
 
 What you need to do is specify how argument is packed into one single calldata, then our cli will generate required files for you !!
+
 
 ## Benchmarks
 
@@ -187,6 +190,33 @@ You can read the parameter values from the [gas oracle contract](https://optimis
 
 > The more detail could be found at the [Optimism&#39;s Documentation](https://community.optimism.io/docs/developers/build/transaction-fees/#).
 
+
+## Quickstart/Tutorial (WIP)
+
+For simplicity, we use the UniswapV2's router as mentioned in [Benchmarks](#benchmarks) as example.
+
+1. Build the cli binary
+
+```sh
+cargo build
+```
+
+2. Geneate `decoder` contract
+
+```sh
+cargo build
+target/debug/solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'optimized' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
+```
+
+3. Geneate `encoder` contract
+
+```sh
+WIP
+```
+
+4. be optimism gas optimizooor!!
+
+
 ## How It Works
 
 It works by optimizing calldata by using as little bytes of calldata as possible.
@@ -203,6 +233,7 @@ Specifically, Our novel components are as follows:
      - For example, if we choose to reduce the calldata by sending the time period as arguments with type of uint40 (5 bytes) instead of uint256, the calldata should be sliced at the correct offset and the result can be correctly used in the next steps.
 2. Front-end snippets: to atomically connect between encoding and deconding componet into single call
 3. CLI: to geneate the above solidty snippets (,including Encoder and Decode contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
+
 
 ## Architecture
 

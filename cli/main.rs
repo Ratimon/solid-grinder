@@ -29,13 +29,13 @@ enum Commands {
 struct GenDecoderArgs {
 
     #[arg(short, long)]
-    source: Option<String>,   // ./src/original.sol
+    source: Option<String>,   // contracts/examples/uniswapv2/UniswapV2Router02.sol
 
     #[arg(short, long)]
     output: Option<String>,    // ./optimized
 
     #[arg(short, long)]
-    contract_name: Option<String>,   // .contractName
+    contract_name: Option<String>,   // UniswapV2Router02
 
     #[arg(short, long)]
     function_name: Option<String>,   // addLiquidity
