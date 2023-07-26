@@ -25,7 +25,7 @@ contract {{contract_name}}_DataDecoder {
         view
         returns ({{#with this}}{{function_name}}Data{{/with}} memory _{{#with this}}{{function_name}}Data{{/with}}, uint256 _newCursor)
     {
-        {{#each this.function.args}}(_{{function_name}}Data.{{this.arg_name}}, _cursor) = _lookupAddress_{{function_name}}_{{this.packed_bit_size}}bits(_data, _cursor);
+        {{#each this.function.args}}(_{{function_name}}Data.{{this.arg_name}}, _cursor) = _{{instruction}}_{{function_name}}_{{this.packed_bit_size}}bits(_data, _cursor);
         {{/each}}
         _newCursor = _cursor;
     }

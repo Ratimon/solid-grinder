@@ -186,7 +186,15 @@ pub fn get_contract(
                     .map(|v| v.to_string())
                     .collect::<Vec<String>>();
 
-                let mut args_type = components.get(0).unwrap().to_string();
+                let mut args_type: String = components.get(0).unwrap().to_string();
+
+                let instruction: String = if args_type.eq("address") {
+                    "lookupAddress".to_string()
+                } else if args_type.eq("uint256") {
+                    "deserializeAmount".to_string()
+                } else {
+                    "deserializeAmount".to_string()
+                };
 
                 let custom_type = is_custom_type(&args_type);
 
@@ -210,6 +218,7 @@ pub fn get_contract(
                 return FunctionArgObject {
                     function_name: function_name.to_string(),
                     arg_name: arg_name.to_string(),
+                    instruction: instruction,
                     memory_type,
                     r#type: args_type,
                     custom_type,
@@ -241,7 +250,7 @@ pub fn get_contract(
     // );
 
     if args.iter().any(|arg| arg.r#type != "address" && arg.r#type != "uint256") {
-        return Err("We currently only support `address` and`uint256`type. Please modify your data type to either address or uint256  ".to_string())
+        return Err("We currently only support `address` and`uint256`type. Please modify your data type to either address or uint256".to_string())
     }
 
     match args.len() {

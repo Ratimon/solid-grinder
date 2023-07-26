@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 pub struct FunctionArgObject {
     pub function_name: String,
     pub arg_name: String,
+    pub instruction: String,
     pub memory_type: bool,
     pub r#type: String,
     pub custom_type: bool,

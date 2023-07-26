@@ -34,12 +34,12 @@ contract UniswapV2Router02_DataDecoder {
     {
         (_addLiquidityData.tokenA, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
         (_addLiquidityData.tokenB, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
-        (_addLiquidityData.amountADesired, _cursor) = _lookupAddress_addLiquidity_96bits(_data, _cursor);
-        (_addLiquidityData.amountBDesired, _cursor) = _lookupAddress_addLiquidity_96bits(_data, _cursor);
-        (_addLiquidityData.amountAMin, _cursor) = _lookupAddress_addLiquidity_96bits(_data, _cursor);
-        (_addLiquidityData.amountBMin, _cursor) = _lookupAddress_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountADesired, _cursor) = _deserializeAmount_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountBDesired, _cursor) = _deserializeAmount_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountAMin, _cursor) = _deserializeAmount_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountBMin, _cursor) = _deserializeAmount_addLiquidity_96bits(_data, _cursor);
         (_addLiquidityData.to, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
-        (_addLiquidityData.deadline, _cursor) = _lookupAddress_addLiquidity_40bits(_data, _cursor);
+        (_addLiquidityData.deadline, _cursor) = _deserializeAmount_addLiquidity_40bits(_data, _cursor);
         
         _newCursor = _cursor;
     }
