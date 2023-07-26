@@ -191,9 +191,11 @@ You can read the parameter values from the [gas oracle contract](https://optimis
 > The more detail could be found at the [Optimism&#39;s Documentation](https://community.optimism.io/docs/developers/build/transaction-fees/#).
 
 
-## Quickstart/Tutorial (WIP)
+## Quickstart
 
-For simplicity, we use the UniswapV2's router as mentioned in [Benchmarks](#benchmarks) as example.
+(WIP)
+
+For simplicity, we use the UniswapV2's router as mentioned in [Benchmarks](#benchmarks) as an example.
 
 1. Build the cli binary
 
@@ -204,7 +206,6 @@ cargo build
 2. Geneate `decoder` contract
 
 ```sh
-cargo build
 target/debug/solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'optimized' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
 ```
 
