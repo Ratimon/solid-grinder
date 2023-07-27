@@ -70,6 +70,7 @@ fn gen_decoder(
     let source_directory = source.as_deref().unwrap_or("contracts/examples/uniswapv2/UniswapV2Router02.sol");
     let contract_name = contract_name.as_deref().unwrap_or("UniswapV2Router02");
     let function_name = function_name.as_deref().unwrap_or("addLiquidity");
+    //  fix this with test
 
     let (successes, _): (Vec<_>, Vec<_>) = arg_bits.iter().partition_map(|i| match i.parse::<u16>() {
         Ok(v) => Either::Left(v),
