@@ -88,7 +88,7 @@ fn gen_decoder(
     let generated_directory_path_buf = Path::new(root_directory).join(generated_directory);
     let generated_directory_path = generated_directory_path_buf.to_str().unwrap();
 
-    decoder::generate_decoder( contract, generated_directory_path);
+    decoder::generate_decoder( contract, contract_name , generated_directory_path);
 }
 
 fn test() {

@@ -6,15 +6,14 @@ use crate::types::ContractObject;
 
 pub fn generate_decoder(
     contract: ContractObject,
+    contract_name: &str,
     generated_directory: &str,
 ) {
-
     let mut handlebars = Handlebars::new();
     handlebars.set_strict_mode(true);
-
     handlebars
         .register_template_string(
-            "Decoder.g.sol",
+            format!("{}_DataDecoder.sol", contract_name).as_str(),
             include_str!("templates/Decoder.g.sol.hbs"),
         )
         .unwrap();
@@ -26,11 +25,11 @@ pub fn generate_decoder(
     fs::create_dir_all(folder_path).expect("create folder");
 
     write_if_different(
-        &format!("{}/Decoder.g.sol", folder_path),
+        &format!("{}/{}_Decoder.g.sol", folder_path, contract_name),
         format!(
             "{}",
             handlebars
-                .render("Decoder.g.sol", &contract)
+                .render(format!("{}_DataDecoder.sol", contract_name).as_str(), &contract)
                 .unwrap()
         ),
     );
