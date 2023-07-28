@@ -11,9 +11,11 @@ pub fn generate_decoder(
 ) {
     let mut handlebars = Handlebars::new();
     handlebars.set_strict_mode(true);
+
+    let generated_name: String = format!("{}_DataDecoder.g.sol", contract_name);
     handlebars
         .register_template_string(
-            format!("{}_DataDecoder.sol", contract_name).as_str(),
+            &generated_name,
             include_str!("templates/Decoder.g.sol.hbs"),
         )
         .unwrap();
@@ -29,7 +31,7 @@ pub fn generate_decoder(
         format!(
             "{}",
             handlebars
-                .render(format!("{}_DataDecoder.sol", contract_name).as_str(), &contract)
+                .render(&generated_name, &contract)
                 .unwrap()
         ),
     );
