@@ -2,7 +2,7 @@
 
 be optimism gas optimizooor!!
 
-a cli that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible.
+A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible.
 
 > **Note**💡
 
@@ -21,7 +21,7 @@ This dApp building block is intended to reduce L2 gas costs by a significant amo
 
 While security in our top priority, we aim to enhance developer experience, such that the entire protocol is not required to re-written from scratch.
 
-What you need to do is specify how argument is packed into one single calldata, then our cli will generate required files for you !!
+What you need to do is specify how argument is packed into one single calldata, then our CLI will generate required files for you !!
 
 
 ## Benchmarks
@@ -197,7 +197,7 @@ You can read the parameter values from the [gas oracle contract](https://optimis
 
 For simplicity, we use the UniswapV2's router as mentioned in [Benchmarks](#benchmarks) as an example.
 
-1. Build the cli binary
+1. Build the binary for CLI
 
 ```sh
 cargo build
