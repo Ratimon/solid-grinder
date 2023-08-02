@@ -221,11 +221,13 @@ pub fn get_contract(
                     memory_type,
                     r#type: args_type,
                     custom_type,
-                    packed_bit_size: 0
+                    packed_bit_size: 0,
+                    is_final: false,
                 };
             })
             .collect()
     };
+
 
     // println!(
     //     "{:?} {:?} {:?} {:?} ",
@@ -237,6 +239,10 @@ pub fn get_contract(
     // );
     if args.iter().any(|arg| arg.r#type != "address" && arg.r#type != "uint256") {
         return Err("We currently only support `address` and`uint256`type. Please modify your data type to either address or uint256".to_string())
+    }
+
+    if let Some(final_arg) = args.last_mut() {
+        final_arg.is_final = true;
     }
 
     for (arg, &bit) in args.iter_mut().zip(bits.iter()) {

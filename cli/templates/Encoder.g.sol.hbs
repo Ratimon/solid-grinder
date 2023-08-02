@@ -49,7 +49,7 @@ contract {{contract_name}}_DataEncode {
      * @dev same abi as original one, but different return
     */
     function encode_{{#with this}}{{function_name}}Data{{/with}}(
-        {{#each this.function.args}}{{#if this.custom_type}}_{{../contract_name}}.{{/if}}{{this.type}} {{#if this.memory_type }}memory{{/if}} {{this.arg_name}},{{/each}}
+        {{#each this.function.args}}{{#if this.custom_type}}_{{../contract_name}}.{{/if}}{{this.type}}{{#if this.memory_type }} memory{{/if}} {{this.arg_name}}{{#unless this.is_final }}, {{/unless}}{{/each}}
     )
         external
         view
@@ -57,7 +57,6 @@ contract {{contract_name}}_DataEncode {
             bytes memory _compressedPayload
         )
     {
-
-      
+    }
 
 }

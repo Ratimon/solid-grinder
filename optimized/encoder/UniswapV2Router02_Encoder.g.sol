@@ -63,7 +63,7 @@ contract UniswapV2Router02_DataEncode {
      * @dev same abi as original one, but different return
     */
     function encode_addLiquidityData(
-        address  tokenA,address  tokenB,uint256  amountADesired,uint256  amountBDesired,uint256  amountAMin,uint256  amountBMin,address  to,uint256  deadline,
+        address tokenA, address tokenB, uint256 amountADesired, uint256 amountBDesired, uint256 amountAMin, uint256 amountBMin, address to, uint256 deadline
     )
         external
         view
@@ -71,7 +71,6 @@ contract UniswapV2Router02_DataEncode {
             bytes memory _compressedPayload
         )
     {
-
-      
+    }
 
 }
