@@ -216,7 +216,6 @@ pub fn get_contract(
                 };
 
                 return FunctionArgObject {
-                    function_name: function_name.to_string(),
                     arg_name: arg_name.to_string(),
                     instruction: instruction,
                     memory_type,
@@ -249,7 +248,6 @@ pub fn get_contract(
         .iter()
         .map(|arg| EncodingObject {
             instruction: arg.instruction.clone(),
-            function_name: arg.function_name.clone(),
             r#type: arg.r#type.clone(),
             packed_bit_size: arg.packed_bit_size,
             packed_byte_size: arg.packed_bit_size / 8,
@@ -259,7 +257,7 @@ pub fn get_contract(
         .collect();
 
     let mut seen = HashSet::new();
-    encodings.retain(|encoding| seen.insert((encoding.instruction.clone(), encoding.function_name.clone(), encoding.packed_bit_size)));
+    encodings.retain(|encoding| seen.insert((encoding.instruction.clone(), encoding.packed_bit_size)));
 
     match args.len() {
         args_length if args_length == bits.len() => {

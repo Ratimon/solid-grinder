@@ -25,13 +25,13 @@ contract {{contract_name}}_DataDecoder {
         view
         returns ({{#with this}}{{function_name}}Data{{/with}} memory _{{#with this}}{{function_name}}Data{{/with}}, uint256 _newCursor)
     {
-        {{#each this.function.args}}(_{{this.function_name}}Data.{{this.arg_name}}, _cursor) = _{{this.instruction}}_{{this.function_name}}_{{this.packed_bit_size}}bits(_data, _cursor);
+        {{#each this.function.args}}(_{{../function_name}}Data.{{this.arg_name}}, _cursor) = _{{this.instruction}}_{{../function_name}}_{{this.packed_bit_size}}bits(_data, _cursor);
         {{/each}}
         _newCursor = _cursor;
     }
 
 
-    {{#each this.function.encodings}}function _{{this.instruction}}_{{this.function_name}}_{{this.packed_bit_size}}bits(bytes memory _data, uint256 _cursor)
+    {{#each this.function.encodings}}function _{{this.instruction}}_{{../function_name}}_{{this.packed_bit_size}}bits(bytes memory _data, uint256 _cursor)
         internal
         {{#if this.address_type }}view{{/if}}
         {{#if this.uint256_type }}pure{{/if}}

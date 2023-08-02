@@ -9,7 +9,7 @@ contract {{contract_name}}_DataEncode {
 
     IAddressTable public immutable addressTable;
 
-    {{#each this.function.args}}uint8 private constant {{this.function_name}}_{{this.arg_name}}_BitSize = {{this.packed_bit_size}};
+    {{#each this.function.args}}uint8 private constant {{../function_name}}_{{this.arg_name}}_BitSize = {{this.packed_bit_size}};
     {{/each}}
 
     uint8[] public unpackedBits;
@@ -27,7 +27,7 @@ contract {{contract_name}}_DataEncode {
      */
     function initPackedBits() private {
 
-        {{#each this.function.args}}unpackedBits.push({{this.function_name}}_{{this.arg_name}}_BitSize);
+        {{#each this.function.args}}unpackedBits.push({{../function_name}}_{{this.arg_name}}_BitSize);
         {{/each}}
 
         uint16 bitsSum = 0;

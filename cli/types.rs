@@ -2,7 +2,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]
 pub struct FunctionArgObject {
-    pub function_name: String,
     pub arg_name: String,
     pub instruction: String,
     pub memory_type: bool,
@@ -14,7 +13,6 @@ pub struct FunctionArgObject {
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]
 pub struct EncodingObject {
     pub instruction: String,
-    pub function_name: String,
     pub r#type: String,
     pub packed_bit_size: u16,
     pub packed_byte_size: u16,
