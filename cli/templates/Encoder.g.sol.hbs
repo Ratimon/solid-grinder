@@ -3,6 +3,17 @@ pragma solidity ^0.8.0;
 
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
-contract UniswapV2Router02_DataEncoder {
+{{#with this}}
+contract {{contract_name}}_DataEncode {
+{{/with}}
+
     IAddressTable public immutable addressTable;
+
+    {{#each this.function.args}}uint8 private constant {{this.function_name}}_{{this.arg_name}}_BitSize = {{this.packed_bit_size}};
+    {{/each}}
+
+    uint8[] public unpackedBits;
+    uint8[] public subBits;
+    uint8[][] public packedBits;
+
 }
