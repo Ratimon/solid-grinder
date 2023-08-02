@@ -59,4 +59,19 @@ contract UniswapV2Router02_DataEncode {
         delete subBits;
     }
 
+    /**
+     * @dev same abi as original one, but different return
+    */
+    function encode_addLiquidityData(
+        address  tokenA,address  tokenB,uint256  amountADesired,uint256  amountBDesired,uint256  amountAMin,uint256  amountBMin,address  to,uint256  deadline,
+    )
+        external
+        view
+        returns (
+            bytes memory _compressedPayload
+        )
+    {
+
+      
+
 }
