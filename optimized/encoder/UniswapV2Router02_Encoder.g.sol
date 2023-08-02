@@ -19,4 +19,44 @@ contract UniswapV2Router02_DataEncode {
     uint8 private constant addLiquidity_deadline_BitSize = 40;
     
 
+    uint8[] public unpackedBits;
+    uint8[] public subBits;
+    uint8[][] public packedBits;
+
+    constructor(IAddressTable _addressTable) {
+        addressTable = _addressTable;
+        initPackedBits();
+    }
+
+    /**
+     * @notice init the array to store the byte chunks to be encode
+     *
+     */
+    function initPackedBits() private {
+
+        unpackedBits.push(addLiquidity_tokenA_BitSize);
+        unpackedBits.push(addLiquidity_tokenB_BitSize);
+        unpackedBits.push(addLiquidity_amountADesired_BitSize);
+        unpackedBits.push(addLiquidity_amountBDesired_BitSize);
+        unpackedBits.push(addLiquidity_amountAMin_BitSize);
+        unpackedBits.push(addLiquidity_amountBMin_BitSize);
+        unpackedBits.push(addLiquidity_to_BitSize);
+        unpackedBits.push(addLiquidity_deadline_BitSize);
+        
+
+        uint16 bitsSum = 0;
+
+        for (uint256 i = 0; i < unpackedBits.length; i++) {
+            bitsSum += unpackedBits[i];
+            if (bitsSum > 256) {
+                packedBits.push(subBits);
+                delete subBits;
+                bitsSum = unpackedBits[i];
+            }
+            subBits.push(unpackedBits[i]);
+        }
+        packedBits.push(subBits);
+        delete subBits;
+    }
+
 }

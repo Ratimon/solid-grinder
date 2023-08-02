@@ -44,9 +44,8 @@ contract UniswapV2Router02_DataEncoder {
         // [24, 24, 96 , 96, 96 , 96, 24, 40  ] => [ [24, 24, 96 , 96], [96, 96, 24, 40] ]
 
         // if all element accumulated sum <= 256 bits, just push to the current subBits
-        // if all element accumulated sum >= 256 bits , skip the current subBits and psuh to next subarray / renew the tracker
+        // if all element accumulated sum >= 256 bits , skip the current subBits and push to next subarray / renew the tracker
 
-        // unpackedBits = [];
         unpackedBits.push(AddLiquidity_tokenA_BitSize);
         unpackedBits.push(AddLiquidity_tokenB_BitSize);
         unpackedBits.push(AddLiquidity_amountADesired_BitSize);

@@ -16,4 +16,33 @@ contract {{contract_name}}_DataEncode {
     uint8[] public subBits;
     uint8[][] public packedBits;
 
+    constructor(IAddressTable _addressTable) {
+        addressTable = _addressTable;
+        initPackedBits();
+    }
+
+    /**
+     * @notice init the array to store the byte chunks to be encode
+     *
+     */
+    function initPackedBits() private {
+
+        {{#each this.function.args}}unpackedBits.push({{this.function_name}}_{{this.arg_name}}_BitSize);
+        {{/each}}
+
+        uint16 bitsSum = 0;
+
+        for (uint256 i = 0; i < unpackedBits.length; i++) {
+            bitsSum += unpackedBits[i];
+            if (bitsSum > 256) {
+                packedBits.push(subBits);
+                delete subBits;
+                bitsSum = unpackedBits[i];
+            }
+            subBits.push(unpackedBits[i]);
+        }
+        packedBits.push(subBits);
+        delete subBits;
+    }
+
 }
