@@ -71,11 +71,18 @@ contract UniswapV2Router02_DataEncode {
             bytes memory _compressedPayload
         )
     {
-        uint256 tokenA = addressTable.lookup(tokenA);
-        uint256 tokenB = addressTable.lookup(tokenB);
-        uint256 to = addressTable.lookup(to);
+        uint256 tokenAIndex = addressTable.lookup(tokenA);
+        require(tokenAIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData tokenAIndex is too large, uint24 support only.");
+        uint256 tokenBIndex = addressTable.lookup(tokenB);
+        require(tokenBIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData tokenBIndex is too large, uint24 support only.");
         
-
+        
+        
+        
+        uint256 toIndex = addressTable.lookup(to);
+        require(toIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData toIndex is too large, uint24 support only.");
+        
+        
     }
 
 }
