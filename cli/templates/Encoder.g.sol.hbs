@@ -62,6 +62,32 @@ contract {{contract_name}}_DataEncode {
         {{/each}}
         {{#each this.function.args}}{{#if this.uint256_type }}require({{this.arg_name}} <= type(uint{{this.packed_bit_size}}).max, "{{../contract_name}}_DataEncoder: encode_{{../function_name}}Data {{this.arg_name}}Index is too large, uint{{this.packed_bit_size}} support only.");{{/if}}
         {{/each}}
+
+        uint256[] memory unpackedArguments = new uint256[](unpackedBits.length);
+        uint8 unpackedArgumentsIndex;
+
+        {{#each this.function.args}}unpackedArguments[unpackedArgumentsIndex] = {{this.arg_name}}{{#if this.address_type }}Index{{/if}};
+        unpackedArgumentsIndex++;
+        {{/each}}
+
+
+        unpackedArguments[unpackedArgumentsIndex] = tokenAIndex;
+        unpackedArgumentsIndex++;
+       
+        unpackedArguments[unpackedArgumentsIndex] = tokenBIndex;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountADesired;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountBDesired;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountAMin;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountBMin;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = toIndex;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = deadline;
+        unpackedArgumentsIndex++;
     }
 
 }

@@ -92,6 +92,27 @@ contract UniswapV2Router02_DataEncode {
         
         require(deadline <= type(uint40).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData deadlineIndex is too large, uint40 support only.");
         
+
+        uint256[] memory unpackedArguments = new uint256[](unpackedBits.length);
+        uint8 unpackedArgumentsIndex;
+
+        unpackedArguments[unpackedArgumentsIndex] = tokenAIndex;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = tokenBIndex;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountADesired;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountBDesired;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountAMin;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = amountBMin;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = toIndex;
+        unpackedArgumentsIndex++;
+        unpackedArguments[unpackedArgumentsIndex] = deadline;
+        unpackedArgumentsIndex++;
+        
     }
 
 }
