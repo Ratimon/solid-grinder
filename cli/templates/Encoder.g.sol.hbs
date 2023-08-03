@@ -57,6 +57,9 @@ contract {{contract_name}}_DataEncode {
             bytes memory _compressedPayload
         )
     {
+        {{#each this.function.args}}{{#if this.address_type }}uint256 {{this.arg_name}} = addressTable.lookup({{this.arg_name}});
+        {{/if}}{{/each}}
+
     }
 
 }

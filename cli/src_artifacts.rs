@@ -188,13 +188,13 @@ pub fn get_contract(
 
                 let mut args_type: String = components.get(0).unwrap().to_string();
 
-                let instruction: String = if args_type.eq("address") {
-                    "lookupAddress".to_string()
-                } else if args_type.eq("uint256") {
-                    "deserializeAmount".to_string()
-                } else {
-                    "deserializeAmount".to_string()
+                let instruction: String = match args_type.as_str() {
+                    "address" => "lookupAddress".to_string(),
+                    "uint256" => "deserializeAmount".to_string(),
+                    _ => "deserializeAmount".to_string(),
                 };
+
+                let address_type: bool = args_type == "address";
 
                 let custom_type = is_custom_type(&args_type);
 
@@ -220,6 +220,7 @@ pub fn get_contract(
                     instruction: instruction,
                     memory_type,
                     r#type: args_type,
+                    address_type,
                     custom_type,
                     packed_bit_size: 0,
                     is_final: false,
@@ -255,10 +256,10 @@ pub fn get_contract(
         .map(|arg| EncodingObject {
             instruction: arg.instruction.clone(),
             r#type: arg.r#type.clone(),
+            address_type: arg.address_type.clone(), 
+            uint256_type: arg.r#type.eq("uint256"), 
             packed_bit_size: arg.packed_bit_size,
             packed_byte_size: arg.packed_bit_size / 8,
-            address_type: arg.r#type.eq("address"), 
-            uint256_type: arg.r#type.eq("uint256"), 
         })
         .collect();
 

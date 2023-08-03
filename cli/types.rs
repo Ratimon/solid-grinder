@@ -7,6 +7,7 @@ pub struct FunctionArgObject {
     pub memory_type: bool,
     pub r#type: String,
     pub custom_type: bool,
+    pub address_type: bool,
     pub packed_bit_size: u16,
     pub is_final: bool
 }
@@ -15,10 +16,10 @@ pub struct FunctionArgObject {
 pub struct EncodingObject {
     pub instruction: String,
     pub r#type: String,
-    pub packed_bit_size: u16,
-    pub packed_byte_size: u16,
     pub address_type: bool,
     pub uint256_type: bool,
+    pub packed_bit_size: u16,
+    pub packed_byte_size: u16,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]

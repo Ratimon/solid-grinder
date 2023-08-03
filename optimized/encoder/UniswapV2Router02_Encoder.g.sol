@@ -71,6 +71,11 @@ contract UniswapV2Router02_DataEncode {
             bytes memory _compressedPayload
         )
     {
+        uint256 tokenA = addressTable.lookup(tokenA);
+        uint256 tokenB = addressTable.lookup(tokenB);
+        uint256 to = addressTable.lookup(to);
+        
+
     }
 
 }
