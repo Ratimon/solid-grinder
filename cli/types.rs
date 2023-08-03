@@ -8,6 +8,7 @@ pub struct FunctionArgObject {
     pub r#type: String,
     pub custom_type: bool,
     pub address_type: bool,
+    pub uint256_type: bool,
     pub packed_bit_size: u16,
     pub is_final: bool
 }

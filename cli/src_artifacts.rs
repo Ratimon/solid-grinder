@@ -195,6 +195,7 @@ pub fn get_contract(
                 };
 
                 let address_type: bool = args_type == "address";
+                let uint256_type: bool = args_type == "uint256";
 
                 let custom_type = is_custom_type(&args_type);
 
@@ -221,6 +222,7 @@ pub fn get_contract(
                     memory_type,
                     r#type: args_type,
                     address_type,
+                    uint256_type,
                     custom_type,
                     packed_bit_size: 0,
                     is_final: false,
@@ -257,7 +259,7 @@ pub fn get_contract(
             instruction: arg.instruction.clone(),
             r#type: arg.r#type.clone(),
             address_type: arg.address_type.clone(), 
-            uint256_type: arg.r#type.eq("uint256"), 
+            uint256_type: arg.uint256_type.clone() ,
             packed_bit_size: arg.packed_bit_size,
             packed_byte_size: arg.packed_bit_size / 8,
         })

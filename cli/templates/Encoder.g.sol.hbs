@@ -60,6 +60,8 @@ contract {{contract_name}}_DataEncode {
         {{#each this.function.args}}{{#if this.address_type }}uint256 {{this.arg_name}}Index = addressTable.lookup({{this.arg_name}});
         require({{this.arg_name}}Index <= type(uint{{this.packed_bit_size}}).max, "{{../contract_name}}_DataEncoder: encode_{{../function_name}}Data {{this.arg_name}}Index is too large, uint{{this.packed_bit_size}} support only.");{{/if}}
         {{/each}}
+        {{#each this.function.args}}{{#if this.uint256_type }}require({{this.arg_name}} <= type(uint{{this.packed_bit_size}}).max, "{{../contract_name}}_DataEncoder: encode_{{../function_name}}Data {{this.arg_name}}Index is too large, uint{{this.packed_bit_size}} support only.");{{/if}}
+        {{/each}}
     }
 
 }

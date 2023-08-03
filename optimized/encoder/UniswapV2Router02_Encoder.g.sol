@@ -83,6 +83,15 @@ contract UniswapV2Router02_DataEncode {
         require(toIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData toIndex is too large, uint24 support only.");
         
         
+        
+        
+        require(amountADesired <= type(uint96).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountADesiredIndex is too large, uint96 support only.");
+        require(amountBDesired <= type(uint96).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBDesiredIndex is too large, uint96 support only.");
+        require(amountAMin <= type(uint96).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountAMinIndex is too large, uint96 support only.");
+        require(amountBMin <= type(uint96).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBMinIndex is too large, uint96 support only.");
+        
+        require(deadline <= type(uint40).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData deadlineIndex is too large, uint40 support only.");
+        
     }
 
 }
