@@ -113,6 +113,36 @@ contract UniswapV2Router02_DataEncode {
         unpackedArguments[unpackedArgumentsIndex] = deadline;
         unpackedArgumentsIndex++;
         
+
+        require(unpackedArguments.length == unpackedBits.length, "length must equal");
+        delete unpackedArgumentsIndex;
+
+        for (uint256 i = 0; i < packedBits.length; i++) {
+            for (uint256 j = 0; j < packedBits[i].length; j++) {
+                _compressedPayload =
+                    concatPayload(packedBits[i][j], _compressedPayload, unpackedArguments[unpackedArgumentsIndex]);
+                unpackedArgumentsIndex++;
+            }
+        }
+
     }
+
+    function concatPayload(uint8 _bitSize, bytes memory _payload, uint256 value)
+        private
+        pure
+        returns (bytes memory _newPayload)
+    {
+        if (_bitSize == 24) {
+            _newPayload = abi.encodePacked(_payload, uint24(value));
+        } else if (_bitSize == 96) {
+            _newPayload = abi.encodePacked(_payload, uint96(value));
+        } else if (_bitSize == 40) {
+            _newPayload = abi.encodePacked(_payload, uint40(value));
+        } else {
+            revert("UniswapV2Router02_DataEncoder: bad bitsize");
+        }
+
+    }
+    
 
 }

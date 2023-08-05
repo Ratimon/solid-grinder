@@ -262,8 +262,13 @@ pub fn get_contract(
             uint256_type: arg.uint256_type.clone() ,
             packed_bit_size: arg.packed_bit_size,
             packed_byte_size: arg.packed_bit_size / 8,
+            is_first: false,
         })
         .collect();
+
+    if let Some(first_arg) = encodings.get_mut(0) {
+        first_arg.is_first = true;
+    }
 
     let mut seen = HashSet::new();
     encodings.retain(|encoding| seen.insert((encoding.instruction.clone(), encoding.packed_bit_size)));

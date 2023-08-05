@@ -21,6 +21,7 @@ pub struct EncodingObject {
     pub uint256_type: bool,
     pub packed_bit_size: u16,
     pub packed_byte_size: u16,
+    pub is_first: bool
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]
