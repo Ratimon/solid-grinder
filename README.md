@@ -2,7 +2,7 @@
 
 be optimism gas optimizooor!!
 
-A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible.
+A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible. 
 
 > **Note**💡
 
@@ -197,25 +197,47 @@ You can read the parameter values from the [gas oracle contract](https://optimis
 
 For simplicity, we use the UniswapV2's router as mentioned in [Benchmarks](#benchmarks) as an example.
 
-1. Build the binary for CLI
+1. Choose a function to optimize then do calldata bit packing. It is the same concept as storage bit packing. The main goal is to pack arguments into single 256 bits, such that the number of bits is lowest, minimizing the calldata as little as possible.
+
+For `uint` type, we can, for example, minimize **the time period** into type of **uint40** (5 bytes). This is safe as the upper bound is around 35k years, which is long enough.
+
+For `address` type, the bit size is specified as  **uint24**, assuming that the address table can store the maximum of 16,777,216 ids.
+
+The following is the guideline how we can define the arguments' ranges.
+
+```ts
+    // 24-bit, 16,777,216 possible
+    // 32-bit, 4,294,967,296  possible
+    // 40-bit, 1,099,511,627,776 => ~35k years
+    // 72-bit, 4,722 (18 decimals)
+    // 88-bit, 309m (18 decimals)
+    // 96-bit,  79b or 79,228,162,514 (18 decimals)
+``` 
+
+> **Note**💡
+
+> Now, the tool only generates one funtion in each iteration. If you intend to optimize two funtions, you can still use it two times and then add the second one to the first one.
+
+
+2. Build the binary for CLI
 
 ```sh
 cargo build
 ```
 
-2. Geneate `decoder` contract
+3. Geneate `decoder` contract
 
 ```sh
 target/debug/solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
 ```
 
-3. Geneate `encoder` contract
+4. Geneate `encoder` contract
 
 ```sh
 target/debug/solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40'
 ```
 
-4. be an  optimism gas optimizooor!!
+5. be an  optimism gas optimizooor!!
 
 > **Note**💡
 
