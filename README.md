@@ -53,12 +53,12 @@ We provide how the UniswapV2's router is optimized as follows:
 
 ```
 
-- The optimized version: including two components. The first one is [ `UniswapV2Router02_Optimized.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02_Optimized.sol) which inherits main functionality from [ `UniswapV2Router02_DataDecoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02_DataDecoder.sol)
+- The optimized version: including two components. The first one is [ `UniswapV2Router02_Optimized.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02_Optimized.sol) which inherits main functionality from [ `UniswapV2Router02_Decoder.g.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/decoder/UniswapV2Router02_Decoder.g.sol)
 
 ```solidity
 
     /** ... */
-    contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Router02_DataDecoder {
+    contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Router02_Decoder {
 
         /** ... */
 
@@ -86,12 +86,12 @@ We provide how the UniswapV2's router is optimized as follows:
 
 ```
 
-The second one is [ `UniswapV2Router02_DataEncoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02_DataEncoder.sol)
+The second one is [ `UniswapV2Router02_Encoder.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/encoder/UniswapV2Router02_Encoder.g.sol)
 
 ```solidity
 
     /** ... */
-   contract UniswapV2Router02_DataEncoder {
+   contract UniswapV2Router02_Encoder {
     IAddressTable public immutable addressTable;
 
         /** ... */
@@ -109,7 +109,7 @@ The second one is [ `UniswapV2Router02_DataEncoder.sol`](https://github.com/Rati
             external
             view
             returns (
-                bytes memory _compressedPayload // bytes32 _compressedPayload
+                bytes memory _compressedPayload
             )
         {
             /** ... */
@@ -212,10 +212,30 @@ target/debug/solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/Un
 3. Geneate `encoder` contract
 
 ```sh
-WIP
+target/debug/solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40'
 ```
 
-4. be optimism gas optimizooor!!
+4. be an  optimism gas optimizooor!!
+
+> **Note**💡
+
+> It is recommended to manually change original (un-optimized) contract's visibility to public. From user perspective, it is then safe to still include the original version, meaning that users can directly and quickly interact via Etherscan in emergency case (i.e. front-end part is down). This is because it is difficult to interact with the optimized version via Etherscan, because the user have to manually compress arguments into single payload themselves.
+
+```solidity
+    /** ... */
+    contract UniswapV2Router02 is IUniswapV2Router02 {
+
+        /** ... */
+
+        function addLiquidity(
+            /** ... */
+        ) public virtual override ensure(deadline) returns (uint256 amountA, uint256 amountB, uint256 liquidity) {
+            /** ... */
+        }
+        /** ... */
+    }
+
+```
 
 
 ## How It Works
@@ -224,7 +244,7 @@ It works by optimizing calldata by using as little bytes of calldata as possible
 
 Specifically, Our novel components are as follows:
 
-1. Solidity snippets: one contract to encode call data on chain. Another to decode it. This compoent has following feat:
+1. Solidity snippets: one contract to encode call data on chain. Another to decode it. This component has following feat:
 
    - AddressTable: to store **the mapping between addresses and indexes**, allowing:
      - The **address** can be registered to the contract, then the index is generated.
