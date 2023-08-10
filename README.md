@@ -180,7 +180,7 @@ and `l1_data_fee` is :
 l1_data_fee = l1_gas_price * (tx_data_gas + fixed_overhead) * dynamic_overhead
 ```
 
-Where `tx_data_gas` is:
+where `tx_data_gas` is:
 
 ```sh
 tx_data_gas = count_zero_bytes(tx_data) * 4 + count_non_zero_bytes(tx_data) * 16
@@ -211,12 +211,12 @@ The following is the guideline how we can define the arguments' ranges.
     // 40-bit, 1,099,511,627,776 => ~35k years
     // 72-bit, 4,722 (18 decimals)
     // 88-bit, 309m (18 decimals)
-    // 96-bit,  79b or 79,228,162,514 (18 decimals)
+    // 96-bit, 79b or 79,228,162,514 (18 decimals)
 ``` 
 
 > **Note**💡
 
-> Now, the tool only generates one funtion in each iteration. If you intend to optimize two funtions, you can still use it two times and then add the second one to the first one.
+> Now, the tool only generates one function in each iteration. If you intend to optimize two functions, you can still use it two times and then add the second one to the first one.
 
 
 2. Build the binary for CLI
@@ -225,13 +225,13 @@ The following is the guideline how we can define the arguments' ranges.
 cargo build
 ```
 
-3. Geneate `decoder` contract
+3. Generate `decoder` contract
 
 ```sh
 target/debug/solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
 ```
 
-4. Geneate `encoder` contract
+4. Generate `encoder` contract
 
 ```sh
 target/debug/solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40'
@@ -274,12 +274,12 @@ Specifically, Our novel components are as follows:
    - Data Serialization, allowing:
      - The encoded calldata could be deserialized into the correct type
      - For example, if we choose to reduce the calldata by sending the time period as arguments with type of uint40 (5 bytes) instead of uint256, the calldata should be sliced at the correct offset and the result can be correctly used in the next steps.
-2. Front-end snippets: to atomically connect between encoding and deconding componet into single call
-3. CLI: to geneate the above solidty snippets (,including Encoder and Decode contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
+2. Front-end snippets: to atomically connect between encoding and decoding component into single call
+3. CLI: to generate the above solidity snippets (,including Encoder and Decode contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
 
 
 ## Architecture
 
 WIP
 
-Change original (unoptimized) contract's visibillity to public first
+Change original (un-optimized) contract's visibility to public first
