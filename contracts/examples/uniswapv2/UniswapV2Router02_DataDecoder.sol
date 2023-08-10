@@ -13,7 +13,7 @@ contract UniswapV2Router02_DataDecoder {
         addressTable = _addressTable;
     }
 
-    struct AddLiquidityData {
+    struct addLiquidityData {
         address tokenA;
         address tokenB;
         uint256 amountADesired;
@@ -24,26 +24,26 @@ contract UniswapV2Router02_DataDecoder {
         uint256 deadline;
     }
 
-    function _decode_AddLiquidityData(bytes memory _data, uint256 _cursor)
+    function _decode_addLiquidityData(bytes memory _data, uint256 _cursor)
         internal
         view
-        returns (AddLiquidityData memory _addLiquidityData, uint256 _newCursor)
+        returns (addLiquidityData memory _addLiquidityData, uint256 _newCursor)
     {
-        (_addLiquidityData.tokenA, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
-        (_addLiquidityData.tokenB, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
+        (_addLiquidityData.tokenA, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
+        (_addLiquidityData.tokenB, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
 
-        (_addLiquidityData.amountADesired, _cursor) = _deserializeAmount_AddLiquidity_96bits(_data, _cursor);
-        (_addLiquidityData.amountBDesired, _cursor) = _deserializeAmount_AddLiquidity_96bits(_data, _cursor);
-        (_addLiquidityData.amountAMin, _cursor) = _deserializeAmount_AddLiquidity_96bits(_data, _cursor);
-        (_addLiquidityData.amountBMin, _cursor) = _deserializeAmount_AddLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountADesired, _cursor) = _deserializeAmount_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountBDesired, _cursor) = _deserializeAmount_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountAMin, _cursor) = _deserializeAmount_addLiquidity_96bits(_data, _cursor);
+        (_addLiquidityData.amountBMin, _cursor) = _deserializeAmount_addLiquidity_96bits(_data, _cursor);
 
-        (_addLiquidityData.to, _cursor) = _lookupAddress_AddLiquidity_24bits(_data, _cursor);
-        (_addLiquidityData.deadline, _cursor) = _deserializeAmount_AddLiquidity_40bits(_data, _cursor);
+        (_addLiquidityData.to, _cursor) = _lookupAddress_addLiquidity_24bits(_data, _cursor);
+        (_addLiquidityData.deadline, _cursor) = _deserializeAmount_addLiquidity_40bits(_data, _cursor);
 
         _newCursor = _cursor;
     }
 
-    function _lookupAddress_AddLiquidity_24bits(bytes memory _data, uint256 _cursor)
+    function _lookupAddress_addLiquidity_24bits(bytes memory _data, uint256 _cursor)
         internal
         view
         returns (address _decoded, uint256 _newCursor)
@@ -62,7 +62,7 @@ contract UniswapV2Router02_DataDecoder {
     // 96-bit,  79b or 79,228,162,514 (18 decimals)
     // 112-bit, 5,192mm (denominated in 1e18)
 
-    function _deserializeAmount_AddLiquidity_40bits(bytes memory _data, uint256 _cursor)
+    function _deserializeAmount_addLiquidity_40bits(bytes memory _data, uint256 _cursor)
         internal
         pure
         returns (uint256 _decoded, uint256 _newCursor)
@@ -74,7 +74,7 @@ contract UniswapV2Router02_DataDecoder {
         _newCursor = _cursor;
     }
 
-    function _deserializeAmount_AddLiquidity_96bits(bytes memory _data, uint256 _cursor)
+    function _deserializeAmount_addLiquidity_96bits(bytes memory _data, uint256 _cursor)
         internal
         pure
         returns (uint256 _decoded, uint256 _newCursor)

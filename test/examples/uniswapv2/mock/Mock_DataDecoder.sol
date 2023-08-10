@@ -11,12 +11,12 @@ import {UniswapV2Router02_DataDecoder} from "@main/examples/uniswapv2/UniswapV2R
 contract Mock_DataDecoder is UniswapV2Router02_DataDecoder {
     constructor(IAddressTable _addressTable) UniswapV2Router02_DataDecoder(_addressTable) {}
 
-    function decode_AddLiquidityData(bytes calldata _payload)
+    function decode_addLiquidityData(bytes calldata _payload)
         external
         payable
         returns (address, address, uint256, uint256, uint256, uint256, address, uint256)
     {
-        (AddLiquidityData memory addLiquidityData,) = _decode_AddLiquidityData(_payload, 0);
+        (addLiquidityData memory addLiquidityData,) = _decode_addLiquidityData(_payload, 0);
 
         return (
             addLiquidityData.tokenA,

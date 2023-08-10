@@ -21,7 +21,7 @@ contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Rou
         payable
         returns (uint256 amountA, uint256 amountB, uint256 liquidity)
     {
-        (AddLiquidityData memory addLiquidityData,) = _decode_AddLiquidityData(_payload, 0);
+        (addLiquidityData memory addLiquidityData,) = _decode_addLiquidityData(_payload, 0);
 
         return UniswapV2Router02.addLiquidity(
             addLiquidityData.tokenA,

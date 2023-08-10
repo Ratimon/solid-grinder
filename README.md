@@ -67,7 +67,7 @@ We provide how the UniswapV2's router is optimized as follows:
             payable
             returns (uint256 amountA, uint256 amountB, uint256 liquidity)
         {
-            (AddLiquidityData memory addLiquidityData,) = _decode_AddLiquidityData(_payload, 0);
+            (addLiquidityData memory addLiquidityData,) = _decode_addLiquidityData(_payload, 0);
 
             return UniswapV2Router02.addLiquidity(
                 addLiquidityData.tokenA,
@@ -96,7 +96,7 @@ The second one is [ `UniswapV2Router02_DataEncoder.sol`](https://github.com/Rati
 
         /** ... */
 
-        function encode_AddLiquidityData(
+        function encode_addLiquidityData(
             address tokenA,
             address tokenB,
             uint256 amountADesired,

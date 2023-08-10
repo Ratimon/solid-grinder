@@ -54,7 +54,7 @@ contract UniswapV2Router02_DataDecoderTest is Test {
         vm.stopPrank();
     }
 
-    function test_decode_AddLiquidityData() external {
+    function test_decode_addLiquidityData() external {
         vm.startPrank(alice);
 
         address tokenA = makeAddr("tokenA");
@@ -65,7 +65,7 @@ contract UniswapV2Router02_DataDecoderTest is Test {
         table.register(tokenB);
         table.register(to);
 
-        bytes memory compressedPayload = encoder.encode_AddLiquidityData(
+        bytes memory compressedPayload = encoder.encode_addLiquidityData(
             tokenA,
             tokenB,
             1_200 ether, // amountADesired,
@@ -90,7 +90,7 @@ contract UniswapV2Router02_DataDecoderTest is Test {
             uint256 decodedAmountBMin,
             address decodedTo,
             uint256 decodedDeadline
-        ) = decoder.decode_AddLiquidityData(compressedPayload);
+        ) = decoder.decode_addLiquidityData(compressedPayload);
 
         assertEq(decodedTokenA, tokenA);
         assertEq(decodedTokenB, tokenB);

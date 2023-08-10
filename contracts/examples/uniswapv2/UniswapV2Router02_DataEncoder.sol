@@ -89,7 +89,7 @@ contract UniswapV2Router02_DataEncoder {
     /**
      * @dev same abi as original one, but different return
      */
-    function encode_AddLiquidityData(
+    function encode_addLiquidityData(
         address tokenA,
         address tokenB,
         uint256 amountADesired,
@@ -109,41 +109,41 @@ contract UniswapV2Router02_DataEncoder {
         uint256 tokenBIndex = addressTable.lookup(tokenB);
         require(
             tokenAIndex <= type(uint24).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData tokenAIndex is too large, uint24 support only."
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData tokenAIndex is too large, uint24 support only."
         );
         require(
             tokenBIndex <= type(uint24).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData tokenBIndex is too large, uint24 support only."
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData tokenBIndex is too large, uint24 support only."
         );
 
         require(
             amountADesired <= type(uint96).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData amountADesired is too large, uint96 support only."
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountADesired is too large, uint96 support only."
         );
         require(
             amountBDesired <= type(uint96).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData amountBDesired is too large, uint96 support only."
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBDesired is too large, uint96 support only."
         );
 
         require(
             amountAMin <= type(uint96).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData amountAMin is too large, uint96 support only."
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountAMin is too large, uint96 support only."
         );
         require(
             amountBMin <= type(uint96).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData amountBMin is too large, uint96 support only."
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBMin is too large, uint96 support only."
         );
 
         uint256 toIndex = addressTable.lookup(to);
 
         require(
             toIndex <= type(uint24).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData toIndex is too large, uint24 support only."
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData toIndex is too large, uint24 support only."
         );
 
         require(
             deadline <= type(uint40).max,
-            "UniswapV2Router02_DataEncoder: encode_AddLiquidityData amountBMin is too large, uint40 support only."
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBMin is too large, uint40 support only."
         );
 
         uint256[] memory unpackedArguments = new uint256[](unpackedBits.length);
