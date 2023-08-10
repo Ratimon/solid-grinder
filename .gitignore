@@ -17,3 +17,15 @@ docs/
 # Added by cargo
 
 /target
+
+
+# npm
+
+/run.js
+/install.js
+/binary.js
+/binary-install.js
+node_modules
+pnpm-lock.yaml
+
+.DS_Store

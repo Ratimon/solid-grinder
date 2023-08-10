@@ -2,7 +2,10 @@
 name = "solid-grinder"
 version = "0.0.0"
 edition = "2021"
-publish = false
+description = "A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible."
+repository = "https://github.com/Ratimon/solid-grinder"
+homepage = "https://github.com/Ratimon/solid-grinder"
+documentation = "https://github.com/Ratimon/solid-grinder#README.md"
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
