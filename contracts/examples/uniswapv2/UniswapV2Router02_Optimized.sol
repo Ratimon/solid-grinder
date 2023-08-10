@@ -5,15 +5,15 @@ import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {UniswapV2Router02} from "@main/examples/uniswapv2/UniswapV2Router02.sol";
-import {UniswapV2Router02_DataDecoder} from "@main/examples/uniswapv2/UniswapV2Router02_DataDecoder.sol";
+import {UniswapV2Router02_Decoder} from "@main/examples/uniswapv2/decoder/UniswapV2Router02_Decoder.g.sol";
 
 /**
  * @notice optimized version
  */
-contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Router02_DataDecoder {
+contract UniswapV2Router02_Optimized is UniswapV2Router02, Ownable, UniswapV2Router02_Decoder {
     constructor(address _factory, address _WETH, IAddressTable _addressTable)
         UniswapV2Router02(_factory, _WETH)
-        UniswapV2Router02_DataDecoder(_addressTable)
+        UniswapV2Router02_Decoder(_addressTable)
     {}
 
     function addLiquidityCompressed(bytes calldata _payload)

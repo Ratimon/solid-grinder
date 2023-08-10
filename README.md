@@ -206,7 +206,7 @@ cargo build
 2. Geneate `decoder` contract
 
 ```sh
-target/debug/solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'optimized' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
+target/debug/solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
 ```
 
 3. Geneate `encoder` contract

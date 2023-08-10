@@ -5,7 +5,7 @@ import {IAddressTable} from "@solid-grinder/interfaces/IAddressTable.sol";
 import {BytesLib} from "@main/libraries/BytesLib.sol";
 
 
-contract UniswapV2Router02_DataDecoder {
+contract UniswapV2Router02_Decoder {
 
 
     using BytesLib for bytes;

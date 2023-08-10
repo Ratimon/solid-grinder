@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 
 
-contract UniswapV2Router02_DataEncode {
+contract UniswapV2Router02_Encoder {
 
 
     IAddressTable public immutable addressTable;
@@ -143,6 +143,5 @@ contract UniswapV2Router02_DataEncode {
         }
 
     }
-    
 
 }

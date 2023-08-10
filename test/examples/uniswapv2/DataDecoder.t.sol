@@ -7,8 +7,8 @@ import {Test, stdError} from "@forge-std/Test.sol";
 import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
 import {AddressTable} from "@main/AddressTable.sol";
 
-import {UniswapV2Router02_DataEncoder} from "@main/examples/uniswapv2/UniswapV2Router02_DataEncoder.sol";
-import {Mock_DataDecoder} from "@test/examples/uniswapv2/mock/Mock_DataDecoder.sol";
+import {UniswapV2Router02_Encoder} from "@main/examples/uniswapv2/encoder/UniswapV2Router02_Encoder.g.sol";
+import {Mock_Decoder} from "@test/examples/uniswapv2/mock/Mock_Decoder.sol";
 
 contract UniswapV2Router02_DataDecoderTest is Test {
     string mnemonic = "test test test test test test test test test test test junk";
@@ -18,8 +18,8 @@ contract UniswapV2Router02_DataDecoderTest is Test {
     address alice = makeAddr("Alice");
 
     AddressTable table;
-    UniswapV2Router02_DataEncoder encoder;
-    Mock_DataDecoder decoder;
+    UniswapV2Router02_Encoder encoder;
+    Mock_Decoder decoder;
 
     function setUp() public {
         vm.startPrank(deployer);
@@ -28,12 +28,12 @@ contract UniswapV2Router02_DataDecoderTest is Test {
         vm.label(deployer, "Deployer");
 
         table = new AddressTable();
-        encoder = new UniswapV2Router02_DataEncoder(table);
-        decoder = new Mock_DataDecoder(table);
+        encoder = new UniswapV2Router02_Encoder(table);
+        decoder = new Mock_Decoder(table);
 
         vm.label(address(table), "AddressTable");
-        vm.label(address(encoder), "UniswapV2Router02_DataEncoder");
-        vm.label(address(decoder), "Mock_DataDecoder");
+        vm.label(address(encoder), "UniswapV2Router02_Encoder");
+        vm.label(address(decoder), "Mock_Decoder");
 
         vm.stopPrank();
     }
