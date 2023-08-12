@@ -1,6 +1,6 @@
 {
   "name": "solid-grinder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible.",
   "scripts": {
     "preinstall": "node ./install.js"
