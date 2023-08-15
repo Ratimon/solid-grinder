@@ -2,7 +2,7 @@
 
 be optimism gas optimizooor!!
 
-A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible. 
+A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible. 
 
 > **Note**💡
 
@@ -10,6 +10,7 @@ A CLI that goes along with building blocks of smart contract. Along with our fr
 
 - [What is it for](#what-is-it-for)
 - [Benchmarks](#benchmarks)
+- [Installation](#installation)
 - [Quickstart](#quickstart)
 - [How It Works](#how-it-works)
 - [Architecture](#architecture)
@@ -191,9 +192,72 @@ You can read the parameter values from the [gas oracle contract](https://optimis
 > The more detail could be found at the [Optimism&#39;s Documentation](https://community.optimism.io/docs/developers/build/transaction-fees/#).
 
 
+## Installation
+
+There are 2 ways: [without npm](#without-npm) and one [with npm](#with-npm)
+
+### with npm
+
+We assume that you already setup your working environment with **hardhat** + **foundry** as specified in [foundry 's guide](https://book.getfoundry.sh/config/hardhat) or [hardhat 's guide](https://hardhat.org/hardhat-runner/docs/advanced/hardhat-and-foundry) and `cd` into it
+
+```bash
+cd my-project;
+``` 
+
+1. add the `solid-grinder` **npm** package:
+
+```sh
+yarn add -D solid-grinder
+```
+This will automatically add the `solid-grinder` binary 
+
+2. Add the following line in `package.json`:
+
+```json
+
+  "scripts": {
+    "solid-grinder": "solid-grinder"
+    }
+
+```
+3. Once you have finished the installation, we can check if it was successful.
+
+```sh
+yarn solid-grinder -V
+```
+
+### without npm
+
+We assume that you already have a forge project
+
+```bash
+mkdir my-project;
+cd my-project;
+forge init;
+```
+
+1. Add the `solid-grinder` **crates** package:
+
+```bash
+forge install Ratimon/solid-grinder@v0.0.4;
+```
+
+2. Build the cli directly from `lib/solid-grinder`
+
+```bash
+cd lib/solid-grinder;
+cargo build --release;
+cp target/release/solid-grinder ../../solid-grinder;
+```
+
+3. Once you have finished the installation, we can check if it was successful.
+
+```sh
+./solid-grinder <command>
+```
+
 ## Quickstart
 
-(WIP)
 
 For simplicity, we use the UniswapV2's router as mentioned in [Benchmarks](#benchmarks) as an example.
 
@@ -219,22 +283,23 @@ The following is the guideline how we can define the arguments' ranges.
 > Now, the tool only generates one function in each iteration. If you intend to optimize two functions, you can still use it two times and then add the second one to the first one.
 
 
-2. Build the binary for CLI
+2. As an illustration, copy the folder [ `examples`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/encoder/UniswapV2Router02_Encoder.g.sol) into your `/contracts`
 
 ```sh
-cargo build
+├── contracts
+│   ├── examples/
 ```
 
-3. Generate `decoder` contract
+4. Generate `decoder` contract
 
 ```sh
-target/debug/solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
+yarn solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
 ```
 
 4. Generate `encoder` contract
 
 ```sh
-target/debug/solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40'
+yarn solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40'
 ```
 
 5. be an  optimism gas optimizooor!!
