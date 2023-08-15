@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
+import {IAddressTable} from "@solid-grinder/interfaces/IAddressTable.sol";
 
 contract AddressTable is IAddressTable {
     address[] public accounts;

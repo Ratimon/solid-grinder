@@ -9,10 +9,10 @@ A CLI that goes along with building blocks of smart contract. Along with our fro
 > The code is not audited yet. Please use it carefully in production.
 
 - [What is it for](#what-is-it-for)
+- [How It Works](#how-it-works)
 - [Benchmarks](#benchmarks)
 - [Installation](#installation)
 - [Quickstart](#quickstart)
-- [How It Works](#how-it-works)
 - [Architecture](#architecture)
 
 
@@ -23,6 +23,26 @@ This dApp building block is intended to reduce L2 gas costs by a significant amo
 While security in our top priority, we aim to enhance developer experience, such that the entire protocol is not required to re-written from scratch.
 
 What you need to do is specify how argument is packed into one single calldata, then our CLI will generate required files for you !!
+
+
+## How It Works
+
+It works by optimizing calldata by using as little bytes of calldata as possible.
+
+Specifically, Our novel components are as follows:
+
+1. Solidity snippets: one contract to encode call data on chain. Another to decode it. This component has following feat:
+
+   - AddressTable: to store **the mapping between addresses and indexes**, allowing:
+     - The **address** can be registered to the contract, then the index is generated.
+     - The generated id can then be used  to look up the registered address  during the compressed **call data** **decoding** process
+   - Data Serialization, allowing:
+     - The encoded calldata could be deserialized into the correct type
+     - For example, if we choose to reduce the calldata by sending the time period as arguments with type of uint40 (5 bytes) instead of uint256, the calldata should be sliced at the correct offset and the result can be correctly used in the next steps.
+
+2. Front-end snippets: to atomically connect between encoding and decoding component into single call
+
+3. CLI: to generate the above solidity snippets (,including Encoder and Decode contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
 
 
 ## Benchmarks
@@ -226,9 +246,15 @@ This will automatically add the `solid-grinder` binary
 yarn solid-grinder -V
 ```
 
+4. Adding `remappings.txt` with following line:
+
+```txt
+@solid-grinder/=node_modules/solid-grinder/
+```
+
 ### without npm
 
-We assume that you already have a forge project
+We assume that you already have a **forge** project
 
 ```bash
 mkdir my-project;
@@ -253,7 +279,13 @@ cp target/release/solid-grinder ../../solid-grinder;
 3. Once you have finished the installation, we can check if it was successful.
 
 ```sh
-./solid-grinder <command>
+./solid-grinder -V
+```
+
+4. Adding `remappings.txt` with following line:
+
+```txt
+@solid-grinder/=node_modules/solid-grinder/
 ```
 
 ## Quickstart
@@ -323,25 +355,6 @@ yarn solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2R
     }
 
 ```
-
-
-## How It Works
-
-It works by optimizing calldata by using as little bytes of calldata as possible.
-
-Specifically, Our novel components are as follows:
-
-1. Solidity snippets: one contract to encode call data on chain. Another to decode it. This component has following feat:
-
-   - AddressTable: to store **the mapping between addresses and indexes**, allowing:
-     - The **address** can be registered to the contract, then the index is generated.
-     - The generated id can then be used  to look up the registered address  during the compressed **call data** **decoding** process
-   - Data Serialization, allowing:
-     - The encoded calldata could be deserialized into the correct type
-     - For example, if we choose to reduce the calldata by sending the time period as arguments with type of uint40 (5 bytes) instead of uint256, the calldata should be sliced at the correct offset and the result can be correctly used in the next steps.
-2. Front-end snippets: to atomically connect between encoding and decoding component into single call
-3. CLI: to generate the above solidity snippets (,including Encoder and Decode contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
-
 
 ## Architecture
 
