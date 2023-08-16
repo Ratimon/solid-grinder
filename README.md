@@ -285,7 +285,7 @@ cp target/release/solid-grinder ../../solid-grinder;
 4. Adding `remappings.txt` with following line:
 
 ```txt
-@solid-grinder/=node_modules/solid-grinder/
+@solid-grinder/=lib/solid-grinder/contracts/
 ```
 
 ## Quickstart
