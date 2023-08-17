@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import {IAddressTable} from "@solid-grinder/interfaces/IAddressTable.sol";
-import {BytesLib} from "@main/libraries/BytesLib.sol";
+import {BytesLib} from "@solid-grinder/libraries/BytesLib.sol";
 
 
 contract UniswapV2Router02_Decoder {
