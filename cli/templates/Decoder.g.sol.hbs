@@ -30,7 +30,6 @@ contract {{contract_name}}_Decoder {
         _newCursor = _cursor;
     }
 
-
     {{#each this.function.encodings}}function _{{this.instruction}}_{{../function_name}}_{{this.packed_bit_size}}bits(bytes memory _data, uint256 _cursor)
         internal
         {{#if this.address_type }}view{{/if}}

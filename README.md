@@ -1,6 +1,6 @@
 <h1>📚 Solid Grinder 📚</h1>
 
-be optimism gas optimizooor!!
+be calldata gas optimizooor!!
 
 A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible. 
 
@@ -42,7 +42,7 @@ Specifically, Our novel components are as follows:
 
 2. Front-end snippets: to atomically connect between encoding and decoding component into single call
 
-3. CLI: to generate the above solidity snippets (,including Encoder and Decode contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
+3. CLI: to generate the above solidity snippets (,including Encoder and Decoder contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
 
 
 ## Benchmarks
@@ -170,7 +170,7 @@ $ cast calldata "addLiquidityCompressed(bytes)" 000001000002000000410d586a20a4c0
 0x2feccbed0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003e000001000002000000410d586a20a4c00000000000878678326eac9000000000003635c9adc5dea000000000006c6b935b8bbd40000000000300000000640000
 ```
 
-Hence, this saves bytes by around 50% of calldata. This figure is quite impactful when implementing on dApp deployed on L2 (like Optimism) where L2 users pay their significant portion of L1 security cost of batch submission. The L1 gas could possibly be 99% of the total gas cost (L1 + 2 gas).
+Hence, this saves bytes by around 50% of calldata. This figure is quite impactful when implementing on dApp deployed on L2 (like Arbitrum/ Optimism) where L2 users pay their significant portion of L1 security cost of batch submission. The L1 gas could possibly be 99% of the total gas cost (L1 + 2 gas).
 
 This essentially means that either the fewer bytes of call data sent or the tighter packed call data, the lower gas users will pay on L2.
 
@@ -206,11 +206,6 @@ where `tx_data_gas` is:
 ```sh
 tx_data_gas = count_zero_bytes(tx_data) * 4 + count_non_zero_bytes(tx_data) * 16
 ```
-
-You can read the parameter values from the [gas oracle contract](https://optimistic.etherscan.io/address/0x420000000000000000000000000000000000000F#readProxyContract).
-
-> The more detail could be found at the [Optimism&#39;s Documentation](https://community.optimism.io/docs/developers/build/transaction-fees/#).
-
 
 ## Installation
 
@@ -334,7 +329,7 @@ yarn solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2R
 yarn solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40'
 ```
 
-5. be an  optimism gas optimizooor!!
+5. be an  calldata gas optimizooor!!
 
 > **Note**💡
 
@@ -359,5 +354,3 @@ yarn solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2R
 ## Architecture
 
 WIP
-
-Change original (un-optimized) contract's visibility to public first
