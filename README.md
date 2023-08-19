@@ -180,7 +180,32 @@ As a result, our optimized version of UniswapV2's rounter could potentially save
 
 > The gas amount saved heavily depends on L1 security cost which can vary, depending on the congestion on L1.
 
-Mathematically, The total gas is the total of the L2 execution fee and the L1 data/security fee.
+Mathematically, the total gas is the total of the L2 execution fee and the L1 data/security fee, and this figure is differently calculated, depending on layer 2 chain
+
+### Arbitrum
+
+```sh
+total_gas_fee = l2_execution_fee + l1_data_fee
+```
+
+where `l2_execution_fee` is :
+
+```sh
+l2_execution_fee = transaction_gas_price * l2_gas_used
+transaction_gas_price = max( l2_base_fee + l2_priority_fee, gas_price_floor)
+```
+
+where  `gas_price_floor` =  0.1 gwei on **Arbitrum One** and 0.01 gwei on **Nova**
+
+and `l1_data_fee` is :
+
+```sh
+l1_data_fee = l1_gas_price * brotli_zero_algorithm(tx_data) * 16
+```
+
+where `brotli_zero_algorithm` is used in order to reward users for posting transactions that are compressible.
+
+### Optimism
 
 Here's the (simple) math:
 
