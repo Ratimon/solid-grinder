@@ -149,7 +149,7 @@ This can be illustrated by following:
 - This command shows how solidity encodes a original function with arguments:
 
 ```sh
-$ cast calldata "addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)" 0x106EABe0298ec286Adf962994f0Dcf250c4BB763 0xEbfc763Eb9e1d1ab09Eb2f70549b66682AfD9aa5 1200000000000000000000 2500000000000000000000 1000000000000000000000 2000000000000000000000 0x095E7BAea6a6c7c4c2DfeB977eFac326aF552d87 100
+cast calldata "addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)" 0x106EABe0298ec286Adf962994f0Dcf250c4BB763 0xEbfc763Eb9e1d1ab09Eb2f70549b66682AfD9aa5 1200000000000000000000 2500000000000000000000 1000000000000000000000 2000000000000000000000 0x095E7BAea6a6c7c4c2DfeB977eFac326aF552d87 100
 ```
 
 - The result has the total bytes count of 520 hexa = 520/2 = 260 bytes:
@@ -161,7 +161,7 @@ $ cast calldata "addLiquidity(address,address,uint256,uint256,uint256,uint256,ad
 - This command shows how our optimized verion encodes various input arguments into single tightly compressed calldata.
 
 ```sh
-$ cast calldata "addLiquidityCompressed(bytes)" 000001000002000000410d586a20a4c00000000000878678326eac9000000000003635c9adc5dea000000000006c6b935b8bbd4000000000030000000064
+cast calldata "addLiquidityCompressed(bytes)" 000001000002000000410d586a20a4c00000000000878678326eac9000000000003635c9adc5dea000000000006c6b935b8bbd4000000000030000000064
 ```
 
 - The result has the total bytes count of 264 hexa = 264/2 = 132 bytes:
