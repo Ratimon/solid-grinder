@@ -14,26 +14,26 @@ contract AddressTable is IAddressTable {
     /**
      * @notice Register an address in the address table
      * @param addr address to register
-     * @return index of the address (existing index, or newly created index if not already registered)
+     * @return indexValue index of the address (existing index, or newly created index if not already registered)
      */
-    function register(address addr) public override returns (uint256) {
-        if (accountIds[addr] == 0) {
+    function register(address addr) public override returns (uint256 indexValue) {
+        indexValue = accountIds[addr];
+        if (indexValue == 0) {
             accounts.push(addr);
-            accountIds[addr] = accounts.length - 1;
-
-            return accounts.length - 1;
-        } else {
-            return accountIds[addr];
+            unchecked {
+                indexValue = accounts.length - 1;
+            }
+            accountIds[addr] = indexValue;
         }
     }
 
     /**
      * @param addr address to lookup
-     * @return index of an address in the address table (revert if address isn't in the table)
+     * @return indexValue index of an address in the address table (revert if address isn't in the table)
      */
-    function lookup(address addr) external view override returns (uint256) {
-        if (accountIds[addr] == 0) revert("AddressTable: must register first");
-        return accountIds[addr];
+    function lookup(address addr) external view override returns (uint256 indexValue) {
+        indexValue = accountIds[addr];
+        if (indexValue == 0) revert("AddressTable: must register first");
     }
 
     /**
