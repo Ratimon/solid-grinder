@@ -3,10 +3,18 @@ pragma solidity ^0.8.0;
 
 import {IAddressTable} from "@solid-grinder/interfaces/IAddressTable.sol";
 
+/**
+  * @title Solid Grinder's address table contract to store the mapping between addresses and indexes. More info : https://github.com/Ratimon/solid-grinder#how-it-works
+  * @author Rati Montreewat 
+  * @notice Supports only for version 0.8.0
+  */
 contract AddressTable is IAddressTable {
     address[] public accounts;
     mapping(address => uint256) public accountIds;
 
+    /**
+     * @notice Construct an accoint table
+     */
     constructor() {
         accounts.push(0x0000000000000000000000000000000000000000);
     }
