@@ -140,7 +140,6 @@ pub fn get_contract(
     let match_comments = Regex::new(r#"(?ms)(".*?"|'.*?')|(/\*.*?\*/|//[^\r\n]*$)"#).unwrap();
     let match_strings = Regex::new(r#"(?m)(".*?"|'.*?')"#).unwrap();
 
-    // function\s+(\w+)\s*\(\s*([^)]*)\s*\)
     let pattern: String = format!(
         r#"(?m)function\s+{}\s*\(\s*([^)]*)\s*\)"#,
         regex::escape(function_name)
@@ -231,15 +230,6 @@ pub fn get_contract(
             .collect()
     };
 
-
-    // println!(
-    //     "{:?} {:?} {:?} {:?} ",
-    //     args[0].name, args[0].memory_type, args[0].r#type,  args[0].custom_type
-    // );
-    // println!(
-    //     "{:?} {:?} {:?} {:?} ",
-    //     args[1].name, args[1].memory_type, args[1].r#type,  args[1].custom_type
-    // );
     if args.iter().any(|arg| arg.r#type != "address" && arg.r#type != "uint256") {
         return Err("We currently only support `address` and`uint256`type. Please modify your data type to either address or uint256".to_string())
     }
@@ -291,9 +281,3 @@ pub fn get_contract(
     }
 
 }
-
-// pub fn get_encoding(
-//     args: Vec<FunctionArgObject>
-// ) -> Vec<EncodingObject>  {
-
-// }

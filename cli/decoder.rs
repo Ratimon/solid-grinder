@@ -1,4 +1,4 @@
-use std::{fs, path::Path, task::Context};
+use std::{fs, path::Path};
 
 use handlebars::Handlebars;
 
@@ -50,23 +50,4 @@ fn write_if_different(path: &String, content: String) {
         println!("writing new files...");
         fs::write(path, content).expect("could not write file");
     }
-}
-
-use handlebars::{ Helper, HelperResult, JsonRender, Output, RenderContext};
-
-fn memory_type(
-    h: &Helper,
-    _: &Handlebars,
-    _: &Context,
-    _rc: &mut RenderContext,
-    out: &mut dyn Output,
-) -> HelperResult {
-    let param = h.param(0).unwrap();
-
-    let str_value = param.value().render();
-    if str_value.eq("string") {
-        out.write("memory")?;
-    }
-
-    Ok(())
 }

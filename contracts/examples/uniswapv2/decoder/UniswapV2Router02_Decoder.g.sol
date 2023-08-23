@@ -44,7 +44,6 @@ contract UniswapV2Router02_Decoder {
         _newCursor = _cursor;
     }
 
-
     function _lookupAddress_addLiquidity_24bits(bytes memory _data, uint256 _cursor)
         internal
         view
