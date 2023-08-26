@@ -20,7 +20,7 @@ A CLI that goes along with building blocks of smart contract. Along with our fro
 
 This dApp building block is intended to reduce L2 gas costs by a significant amount, using calldata optimization paradigm.
 
-While security in our top priority, we aim to enhance developer experience, such that the entire protocol is not required to re-written from scratch.
+While security is our top priority, we aim to enhance developer experience, such that the entire protocol is not required to re-written from scratch.
 
 What you need to do is specify how argument is packed into one single calldata, then our CLI will generate required files for you !!
 
@@ -42,7 +42,7 @@ Specifically, Our novel components are as follows:
 
 2. Front-end snippets: to atomically connect between encoding and decoding component into single call
 
-3. CLI: to generate the above solidity snippets (,including Encoder and Decoder contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
+3. CLI: to generate the above solidity snippets (including Encoder and Decoder contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
 
 
 ## Benchmarks
@@ -146,7 +146,7 @@ As shown above, the various input arguments of original contract are compressed 
 
 This can be illustrated by following:
 
-- This command shows how solidity encodes a original function with arguments:
+- This command shows how solidity encodes an original function with arguments:
 
 ```sh
 cast calldata "addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)" 0x106EABe0298ec286Adf962994f0Dcf250c4BB763 0xEbfc763Eb9e1d1ab09Eb2f70549b66682AfD9aa5 1200000000000000000000 2500000000000000000000 1000000000000000000000 2000000000000000000000 0x095E7BAea6a6c7c4c2DfeB977eFac326aF552d87 100
@@ -158,7 +158,7 @@ cast calldata "addLiquidity(address,address,uint256,uint256,uint256,uint256,addr
 0xe8e33700000000000000000000000000106eabe0298ec286adf962994f0dcf250c4bb763000000000000000000000000ebfc763eb9e1d1ab09eb2f70549b66682afd9aa50000000000000000000000000000000000000000000000410d586a20a4c000000000000000000000000000000000000000000000000000878678326eac90000000000000000000000000000000000000000000000000003635c9adc5dea0000000000000000000000000000000000000000000000000006c6b935b8bbd400000000000000000000000000000095e7baea6a6c7c4c2dfeb977efac326af552d870000000000000000000000000000000000000000000000000000000000000064
 ```
 
-- This command shows how our optimized verion encodes various input arguments into single tightly compressed calldata.
+- This command shows how our optimized version encodes various input arguments into single tightly compressed calldata.
 
 ```sh
 cast calldata "addLiquidityCompressed(bytes)" 000001000002000000410d586a20a4c00000000000878678326eac9000000000003635c9adc5dea000000000006c6b935b8bbd4000000000030000000064
@@ -174,7 +174,7 @@ Hence, this saves bytes by around 50% of calldata. This figure is quite impactfu
 
 This essentially means that either the fewer bytes of call data sent or the tighter packed call data, the lower gas users will pay on L2.
 
-As a result, our optimized version of UniswapV2's rounter could potentially save nearly 50%  of gas on L2.
+As a result, our optimized version of UniswapV2's router could potentially save nearly 50%  of gas on L2.
 
 > **Note**💡
 
@@ -358,7 +358,7 @@ yarn solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2R
 
 > **Note**💡
 
-> It is recommended to manually change original (un-optimized) contract's visibility to public. From user perspective, it is then safe to still include the original version, meaning that users can directly and quickly interact via Etherscan in emergency case (i.e. front-end part is down). This is because it is difficult to interact with the optimized version via Etherscan, because the user have to manually compress arguments into single payload themselves.
+> It is recommended to manually change original (un-optimized) contract's visibility to public. From user perspective, it is then safe to still include the original version, meaning that users can directly and quickly interact via Etherscan in emergency case (i.e. front-end part is down). This is because it is difficult to interact with the optimized version via Etherscan, because the users have to manually compress arguments into single payload themselves.
 
 ```solidity
     /** ... */
