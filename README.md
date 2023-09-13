@@ -42,6 +42,8 @@ Specifically, Our novel components are as follows:
 
 2. Front-end snippets: to atomically connect between encoding and decoding component into single call
 
+- The demo of how to implement front-end part is here:[ `uniswap-calldata-optimization-monorepo-demo`](https://github.com/Ratimon/uniswap-calldata-optimization-monorepo)
+
 3. CLI: to generate the above solidity snippets (including Encoder and Decoder contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
 
 
