@@ -13,6 +13,7 @@ A CLI that goes along with building blocks of smart contract. Along with our fro
 - [Benchmarks](#benchmarks)
 - [Installation](#installation)
 - [Quickstart](#quickstart)
+- [Contributing](#contributing)
 - [Architecture](#architecture)
 
 
@@ -42,7 +43,7 @@ Specifically, Our novel components are as follows:
 
 2. Front-end snippets: to atomically connect between encoding and decoding component into single call
 
-- The demo of how to implement front-end part is here:[ `uniswap-calldata-optimization-monorepo-demo`](https://github.com/Ratimon/uniswap-calldata-optimization-monorepo)
+    - The demo of how to implement front-end part is here:[ `uniswap-calldata-optimization-monorepo`](https://github.com/Ratimon/uniswap-calldata-optimization-monorepo)
 
 3. CLI: to generate the above solidity snippets (including Encoder and Decoder contracts). The only task requires to do is to specify the data type to pack the calldata while ensuring security.
 
@@ -182,7 +183,7 @@ As a result, our optimized version of UniswapV2's router could potentially save 
 
 > The gas amount saved heavily depends on L1 security cost which can vary, depending on the congestion on L1.
 
-Mathematically, the total gas is the total of the L2 execution fee and the L1 data/security fee, and this figure is differently calculated, depending on layer 2 chain
+Mathematically, the total gas is the total of the L2 execution fee and the L1 data/security fee, and this figure is differently calculated, depending on different layer 2 chains.
 
 ### Arbitrum
 
@@ -383,6 +384,10 @@ forge fmt
     }
 
 ```
+
+## contributing
+
+See our [`contributing guidelines`](./CONTRIBUTING.md).
 
 ## Architecture
 
