@@ -389,6 +389,8 @@ forge fmt
 
 See our [`contributing guidelines`](./CONTRIBUTING.md).
 
+We are currently still in an experimental phase leading up to a first audit and would love to hear your feedback on how we can improve Solid Grinder.
+
 ## Architecture
 
 WIP
