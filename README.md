@@ -38,7 +38,7 @@ Specifically, Our novel components are as follows:
      - The **address** can be registered to the contract, then the index is generated.
      - The generated id can then be used  to look up the registered address  during the compressed **call data** **decoding** process
    - Data Serialization, allowing:
-     - The encoded calldata could be deserialized into the correct type
+     - The encoded calldata could be deserialized into the correct type with adequate data size.
      - For example, if we choose to reduce the calldata by sending the time period as arguments with type of uint40 (5 bytes) instead of uint256, the calldata should be sliced at the correct offset and the result can be correctly used in the next steps.
 
 2. Front-end snippets: to atomically connect between encoding and decoding component into single call
