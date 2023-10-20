@@ -1,6 +1,6 @@
-<h1>📚 Solid Grinder 📚</h1>
+![Logo](./assets/logo.png)
 
-be calldata gas optimizooor!!
+<h1>be calldata gas optimizooor!! </h1>
 
 A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible. 
 
