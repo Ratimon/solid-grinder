@@ -50,6 +50,25 @@ Specifically, Our novel components are as follows:
 
 ## Benchmarks
 
+### Benchmarks - on Mainnet!!
+
+We have done the benchmark by deploying and interacting the **un-optimized version** : [`/UniswapV2Router02.sol`](https://github.com/Ratimon/uniswap-calldata-optimization-monorepo/blob/main/contracts/src/UniswapV2Router02.sol) and **optimized version** [`/UniswapV2Router02_Optimized.sol`](https://github.com/Ratimon/uniswap-calldata-optimization-monorepo/blob/main/contracts/src/UniswapV2Router02_Optimized.sol).
+
+Then, we have compared the difference in gas cost in following Txs:
+
+1. [`https://optimistic.etherscan.io/tx/0xa86b5780baa8e569278b90b2cb4d6effbc8bbbc603c6cf2a799aa4131824ab30`](https://optimistic.etherscan.io/tx/0xa86b5780baa8e569278b90b2cb4d6effbc8bbbc603c6cf2a799aa4131824ab30)
+
+![Unoptimized](./assets/unoptimized.png)
+
+2. [`https://optimistic.etherscan.io/tx/0x461c29d1b422fca966654b6213a7329a6c86149fa6a1a973442810891b198d2d`](https://optimistic.etherscan.io/tx/0x461c29d1b422fca966654b6213a7329a6c86149fa6a1a973442810891b198d2d)
+
+![Optimized](./assets/optimized.png)
+
+It can be seen that the gas has been saved by **~78%** (from $0.7 to $0.15).
+
+
+### Benchmarks - Behind the scene
+
 We provide how the UniswapV2's router is optimized as follows:
 
 - The original version:[ `UniswapV2Router02.sol`](https://github.com/Ratimon/solid-grinder/blob/main/contracts/examples/uniswapv2/UniswapV2Router02.sol)
