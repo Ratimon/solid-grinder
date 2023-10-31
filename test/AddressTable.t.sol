@@ -32,7 +32,6 @@ contract AddressTableTest is Test {
     function test_register() external {
         vm.startPrank(bob);
 
-
         assertEq(table.size(), 1, "The initial size ( including zero address) should be 1");
         assertFalse(table.isAddressExisted(alice), "The address should not be existed");
 
