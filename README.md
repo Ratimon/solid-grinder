@@ -56,16 +56,26 @@ We have done the benchmark by deploying and interacting the **un-optimized versi
 
 Then, we have compared the difference in gas cost in following Txs:
 
-1. [`https://optimistic.etherscan.io/tx/0xa86b5780baa8e569278b90b2cb4d6effbc8bbbc603c6cf2a799aa4131824ab30`](https://optimistic.etherscan.io/tx/0xa86b5780baa8e569278b90b2cb4d6effbc8bbbc603c6cf2a799aa4131824ab30)
+1. [`https://optimistic.etherscan.io/tx/0x446b8d7f091ff258d16dfbac751797210ad1edeb5f856c0ac0686b80d32516a5`](https://optimistic.etherscan.io/tx/0x446b8d7f091ff258d16dfbac751797210ad1edeb5f856c0ac0686b80d32516a5)
 
-![Unoptimized](./assets/unoptimized.png)
+The L2 Fees Paid is then 0.00011025.
 
-2. [`https://optimistic.etherscan.io/tx/0x461c29d1b422fca966654b6213a7329a6c86149fa6a1a973442810891b198d2d`](https://optimistic.etherscan.io/tx/0x461c29d1b422fca966654b6213a7329a6c86149fa6a1a973442810891b198d2d)
+![Unoptimized](./assets/optimized.png)
 
-![Optimized](./assets/optimized.png)
+2. [`https://optimistic.etherscan.io/tx/0x778a6beb856540c5534d7516fa168e0b26b09086e414317748ac01c153e81f01`](https://optimistic.etherscan.io/tx/0x778a6beb856540c5534d7516fa168e0b26b09086e414317748ac01c153e81f01)
+![Optimized](./assets/unoptimized.png)
 
-It can be seen that the gas has been saved by **~78%** (from $0.7 to $0.15).
+The L2 Fees Paid is then 0.00007481
 
+It can be seen that the L1 gas has been saved by ~36% (from 0.000029 ETH to 0.000018 ETH), but the overall cost is higher. However, the gas amount saved can potentially be much higher in case of the high congestion on L1 network.
+
+For example if L1 gas price increases to 100 Gwei and L1 Fee Scalar is adjusted to 1. The figures will be from 0.000424 ETH to 0.000263 ETH.
+
+According to the formula: `Total gas = L2 Gas Price* L2 Gas + L1 Gas Price * L2 Gas Used *  L1 Fee Scalar`, the total fee for unoptimized contract is 0.00007481 + 0.000424 = 0.0004988.
+
+The total fee for optimized contract is 0.00011025 + 0.000263 = 0.00034325.
+
+The gas has been saved by 31 %
 
 ### Benchmarks - Behind the scene
 
@@ -192,7 +202,7 @@ cast calldata "addLiquidityCompressed(bytes)" 000001000002000000410d586a20a4c000
 0x2feccbed0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003e000001000002000000410d586a20a4c00000000000878678326eac9000000000003635c9adc5dea000000000006c6b935b8bbd40000000000300000000640000
 ```
 
-Hence, this saves bytes by around 50% of calldata. This figure is quite impactful when implementing on dApp deployed on L2 (like Arbitrum/ Optimism) where L2 users pay their significant portion of L1 security cost of batch submission. The L1 gas could possibly be 99% of the total gas cost (L1 + 2 gas).
+Hence, this saves bytes by around 50% of calldata. This figure is quite impactful when implementing on dApp deployed on L2 (like Arbitrum/ Optimism) where L2 users pay their significant portion of L1 security cost of batch submission. The L1 gas could possibly be most of the total gas cost (L1 + 2 gas).
 
 This essentially means that either the fewer bytes of call data sent or the tighter packed call data, the lower gas users will pay on L2.
 
