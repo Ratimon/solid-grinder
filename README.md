@@ -216,53 +216,59 @@ Mathematically, the total gas is the total of the L2 execution fee and the L1 da
 
 ### Arbitrum
 
-```sh
-total_gas_fee = l2_execution_fee + l1_data_fee
-```
+$`\
+\text{Total Gas Fee}_{\text{Layer2}} = \text{Execution Fee}_{\text{Layer2}} + \text{Data Fee}_{\text{Layer1}} `$
 
-where `l2_execution_fee` is :
+where $`\ \text{Execution Fee}_{\text{Layer2}} `$ is :
 
-```sh
-l2_execution_fee = transaction_gas_price * l2_gas_used
-transaction_gas_price = max( l2_base_fee + l2_priority_fee, gas_price_floor)
-```
+$`\
+\text{Execution Fee}_{\text{Layer2}} = \text{Gas Price}_{\text{Layer2}} \times \text{ Gas Used}_{\text{Layer2}}`$
 
-where  `gas_price_floor` =  0.1 gwei on **Arbitrum One** and 0.01 gwei on **Nova**
+$`\
+text{Gas Price}_{\text{Layer2}} = \max( \text{Base Fee}_{\text{Layer2}} + \text{Priority Fee}_{\text{Layer2}} , \text{Gas Price Floor} )`$
 
-and `l1_data_fee` is :
 
-```sh
-l1_data_fee = l1_gas_price * brotli_zero_algorithm(tx_data) * 16
-```
+$`\
+\text{where} \quad \text{Gas Price Floor} = 
+\begin{cases}
+0.1 \, \text{Gwei}, & \text{on Arbitrum One} \\
+0.01 \, \text{Gwei}, & \text{on Nova}
+\end{cases}`$
 
-where `brotli_zero_algorithm` is used in order to reward users for posting transactions that are compressible.
+and  $`\ \text{Data Fee}_{\text{Layer1}} `$ is : 
+
+$`\
+\text{Data Fee}_{\text{Layer1}} = \text{Gas Price}_{\text{Layer1}} \times \text{brotli-zero-algorithm}_{\text{txdata}}(txdata) \times 16`$
+
+
+$`\
+\text{where  }  \text{brotli-zero-algorithm}_{\text{txdata}}(txdata)`$ is used to reward users for posting compressible transactions.
+
 
 ### Optimism
 
 Here's the (simple) math:
 
-```sh
-total_gas_fee = l2_execution_fee + l1_data_fee
-```
+$`\
+\text{Total Gas Fee}_{\text{Layer2}} = \text{Execution Fee}_{\text{Layer2}} + \text{Data Fee}_{\text{Laye1}} `$
 
-where `l2_execution_fee` is :
+where $`\ \text{Execution Fee}_{\text{Layer2}} `$ is :
 
-```sh
-l2_execution_fee = transaction_gas_price * l2_gas_used
-transaction_gas_price = l2_base_fee + l2_priority_fee
-```
+$`\
+\text{Execution Fee}_{\text{Layer2}} = \text{Gas Price}_{\text{Layer2}} \times \text{ Gas Used}_{\text{Layer2}}`$
 
-and `l1_data_fee` is :
+$`\
+\text{Gas Price}_{\text{Layer2}} = \text{Base Fee}_{\text{Layer2}} + \text{Priority Fee}_{\text{Layer2}}`$
 
-```sh
-l1_data_fee = l1_gas_price * (tx_data_gas + fixed_overhead) * dynamic_overhead
-```
+and  $`\ \text{Data Fee}_{\text{Layer1}} `$ is :
 
-where `tx_data_gas` is:
+$`\
+\text{Data Fee}_{\text{Layer1}} = \text{Gas Price}_{\text{Layer1}} \times \text{Tx Data Gas + Fixed Overhead} \times \text{Dynamic Overhead}`$
 
-```sh
-tx_data_gas = count_zero_bytes(tx_data) * 4 + count_non_zero_bytes(tx_data) * 16
-```
+where $`\ \text{Tx Data Gas} `$ is :
+
+$`\
+\text{Tx Data Gas} = \text{count-zero-bytes}_{\text{txdata}}(txdata) \times 4 + \text{count-non-zero-bytes}_{\text{txdata}}(txdata) \times 16 `$
 
 ## Installation
 
