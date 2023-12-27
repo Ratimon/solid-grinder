@@ -71,7 +71,12 @@ It can be seen that the L1 gas has been saved by ~36% (from 0.000029 ETH to 0.00
 
 For example if L1 gas price increases to 100 Gwei and L1 Fee Scalar is adjusted to 1. The figures will be from 0.000424 ETH to 0.000263 ETH.
 
-According to the formula: `Total gas = L2 Gas Price* L2 Gas + L1 Gas Price * L2 Gas Used *  L1 Fee Scalar`, the total fee for unoptimized contract is 0.00007481 + 0.000424 = 0.0004988.
+According to the formula: 
+
+$`\
+\text{Total Gas} = \text{Gas Price}_{\text{Layer2}} \times \text{Gas Used for Execution}_{\text{Layer2}} +  \text{Gas Price}_{\text{Layer1}} \times \text{Gas Used for Data}_{\text{Layer2}}  \times \text{Scalar Fee}_{\text{Layer1}} `$
+
+The total fee for unoptimized contract is 0.00007481 + 0.000424 = 0.0004988.
 
 The total fee for optimized contract is 0.00011025 + 0.000263 = 0.00034325.
 
