@@ -13,7 +13,7 @@ contract AddressTable is IAddressTable {
     mapping(address => uint256) public accountIds;
 
     /**
-     * @notice Construct an accoint table
+     * @notice Construct an account table
      */
     constructor() {
         accounts.push(0x0000000000000000000000000000000000000000);
