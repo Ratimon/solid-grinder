@@ -230,7 +230,7 @@ $`\
 \text{Execution Fee}_{\text{Layer2}} = \text{Gas Price}_{\text{Layer2}} \times \text{ Gas Used}_{\text{Layer2}}`$
 
 $`\
-text{Gas Price}_{\text{Layer2}} = \max( \text{Base Fee}_{\text{Layer2}} + \text{Priority Fee}_{\text{Layer2}} , \text{Gas Price Floor} )`$
+text{Gas Price}_{\text{Layer2}} = \min( \text{Base Fee}_{\text{Layer2}} + \text{Priority Fee}_{\text{Layer2}} , \text{Gas Price Floor} )`$
 
 
 $`\
