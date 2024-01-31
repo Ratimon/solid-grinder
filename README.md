@@ -268,7 +268,7 @@ $`\
 and  $`\ \text{Data Fee}_{\text{Layer1}} `$ is :
 
 $`\
-\text{Data Fee}_{\text{Layer1}} = \text{Gas Price}_{\text{Layer1}} \times \text{Tx Data Gas + Fixed Overhead} \times \text{Dynamic Overhead}`$
+\text{Data Fee}_{\text{Layer1}} = \text{Gas Price}_{\text{Layer1}} \times \text{ [Tx Data Gas + Fixed Overhead]} \times \text{Dynamic Overhead}`$
 
 where $`\ \text{Tx Data Gas} `$ is :
 
