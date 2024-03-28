@@ -13,6 +13,7 @@ pub fn generate_encoder(
     handlebars.set_strict_mode(true);
 
     let generated_name: String = format!("{}_DataEncoder.g.sol", contract_name);
+    // different paths for different versions
     handlebars
         .register_template_string(
             &generated_name,
