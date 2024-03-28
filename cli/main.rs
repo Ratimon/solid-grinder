@@ -1,7 +1,7 @@
 use std::path::Path;
 use itertools::{Either, Itertools};
 
-use clap::{Parser, Subcommand};
+use clap::{builder::PossibleValuesParser, Parser, Subcommand};
 
 use crate::types::ContractObject;
 
@@ -28,6 +28,8 @@ enum Commands {
     GenEncoder(GenEncoderArgs),
 }
 
+const SOL_VERSIONS: [&str; 2] = ["solc_0_7", "solc_0_8"];
+
 #[derive(clap::Args)]
 struct GenDecoderArgs {
 
@@ -45,6 +47,9 @@ struct GenDecoderArgs {
 
     #[arg(short, long, value_parser, num_args = 1, value_delimiter = ' ')]
     arg_bits: Vec<String>,
+
+    #[arg(short = 'v', long, value_parser = PossibleValuesParser::new(SOL_VERSIONS), required(true), num_args = 1)]
+    compiler_version: Option<String>, // solc_0_7", "solc_0_8"
 }
 
 #[derive(clap::Args)]
@@ -64,6 +69,9 @@ struct GenEncoderArgs {
 
     #[arg(short, long, value_parser, num_args = 1, value_delimiter = ' ')]
     arg_bits: Vec<String>,
+
+    #[arg(short = 'v', long, value_parser = PossibleValuesParser::new(SOL_VERSIONS), required(true), num_args = 1)]
+    compiler_version: Option<String>, // solc_0_7", "solc_0_8"
 }
 
 fn main() {
@@ -119,7 +127,6 @@ fn gen_encoder(
 ) {
 
     let (contract, name, generated_directory_path) = get_data(root, source, output, contract_name, function_name, arg_bits);
-
     encoder::generate_encoder( contract, name , &generated_directory_path);
 
 }

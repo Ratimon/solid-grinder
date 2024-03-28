@@ -388,14 +388,18 @@ The following is the guideline how we can define the arguments' ranges.
 4. Generate `decoder` contract
 
 ```sh
-yarn solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' 
+yarn solid-grinder gen-decoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' --compiler-version 'solc_0_8'
 ```
 
 4. Generate `encoder` contract
 
 ```sh
-yarn solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40'
+yarn solid-grinder gen-encoder --source 'contracts/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' --compiler-version 'solc_0_8'
 ```
+
+> **Note**💡
+
+Now, we only support **0.8.X** version, and it is required to put `solc_0_8` as argement of  `--compiler-version`.
 
 5. It is a good practice to do linting e.g.
 
