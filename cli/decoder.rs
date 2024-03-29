@@ -8,18 +8,23 @@ pub fn generate_decoder(
     contract: ContractObject,
     contract_name: &str,
     generated_directory: &str,
+    compiler_version: &str,
 ) {
     let mut handlebars = Handlebars::new();
     handlebars.set_strict_mode(true);
 
     let generated_name: String = format!("{}_DataDecoder.g.sol", contract_name);
+
+    let template_path = format!("cli/templates/{}/Decoder.g.sol.hbs", compiler_version);
+    let template_content = fs::read_to_string(&template_path)
+        .unwrap_or_else(|err| panic!("Failed to read template file {}: {}", template_path, err));
+
     handlebars
         .register_template_string(
             &generated_name,
-            include_str!("templates/Decoder.g.sol.hbs"),
+            &template_content
         )
         .unwrap();
-
 
     let folder_path_buf = Path::new(generated_directory).join("decoder");
     let folder_path = folder_path_buf.to_str().unwrap();

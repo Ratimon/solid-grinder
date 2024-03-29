@@ -87,7 +87,8 @@ fn main() {
                     &args.output,
                     &args.contract_name,
                     &args.function_name,
-                    &args.arg_bits
+                    &args.arg_bits,
+                    &args.compiler_version
                 )
             }
             Commands::GenEncoder(args) => {
@@ -97,7 +98,8 @@ fn main() {
                     &args.output,
                     &args.contract_name,
                     &args.function_name,
-                    &args.arg_bits
+                    &args.arg_bits,
+                    &args.compiler_version
                 )
             }
         },
@@ -111,10 +113,11 @@ fn gen_decoder(
     output: &Option<String>,
     contract_name: &Option<String>,
     function_name: &Option<String>,
-    arg_bits: &Vec<std::string::String>
+    arg_bits: &Vec<std::string::String>,
+    compiler_version : &Option<String>
 ) {
     let (contract, name, generated_directory_path) = get_data(root, source, output, contract_name, function_name, arg_bits);
-    decoder::generate_decoder( contract, name , &generated_directory_path);
+    decoder::generate_decoder( contract, name, &generated_directory_path, compiler_version.as_deref().unwrap_or("solc_0_8"));
 }
 
 fn gen_encoder(
@@ -123,11 +126,12 @@ fn gen_encoder(
     output: &Option<String>,
     contract_name: &Option<String>,
     function_name: &Option<String>,
-    arg_bits: &Vec<std::string::String>
+    arg_bits: &Vec<std::string::String>,
+    compiler_version : &Option<String>
 ) {
 
     let (contract, name, generated_directory_path) = get_data(root, source, output, contract_name, function_name, arg_bits);
-    encoder::generate_encoder( contract, name , &generated_directory_path);
+    encoder::generate_encoder( contract, name, &generated_directory_path, compiler_version.as_deref().unwrap_or("solc_0_8"));
 
 }
 

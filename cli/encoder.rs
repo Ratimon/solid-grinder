@@ -8,16 +8,20 @@ pub fn generate_encoder(
     contract: ContractObject,
     contract_name: &str,
     generated_directory: &str,
+    compiler_version: &str,
 ) {
     let mut handlebars = Handlebars::new();
     handlebars.set_strict_mode(true);
 
     let generated_name: String = format!("{}_DataEncoder.g.sol", contract_name);
-    // different paths for different versions
+    let template_path = format!("cli/templates/{}/Encoder.g.sol.hbs", compiler_version);
+    let template_content = fs::read_to_string(&template_path)
+        .unwrap_or_else(|err| panic!("Failed to read template file {}: {}", template_path, err));
+
     handlebars
         .register_template_string(
             &generated_name,
-            include_str!("templates/Encoder.g.sol.hbs"),
+            template_content
         )
         .unwrap();
 

@@ -5,7 +5,7 @@ import {IAddressTable} from "@solid-grinder/interfaces/IAddressTable.sol";
 import {BytesLib} from "@solid-grinder/libraries/BytesLib.sol";
 
 /**
-  * @title Solid Grinder's generated contract to store the mapping between addresses and indexes
+  * @title Solid Grinder's generated contract to decode the encoded parameters
   * @author generated from the decoder template of Solid Grinder at https://github.com/Ratimon/solid-grinder/blob/main/cli/templates/Decoder.g.sol.hbs  
   * @notice use with caution!! this contract is generated automatically by Solid Grinder
   */
