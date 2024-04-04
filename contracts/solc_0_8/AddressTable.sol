@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IAddressTable} from "@solid-grinder/interfaces/IAddressTable.sol";
+import {IAddressTable} from "@solid-grinder/solc_0_8/interfaces/IAddressTable.sol";
 
 /**
   * @title Solid Grinder's address table contract to store the mapping between addresses and indexes. More info : https://github.com/Ratimon/solid-grinder#how-it-works

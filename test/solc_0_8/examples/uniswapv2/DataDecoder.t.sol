@@ -4,11 +4,11 @@ pragma solidity ^0.8.0;
 import {console2} from "@forge-std/console2.sol";
 import {Test, stdError} from "@forge-std/Test.sol";
 
-import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
-import {AddressTable} from "@main/AddressTable.sol";
+import {IAddressTable} from "@main/solc_0_8/interfaces/IAddressTable.sol";
+import {AddressTable} from "@main/solc_0_8/AddressTable.sol";
 
-import {UniswapV2Router02_Encoder} from "@main/examples/uniswapv2/encoder/UniswapV2Router02_Encoder.g.sol";
-import {Mock_Decoder} from "@test/examples/uniswapv2/mock/Mock_Decoder.sol";
+import {UniswapV2Router02_Encoder} from "@main/solc_0_8/examples/uniswapv2/encoder/UniswapV2Router02_Encoder.g.sol";
+import {Mock_Decoder} from "@test/solc_0_8/examples/uniswapv2/mock/Mock_Decoder.sol";
 
 contract UniswapV2Router02_DataDecoderTest is Test {
     string mnemonic = "test test test test test test test test test test test junk";

@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 // import {console2} from "@forge-std/console2.sol";
 import {Test, stdError} from "@forge-std/Test.sol";
 
-import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
-import {AddressTable} from "@main/AddressTable.sol";
+import {IAddressTable} from "@main/solc_0_8/interfaces/IAddressTable.sol";
+import {AddressTable} from "@main/solc_0_8/AddressTable.sol";
 
 contract AddressTableTest is Test {
     string mnemonic = "test test test test test test test test test test test junk";

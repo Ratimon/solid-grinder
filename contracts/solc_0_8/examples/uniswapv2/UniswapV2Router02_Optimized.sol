@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IAddressTable} from "@main/interfaces/IAddressTable.sol";
+import {IAddressTable} from "@main/solc_0_8/interfaces/IAddressTable.sol";
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {UniswapV2Router02} from "@main/examples/uniswapv2/UniswapV2Router02.sol";
-import {UniswapV2Router02_Decoder} from "@main/examples/uniswapv2/decoder/UniswapV2Router02_Decoder.g.sol";
+import {UniswapV2Router02} from "@main/solc_0_8/examples/uniswapv2/UniswapV2Router02.sol";
+import {UniswapV2Router02_Decoder} from "@main/solc_0_8/examples/uniswapv2/decoder/UniswapV2Router02_Decoder.g.sol";
 
 /**
  * @notice optimized version
