@@ -2,11 +2,6 @@
 cache/
 out/
 
-# Ignores development broadcast logs
-!/broadcast
-/broadcast/*/31337/
-/broadcast/**/dry-run/
-
 # Docs
 docs/
 
@@ -15,8 +10,13 @@ docs/
 
 
 # Added by cargo
-
 /target
+
+# forge: we do not use submodule instead we specify dependencies in package.json `prepare` script
+# if you use git and want to make use of the submodule
+# delete that line and execute `just reinstall git`
+
+/lib
 
 
 # npm

@@ -1,6 +1,15 @@
 [profile.default]
-src = "contracts" 
+src = "contracts/solc_0_8" 
+test = "test/solc_0_8"
 out = "out"
 libs = ["lib"]
+solc_version = '0.8.19'
+
+[profile.solc_0_7]
+src = "contracts/solc_0_7" 
+test = "test/solc_0_7"
+out = "out"
+libs = ["lib"]
+solc_version = '0.7.6'
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

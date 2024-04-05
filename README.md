@@ -409,6 +409,11 @@ forge fmt
 
 6. be an  calldata gas optimizooor!!
 
+```ts
+import {UniswapV2Router02_Decoder} from "@solid-grinder/solc_0_8/examples/uniswapv2/decoder/UniswapV2Router02_Decoder.g.sol";
+
+```
+
 > **Note**💡
 
 > It is recommended to manually change original (un-optimized) contract's visibility to public. From user perspective, it is then safe to still include the original version, meaning that users can directly and quickly interact via Etherscan in emergency case (i.e. front-end part is down). This is because it is difficult to interact with the optimized version via Etherscan, because the users have to manually compress arguments into single payload themselves.
