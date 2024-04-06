@@ -1,14 +1,14 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20} from "@openzeppelin-contracts-solc_0_8/contracts/token/ERC20/IERC20.sol";
 
 import {IUniswapV2Factory} from "@main/solc_0_8/examples/uniswapv2/IUniswapV2Factory.sol";
 import {IUniswapV2Pair} from "@main/solc_0_8/examples/uniswapv2/IUniswapV2Pair.sol";
 import {IUniswapV2Router02} from "@main/solc_0_8/examples/uniswapv2/IUniswapV2Router02.sol";
 
-import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {SafeMath} from "@openzeppelin-contracts-solc_0_8/contracts/utils/math/SafeMath.sol";
+import {SafeERC20} from "@openzeppelin-contracts-solc_0_8/contracts/token/ERC20/utils/SafeERC20.sol";
 
 import {UniswapV2Library} from "@main/solc_0_8/examples/uniswapv2/UniswapV2Library.sol";
 

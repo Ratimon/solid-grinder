@@ -3,4 +3,5 @@
 @script/=script/
 @test/=test/
 @forge-std/=lib/forge-std/src/
-@openzeppelin/=lib/openzeppelin-contracts/
+@openzeppelin-contracts-solc_0_7/=lib/openzeppelin-solc_0_7/
+@openzeppelin-contracts-solc_0_8/=lib/openzeppelin-solc_0_8/

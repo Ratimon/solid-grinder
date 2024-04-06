@@ -5,7 +5,7 @@ import {console2} from "@forge-std/console2.sol";
 
 import {IAddressTable} from "@main/solc_0_8/interfaces/IAddressTable.sol";
 
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {Ownable} from "@openzeppelin-contracts-solc_0_8/contracts/access/Ownable.sol";
 import {UniswapV2Router02_Decoder} from "@main/solc_0_8/examples/uniswapv2/decoder/UniswapV2Router02_Decoder.g.sol";
 
 contract Mock_Decoder is UniswapV2Router02_Decoder {
