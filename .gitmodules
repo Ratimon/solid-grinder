@@ -1,1 +1,4 @@
 
+[submodule "lib/openzeppelin-solc_0_7"]
+	path = lib/openzeppelin-solc_0_7
+	url = https://github.com/openzeppelin/openzeppelin-contracts
