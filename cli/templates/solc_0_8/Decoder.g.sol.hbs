@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IAddressTable} from "@solid-grinder/interfaces/IAddressTable.sol";
-import {BytesLib} from "@solid-grinder/libraries/BytesLib.sol";
+import {IAddressTable} from "@solid-grinder/solc_0_8/interfaces/IAddressTable.sol";
+import {BytesLib} from "@solid-grinder/solc_0_8/libraries/BytesLib.sol";
 
 /**
   * @title Solid Grinder's generated contract to decode the encoded parameters
