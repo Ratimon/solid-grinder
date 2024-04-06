@@ -46,22 +46,6 @@ const binary_install = fs.readFileSync("npm/binary-install.js", "utf-8");
 fs.writeFileSync("binary-install.js", binary_install);
 // ------------------------------------------------------------------------------------------------
 
-// ------------------------------------------------------------------------------------------------
-// templates: just copy
-// ------------------------------------------------------------------------------------------------
-const solc_0_7_decoder = fs.readFileSync("cli/templates/solc_0_7/Decoder.g.sol.hbs", "utf-8");
-fs.writeFileSync("../../templates/solc_0_7/Decoder.g.sol.hbs", solc_0_7_decoder);
-
-const solc_0_7_encoder = fs.readFileSync("cli/templates/solc_0_7/Encoder.g.sol.hbs", "utf-8");
-fs.writeFileSync("../../templates/solc_0_7/Encoder.g.sol.hbs", solc_0_7_encoder);
-
-const solc_0_8_decoder = fs.readFileSync("cli/templates/solc_0_8/Decoder.g.sol.hbs", "utf-8");
-fs.writeFileSync("../../templates/solc_0_8/Decoder.g.sol.hbs", solc_0_8_decoder);
-
-const solc_0_8_encoder = fs.readFileSync("cli/templates/solc_0_8/Encoder.g.sol.hbs", "utf-8");
-fs.writeFileSync("../../templates/solc_0_8/Encoder.g.sol.hbs", solc_0_8_encoder);
-// ------------------------------------------------------------------------------------------------
-
 
 if (args[0] === 'npm:final') {
     
