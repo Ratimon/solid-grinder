@@ -8,7 +8,7 @@ const error = msg => {
 };
 
 const { version: actualVersion, name, repository } = require("./package.json");
-const version = "1.1.0";
+const version = "1.1.1";
 
 const supportedPlatforms = [
   {

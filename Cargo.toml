@@ -1,6 +1,6 @@
 [package]
 name = "solid-grinder"
-version = "1.1.0"
+version = "1.1.1"
 edition = "2021"
 description = "A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible."
 repository = "https://github.com/Ratimon/solid-grinder"
