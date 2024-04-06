@@ -4,7 +4,6 @@
   "description": "A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible.",
   "scripts": {
     "preinstall": "node ./install.js",
-    "install": "FOUNDRY_PROFILE=solc_0_7 forge install openzeppelin-solc_0_7=openzeppelin/openzeppelin-contracts@v3.4.2 && forge install foundry-rs/forge-std openzeppelin-solc_0_8=openzeppelin/openzeppelin-contracts@v4.9.6",
     "build:contract": "FOUNDRY_PROFILE=solc_0_7 forge build && forge build"
   },
   "repository": {

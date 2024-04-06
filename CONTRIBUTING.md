@@ -38,6 +38,15 @@ FOUNDRY_PROFILE=solc_0_7 forge install openzeppelin-solc_0_7=openzeppelin/openze
 forge install  --no-git  openzeppelin-solc_0_8=openzeppelin/openzeppelin-contracts@v4.9.6
 ```
 
+Compile the non-default versions first:
+- for version **0.7.x**:
+```sh
+cargo run gen-decoder --source 'contracts/solc_0_7/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/solc_0_7/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' --compiler-version 'solc_0_7'
+```
+- for version **0.8.x**:
+```sh
+cargo run gen-encoder --source 'contracts/solc_0_8/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/solc_0_8/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' --compiler-version 'solc_0_8'
+```
 
 ### Style guide
 
