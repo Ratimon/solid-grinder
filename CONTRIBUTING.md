@@ -38,16 +38,6 @@ FOUNDRY_PROFILE=solc_0_7 forge install openzeppelin-solc_0_7=openzeppelin/openze
 forge install  --no-git  openzeppelin-solc_0_8=openzeppelin/openzeppelin-contracts@v4.9.6
 ```
 
-Alternatively, use: 
-```sh
-pnpm add -D openzeppelin-solc_0_7@npm:openzeppelin/openzeppelin-contracts@3.4.2
-```
-
-@openzeppelin/contracts
-
-pnpm add lodash1@npm:lodash@1
-
-
 
 ### Style guide
 
