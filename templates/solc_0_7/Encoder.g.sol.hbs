@@ -1,0 +1,99 @@
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.7.0;
+
+import {IAddressTable} from "@solid-grinder/solc_0_7/interfaces/IAddressTable.sol";
+
+{{#with this}}
+contract {{contract_name}}_Encoder {
+{{/with}}
+
+    IAddressTable public immutable addressTable;
+
+    {{#each this.function.args}}uint8 private constant {{../function_name}}_{{this.arg_name}}_BitSize = {{this.packed_bit_size}};
+    {{/each}}
+
+    uint8[] public unpackedBits;
+    uint8[] public subBits;
+    uint8[][] public packedBits;
+
+    constructor(IAddressTable _addressTable) {
+        addressTable = _addressTable;
+        initPackedBits();
+    }
+
+    /**
+     * @notice init the array to store the byte chunks to be encode
+     *
+     */
+    function initPackedBits() private {
+
+        {{#each this.function.args}}unpackedBits.push({{../function_name}}_{{this.arg_name}}_BitSize);
+        {{/each}}
+
+        uint16 bitsSum = 0;
+
+        for (uint256 i = 0; i < unpackedBits.length; i++) {
+            bitsSum += unpackedBits[i];
+            if (bitsSum > 256) {
+                packedBits.push(subBits);
+                delete subBits;
+                bitsSum = unpackedBits[i];
+            }
+            subBits.push(unpackedBits[i]);
+        }
+        packedBits.push(subBits);
+        delete subBits;
+    }
+
+    /**
+     * @dev same abi as original one, but different return
+    */
+    function encode_{{#with this}}{{function_name}}Data{{/with}}(
+        {{#each this.function.args}}{{#if this.custom_type}}_{{../contract_name}}.{{/if}}{{this.type}}{{#if this.memory_type }} memory{{/if}} {{this.arg_name}}{{#unless this.is_final }}, {{/unless}}{{/each}}
+    )
+        external
+        view
+        returns (
+            bytes memory _compressedPayload
+        )
+    {
+        {{#each this.function.args}}{{#if this.address_type }}uint256 {{this.arg_name}}Index = addressTable.lookup({{this.arg_name}});
+        require({{this.arg_name}}Index <= type(uint{{this.packed_bit_size}}).max, "{{../contract_name}}_DataEncoder: encode_{{../function_name}}Data {{this.arg_name}}Index is too large, uint{{this.packed_bit_size}} support only.");{{/if}}
+        {{/each}}
+        {{#each this.function.args}}{{#if this.uint256_type }}require({{this.arg_name}} <= type(uint{{this.packed_bit_size}}).max, "{{../contract_name}}_DataEncoder: encode_{{../function_name}}Data {{this.arg_name}}Index is too large, uint{{this.packed_bit_size}} support only.");{{/if}}
+        {{/each}}
+
+        uint256[] memory unpackedArguments = new uint256[](unpackedBits.length);
+        uint8 unpackedArgumentsIndex;
+
+        {{#each this.function.args}}unpackedArguments[unpackedArgumentsIndex] = {{this.arg_name}}{{#if this.address_type }}Index{{/if}};
+        unpackedArgumentsIndex++;
+        {{/each}}
+
+        require(unpackedArguments.length == unpackedBits.length, "length must equal");
+        delete unpackedArgumentsIndex;
+
+        for (uint256 i = 0; i < packedBits.length; i++) {
+            for (uint256 j = 0; j < packedBits[i].length; j++) {
+                _compressedPayload =
+                    concatPayload(packedBits[i][j], _compressedPayload, unpackedArguments[unpackedArgumentsIndex]);
+                unpackedArgumentsIndex++;
+            }
+        }
+
+    }
+
+    function concatPayload(uint8 _bitSize, bytes memory _payload, uint256 value)
+        private
+        pure
+        returns (bytes memory _newPayload)
+    {
+        {{#each this.function.encodings}}{{#unless this.is_first }} else {{/unless}}if (_bitSize == {{this.packed_bit_size}}) {
+            _newPayload = abi.encodePacked(_payload, uint{{this.packed_bit_size}}(value));
+        }{{/each}} else {
+            revert("UniswapV2Router02_DataEncoder: bad bitsize");
+        }
+
+    }
+
+}

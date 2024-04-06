@@ -1,0 +1,51 @@
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import {IAddressTable} from "@solid-grinder/solc_0_8/interfaces/IAddressTable.sol";
+import {BytesLib} from "@solid-grinder/solc_0_8/libraries/BytesLib.sol";
+
+/**
+  * @title Solid Grinder's generated contract to decode the encoded parameters
+  * @author generated from the decoder template of Solid Grinder at https://github.com/Ratimon/solid-grinder/blob/main/cli/templates/Decoder.g.sol.hbs  
+  * @notice use with caution!! this contract is generated automatically by Solid Grinder
+  */
+{{#with this}}
+contract {{contract_name}}_Decoder {
+{{/with}}
+
+    using BytesLib for bytes;
+    IAddressTable public immutable addressTable;
+
+    constructor(IAddressTable _addressTable) {
+        addressTable = _addressTable;
+    }
+
+    struct {{#with this}}{{function_name}}Data{{/with}} {
+        {{#each this.function.args}}{{this.type}} {{this.arg_name}};
+        {{/each}}
+    }
+
+    function _decode_{{#with this}}{{function_name}}Data{{/with}}(bytes memory _data, uint256 _cursor)
+        internal
+        view
+        returns ({{#with this}}{{function_name}}Data{{/with}} memory _{{#with this}}{{function_name}}Data{{/with}}, uint256 _newCursor)
+    {
+        {{#each this.function.args}}(_{{../function_name}}Data.{{this.arg_name}}, _cursor) = _{{this.instruction}}_{{../function_name}}_{{this.packed_bit_size}}bits(_data, _cursor);
+        {{/each}}
+        _newCursor = _cursor;
+    }
+
+    {{#each this.function.encodings}}function _{{this.instruction}}_{{../function_name}}_{{this.packed_bit_size}}bits(bytes memory _data, uint256 _cursor)
+        internal
+        {{#if this.address_type }}view{{/if}}
+        {{#if this.uint256_type }}pure{{/if}}
+        returns ( {{this.type}} _decoded, uint256 _newCursor)
+    {
+        {{#if this.address_type }}_decoded = addressTable.lookupIndex(_data.toUint{{this.packed_bit_size}}(_cursor));{{/if}}
+        {{#if this.uint256_type }}_decoded = _data.toUint{{this.packed_bit_size}}(_cursor);{{/if}}
+        _cursor += {{this.packed_byte_size}};
+        _newCursor = _cursor;
+    }
+    {{/each}}
+
+}

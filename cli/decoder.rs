@@ -15,7 +15,8 @@ pub fn generate_decoder(
 
     let generated_name: String = format!("{}_DataDecoder.g.sol", contract_name);
 
-    let template_path = format!("cli/templates/{}/Decoder.g.sol.hbs", compiler_version);
+    // must have template at root
+    let template_path = format!("templates/{}/Decoder.g.sol.hbs", compiler_version);
     let template_content = fs::read_to_string(&template_path)
         .unwrap_or_else(|err| panic!("Failed to read template file {}: {}", template_path, err));
 

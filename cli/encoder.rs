@@ -14,7 +14,8 @@ pub fn generate_encoder(
     handlebars.set_strict_mode(true);
 
     let generated_name: String = format!("{}_DataEncoder.g.sol", contract_name);
-    let template_path = format!("cli/templates/{}/Encoder.g.sol.hbs", compiler_version);
+   // must have template at root
+    let template_path = format!("templates/{}/Encoder.g.sol.hbs", compiler_version);
     let template_content = fs::read_to_string(&template_path)
         .unwrap_or_else(|err| panic!("Failed to read template file {}: {}", template_path, err));
 
