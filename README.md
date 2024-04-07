@@ -292,7 +292,7 @@ cd my-project;
 ```sh
 yarn add -D solid-grinder
 ```
-This will automatically add the `solid-grinder` binary 
+This will automatically add the `solid-grinder` binary and required templates in `/templates`
 
 2. Add the following line in `package.json`:
 
@@ -349,6 +349,12 @@ cp target/release/solid-grinder ../../solid-grinder;
 
 ```txt
 @solid-grinder/=lib/solid-grinder/contracts/
+```
+
+5. We need to manually copy required templates to make it working:
+```bash
+cd lib/solid-grinder;
+cp -a cli/templates/. ../../templates/;
 ```
 
 ## Quickstart
