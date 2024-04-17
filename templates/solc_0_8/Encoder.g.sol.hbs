@@ -91,7 +91,7 @@ contract {{contract_name}}_Encoder {
         {{#each this.function.encodings}}{{#unless this.is_first }} else {{/unless}}if (_bitSize == {{this.packed_bit_size}}) {
             _newPayload = abi.encodePacked(_payload, uint{{this.packed_bit_size}}(value));
         }{{/each}} else {
-            revert("UniswapV2Router02_DataEncoder: bad bitsize");
+            revert("bad bitsize");
         }
 
     }
