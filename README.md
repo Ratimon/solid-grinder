@@ -2,8 +2,7 @@
 
 A CLI that goes along with building blocks of smart contract. Along with our front-end snippets, this toolbox can reduce L2 gas cost by encoding calldata for dApps development to use as little bytes of calldata as possible. 
 
-> **Note**💡
-
+> [!WARNING]
 > The code is not audited yet. Please use it carefully in production.
 
 - [What is it for](#what-is-it-for)
@@ -213,8 +212,7 @@ This essentially means that either the fewer bytes of call data sent or the tigh
 
 As a result, our optimized version of UniswapV2's router could potentially save nearly 50%  of gas on L2.
 
-> **Note**💡
-
+> [!NOTE]
 > The gas amount saved heavily depends on L1 security cost which can vary, depending on the congestion on L1.
 
 Mathematically, the total gas is the total of the L2 execution fee and the L1 data/security fee, and this figure is differently calculated, depending on different layer 2 chains.
@@ -287,7 +285,7 @@ We assume that you already setup your working environment with **hardhat** + **f
 cd my-project;
 ``` 
 
-1. add the `solid-grinder` **npm** package:
+1. add the `solid-grinder` using your favorite package manager, e.g., with Yarn:
 
 ```sh
 yarn add -D solid-grinder
@@ -379,8 +377,7 @@ The following is the guideline how we can define the arguments' ranges.
     // 96-bit, 79b or 79,228,162,514 (18 decimals)
 ``` 
 
-> **Note**💡
-
+> [!IMPORTANT]
 > Now, the tool only generates one function in each iteration. If you intend to optimize two functions, you can still use it two times and then add the second one to the first one.
 
 
@@ -403,8 +400,7 @@ yarn solid-grinder gen-decoder --source 'contracts/solc_0_8/examples/uniswapv2/U
 yarn solid-grinder gen-encoder --source 'contracts/solc_0_8/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/solc_0_8/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' --compiler-version 'solc_0_8'
 ```
 
-> **Note**💡
-
+> [!IMPORTANT]
 Now, we only support **0.8.X** version, and it is required to put `solc_0_8` as argement of  `--compiler-version`.
 
 5. It is a good practice to do linting e.g.
@@ -420,8 +416,7 @@ import {UniswapV2Router02_Decoder} from "@solid-grinder/solc_0_8/examples/uniswa
 
 ```
 
-> **Note**💡
-
+> [!TIP]
 > It is recommended to manually change original (un-optimized) contract's visibility to public. From user perspective, it is then safe to still include the original version, meaning that users can directly and quickly interact via Etherscan in emergency case (i.e. front-end part is down). This is because it is difficult to interact with the optimized version via Etherscan, because the users have to manually compress arguments into single payload themselves.
 
 ```solidity
@@ -444,7 +439,6 @@ import {UniswapV2Router02_Decoder} from "@solid-grinder/solc_0_8/examples/uniswa
 
 See our [`contributing guidelines`](./CONTRIBUTING.md).
 
-We are currently still in an experimental phase leading up to a first audit and would love to hear your feedback on how we can improve `Solid Grinder`.
 
 If you want to say **thank you** or/and support active development of Solid Grinder:
 
@@ -453,7 +447,3 @@ If you want to say **thank you** or/and support active development of Solid Grin
 - Tweet about Solid Grinder.
 - Write interesting articles about the project on
   [Medium](https://medium.com/), or your personal blog.
-
-## Architecture
-
-WIP
