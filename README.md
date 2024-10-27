@@ -11,7 +11,7 @@ A CLI that goes along with building blocks of smart contract. Along with our fro
 - [Installation](#installation)
 - [Quickstart](#quickstart)
 - [Contributing](#contributing)
-- [Architecture](#architecture)
+- [Acknowledgement](#acknowledgement)
 
 
 ## What is it for ?
@@ -447,3 +447,10 @@ If you want to say **thank you** or/and support active development of Solid Grin
 - Tweet about Solid Grinder.
 - Write interesting articles about the project on
   [Medium](https://medium.com/), or your personal blog.
+
+## Acknowledgement
+
+This project would not have been possible to build without the advanced iniatiative from opensource software including  [forge-deploy](https://github.com/wighawag/forge-deploy), so we are deeply thankful for their contributions in our web3 ecosystem.
+
+
+If we forgot to include anyone, please file an issue so we can add you. We always strive to reference the inspirations and code we use, but as an organization with multiple people, mistakes can happen, and someone might forget to include a reference.
