@@ -3,10 +3,7 @@ pragma solidity ^0.8.0;
 
 import {IAddressTable} from "@solid-grinder/solc_0_8/interfaces/IAddressTable.sol";
 
-
 contract UniswapV2Router02_Encoder {
-
-
     IAddressTable public immutable addressTable;
 
     uint8 private constant addLiquidity_tokenA_BitSize = 24;
@@ -17,7 +14,6 @@ contract UniswapV2Router02_Encoder {
     uint8 private constant addLiquidity_amountBMin_BitSize = 96;
     uint8 private constant addLiquidity_to_BitSize = 24;
     uint8 private constant addLiquidity_deadline_BitSize = 40;
-    
 
     uint8[] public unpackedBits;
     uint8[] public subBits;
@@ -33,7 +29,6 @@ contract UniswapV2Router02_Encoder {
      *
      */
     function initPackedBits() private {
-
         unpackedBits.push(addLiquidity_tokenA_BitSize);
         unpackedBits.push(addLiquidity_tokenB_BitSize);
         unpackedBits.push(addLiquidity_amountADesired_BitSize);
@@ -42,7 +37,6 @@ contract UniswapV2Router02_Encoder {
         unpackedBits.push(addLiquidity_amountBMin_BitSize);
         unpackedBits.push(addLiquidity_to_BitSize);
         unpackedBits.push(addLiquidity_deadline_BitSize);
-        
 
         uint16 bitsSum = 0;
 
@@ -61,37 +55,55 @@ contract UniswapV2Router02_Encoder {
 
     /**
      * @dev same abi as original one, but different return
-    */
+     */
     function encode_addLiquidityData(
-        address tokenA, address tokenB, uint256 amountADesired, uint256 amountBDesired, uint256 amountAMin, uint256 amountBMin, address to, uint256 deadline
-    )
-        external
-        view
-        returns (
-            bytes memory _compressedPayload
-        )
-    {
+        address tokenA,
+        address tokenB,
+        uint256 amountADesired,
+        uint256 amountBDesired,
+        uint256 amountAMin,
+        uint256 amountBMin,
+        address to,
+        uint256 deadline
+    ) external view returns (bytes memory _compressedPayload) {
         uint256 tokenAIndex = addressTable.lookup(tokenA);
-        require(tokenAIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData tokenAIndex is too large, uint24 support only.");
+        require(
+            tokenAIndex <= type(uint24).max,
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData tokenAIndex is too large, uint24 support only."
+        );
         uint256 tokenBIndex = addressTable.lookup(tokenB);
-        require(tokenBIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData tokenBIndex is too large, uint24 support only.");
-        
-        
-        
-        
+        require(
+            tokenBIndex <= type(uint24).max,
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData tokenBIndex is too large, uint24 support only."
+        );
+
         uint256 toIndex = addressTable.lookup(to);
-        require(toIndex <= type(uint24).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData toIndex is too large, uint24 support only.");
-        
-        
-        
-        
-        require(amountADesired <= type(uint96).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountADesiredIndex is too large, uint96 support only.");
-        require(amountBDesired <= type(uint96).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBDesiredIndex is too large, uint96 support only.");
-        require(amountAMin <= type(uint96).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountAMinIndex is too large, uint96 support only.");
-        require(amountBMin <= type(uint96).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBMinIndex is too large, uint96 support only.");
-        
-        require(deadline <= type(uint40).max, "UniswapV2Router02_DataEncoder: encode_addLiquidityData deadlineIndex is too large, uint40 support only.");
-        
+        require(
+            toIndex <= type(uint24).max,
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData toIndex is too large, uint24 support only."
+        );
+
+        require(
+            amountADesired <= type(uint96).max,
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountADesiredIndex is too large, uint96 support only."
+        );
+        require(
+            amountBDesired <= type(uint96).max,
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBDesiredIndex is too large, uint96 support only."
+        );
+        require(
+            amountAMin <= type(uint96).max,
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountAMinIndex is too large, uint96 support only."
+        );
+        require(
+            amountBMin <= type(uint96).max,
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData amountBMinIndex is too large, uint96 support only."
+        );
+
+        require(
+            deadline <= type(uint40).max,
+            "UniswapV2Router02_DataEncoder: encode_addLiquidityData deadlineIndex is too large, uint40 support only."
+        );
 
         uint256[] memory unpackedArguments = new uint256[](unpackedBits.length);
         uint8 unpackedArgumentsIndex;
@@ -112,7 +124,6 @@ contract UniswapV2Router02_Encoder {
         unpackedArgumentsIndex++;
         unpackedArguments[unpackedArgumentsIndex] = deadline;
         unpackedArgumentsIndex++;
-        
 
         require(unpackedArguments.length == unpackedBits.length, "length must equal");
         delete unpackedArgumentsIndex;
@@ -124,7 +135,6 @@ contract UniswapV2Router02_Encoder {
                 unpackedArgumentsIndex++;
             }
         }
-
     }
 
     function concatPayload(uint8 _bitSize, bytes memory _payload, uint256 value)
@@ -141,7 +151,5 @@ contract UniswapV2Router02_Encoder {
         } else {
             revert("UniswapV2Router02_DataEncoder: bad bitsize");
         }
-
     }
-
 }

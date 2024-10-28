@@ -4,7 +4,6 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 library BytesLib {
-
     function toUint8(bytes memory _bytes, uint256 _start) internal pure returns (uint8) {
         require(_bytes.length >= _start + 1, "toUint8_outOfBounds");
         uint8 tempUint;
@@ -224,7 +223,7 @@ library BytesLib {
 
         return tempUint;
     }
-    
+
     function toUint168(bytes memory _bytes, uint256 _start) internal pure returns (uint168) {
         require(_bytes.length >= _start + 21, "toUint168_outOfBounds");
         uint168 tempUint;
@@ -324,7 +323,6 @@ library BytesLib {
         return tempUint;
     }
 
-
     function toUint240(bytes memory _bytes, uint256 _start) internal pure returns (uint240) {
         require(_bytes.length >= _start + 30, "toUint240_outOfBounds");
         uint240 tempUint;
@@ -357,5 +355,4 @@ library BytesLib {
 
         return tempUint;
     }
-
 }

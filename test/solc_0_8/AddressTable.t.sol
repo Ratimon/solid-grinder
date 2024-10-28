@@ -49,7 +49,6 @@ contract AddressTableTest is Test {
     function test_double_register() external {
         vm.startPrank(bob);
 
-
         table.register(alice);
         uint256 indexValue_ = table.register(bob);
         assertEq(indexValue_, 2, "The second index should be 2");
@@ -61,7 +60,6 @@ contract AddressTableTest is Test {
 
         vm.stopPrank();
     }
-
 
     function test_RevertWhen_noRegister_lookup() external {
         vm.startPrank(alice);
