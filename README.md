@@ -452,5 +452,4 @@ If you want to say **thank you** or/and support active development of Solid Grin
 
 This project would not have been possible to build without the advanced iniatiative from opensource software including  [forge-deploy](https://github.com/wighawag/forge-deploy), so we are deeply thankful for their contributions in our web3 ecosystem.
 
-
-If we forgot to include anyone, please file an issue so we can add you. We always strive to reference the inspirations and code we use, but as an organization with multiple people, mistakes can happen, and someone might forget to include a reference.
+If we’ve overlooked anyone, please open an issue so we can correct it. While we always aim to acknowledge the inspirations and code we utilize, mistakes can happen in a team setting, and a reference might unintentionally be missed.

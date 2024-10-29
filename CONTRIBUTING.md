@@ -48,6 +48,14 @@ cargo run gen-decoder --source 'contracts/solc_0_7/examples/uniswapv2/UniswapV2R
 cargo run gen-encoder --source 'contracts/solc_0_8/examples/uniswapv2/UniswapV2Router02.sol' --output 'contracts/solc_0_8/examples/uniswapv2' --contract-name 'UniswapV2Router02' --function-name 'addLiquidity' --arg-bits '24 24 96 96 96 96 24 40' --compiler-version 'solc_0_8'
 ```
 
+Running Test:
+```sh
+FOUNDRY_PROFILE=solc_0_7 forge t -vvvv
+```
+```sh
+forge test
+```
+
 ### Style guide
 
 ### File naming
