@@ -56,7 +56,28 @@ FOUNDRY_PROFILE=solc_0_7 forge t -vvvv
 forge test
 ```
 
+### Publishing
+
+#### For First Time
+
+Config `package.json`:
+
+```bash
+npm publish
+```
+
+#### For Second Time
+
+```bash
+git add .
+git commit -am "v1.1.6"
+git push -u origin main
+git tag v1.1.6 main
+git push origin tag v1.1.6
+```
+
 ### Style guide
 
 ### File naming
+
 ### Linter
