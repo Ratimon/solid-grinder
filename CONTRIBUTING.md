@@ -70,10 +70,14 @@ npm publish
 
 ```bash
 git add .
-git commit -am "v1.1.6"
+git commit -am "v1.1.8"
 git push -u origin main
-git tag v1.1.6 main
-git push origin tag v1.1.6
+git tag v1.1.8 main
+git push origin tag v1.1.8
+```
+
+```bash
+cargo publish
 ```
 
 ### Style guide
